@@ -34,7 +34,7 @@ const Root = () => {
                         padding="md"
                     >
                         <AppShell.Header>
-                            <Group justify='space-between' h="100%" p={10}>
+                            <Group justify='space-between' h="100%" p="sm">
                                 <Link to="/">
                                     <Image src={logo} h={30} w="auto" />
                                 </Link>
