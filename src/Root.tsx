@@ -1,9 +1,8 @@
 import { Affix, AffixProps, AppShell, Burger, DirectionProvider, Group, Image, MantineProvider } from '@mantine/core'
 import { useLang } from './context/lang/useLang'
 import { useDisclosure } from '@mantine/hooks'
-import Home from './pages/Home'
 import logo from '/logo.png'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import NavParts from './components/NavParts'
 
 const Root = () => {
@@ -49,7 +48,7 @@ const Root = () => {
                         </AppShell.Navbar>
 
                         <AppShell.Main>
-                            <Home />
+                            <Outlet />
                         </AppShell.Main>
                     </AppShell>
                     <Affix position={burgerPosition} hiddenFrom="sm">

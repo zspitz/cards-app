@@ -5,10 +5,21 @@ import LangProvider from './context/lang/LangProvider'
 import Root from './Root'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import ErrorPage from './pages/Error'
+import Cards, { loadCards, loadFavorites, loadMyCards } from './pages/Cards'
+import About from './pages/About'
+import ControlPanel from './pages/ControlPanel'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+            <Route errorElement={<ErrorPage />}>
+                <Route index element={<Cards />} loader={loadCards} />
+                <Route path="cards" element={<Cards />} loader={loadCards} />
+                <Route path="favorites" element={<Cards />} loader={loadFavorites} />
+                <Route path="my-cards" element={<Cards />} loader={loadMyCards} />
+                <Route path="about" element={<About />} />
+                <Route path="control-panel" element={<ControlPanel />} />
+            </Route>
         </Route>
     )
 )
