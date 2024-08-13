@@ -8,10 +8,11 @@ import ErrorPage from './pages/Error'
 import Cards, { loadCards, loadFavorites, loadMyCards } from './pages/Cards'
 import About from './pages/About'
 import ControlPanel from './pages/ControlPanel'
+import { getCurrentUser } from './http/users'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+        <Route loader={getCurrentUser} id="root" path="/" element={<Root />} errorElement={<ErrorPage />}>
             <Route errorElement={<ErrorPage />}>
                 <Route index element={<Cards />} loader={loadCards} />
                 <Route path="cards" element={<Cards />} loader={loadCards} />

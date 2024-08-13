@@ -43,7 +43,16 @@ module.exports = {
         '@stylistic/brace-style': ['error', '1tbs', {
             allowSingleLine: true
         }],
-        'curly': ['error', 'all']
+        'curly': ['error', 'all'],
+        '@stylistic/no-multiple-empty-lines': ['error', {
+            max: 1,
+            maxEOF: 0,
+            maxBOF: 0
+        }],
+        '@stylistic/eol-last': ['error', 'always'],
+        'no-empty': ['error', {
+            'allowEmptyCatch': true
+        }]
     },
     settings: {
         react: {
