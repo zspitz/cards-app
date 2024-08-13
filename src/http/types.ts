@@ -47,4 +47,4 @@ export type Card = MongoRecord & {
     createdAt: string
 }
 
-export type Role = 'admin' | 'business' | 'user' | 'guest'
+export type Role = 'admin' | 'business' | 'user'

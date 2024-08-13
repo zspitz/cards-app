@@ -7,7 +7,7 @@ import NavParts from './components/NavParts'
 
 const Root = () => {
     const { dir } = useLang()
-    const [opened, { toggle }] = useDisclosure()
+    const [opened, { toggle, close }] = useDisclosure()
 
     const burgerPosition: AffixProps['position'] = {
         top: 10,
@@ -44,7 +44,7 @@ const Root = () => {
                         </AppShell.Header>
 
                         <AppShell.Navbar p="md">
-                            <NavParts useIn='navigation' />
+                            <NavParts useIn='navigation' closeNavbar={close} />
                         </AppShell.Navbar>
 
                         <AppShell.Main>

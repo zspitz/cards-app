@@ -3,10 +3,12 @@ import { ActionIcon, Anchor, AppShell, Flex, Group, useComputedColorScheme, useM
 import { Link, useRouteLoaderData } from 'react-router-dom'
 import LangSelector from './LangSelector'
 import { Role, User } from '../http/types'
-import { getRoles, hasIntersection } from '../util'
+import { hasIntersection } from '../util'
+import { getRoles } from '../shared'
 
 type Props = {
-    useIn: 'header' | 'navigation'
+    useIn: 'header' | 'navigation',
+    closeNavbar?: () => void
 }
 
 type LinkData = {
@@ -23,7 +25,7 @@ const linkData: LinkData[] = [
     { to: 'about', label: 'About' }
 ]
 
-const NavParts = ({ useIn }: Props) => {
+const NavParts = ({ useIn, closeNavbar }: Props) => {
     const user = useRouteLoaderData('root') as User | null
     const userRoles = getRoles(user)
 
@@ -41,7 +43,7 @@ const NavParts = ({ useIn }: Props) => {
                 linkData
                     .filter(({ roles }) => !roles || hasIntersection(userRoles, roles))
                     .map(x => (
-                        <Anchor key={x.to} renderRoot={({ ...others }) => (
+                        <Anchor key={x.to} onClick={closeNavbar} renderRoot={({ ...others }) => (
                             <Link to={`/${x.to}`} key={x.to} {...others}>{x.label}</Link>
                         )} />
                     ))
@@ -55,6 +57,10 @@ const NavParts = ({ useIn }: Props) => {
                 useIn === 'header' ? linksFlex : <AppShell.Section grow>{linksFlex}</AppShell.Section>
             }
             <Group gap={5} visibleFrom={visibleFrom}>
+                {/* user buttons:
+                    if user, show Profile and Logout links
+                    if guest, show Login and Register links
+                 */}
                 Hello, {user?.name.first ?? 'Guest'}
                 <ActionIcon onClick={() => setColorScheme(colorScheme == 'light' ? 'dark' : 'light')} variant="default">
                     {colorScheme === 'dark' ? <TbSun /> : <TbMoon />}
