@@ -17,9 +17,9 @@ type LinkData = {
     roles?: Role[]
 }
 
-const linkData: LinkData[] = [
+const linkData1: LinkData[] = [
     { to: 'cards', label: 'Cards' },
-    { to: 'favorites', label: 'Favorites', roles: ['user'] },
+    { to: 'favorites', label: 'Favorites', roles: [] },
     { to: 'my-cards', label: 'My cards', roles: ['business', 'admin'] },
     { to: 'control-panel', label: 'Control panel', roles: ['admin'] },
     { to: 'about', label: 'About' }
@@ -36,34 +36,54 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
     const user = useRouteLoaderData('root') as User | null
     const userRoles = getRoles(user)
 
-    const [direction, visibleFrom, gap] =
-        useIn === 'header' ?
-            ['row' as const, 'sm', 20] :
-            ['column' as const, undefined, 10]
+    const linkBuilder = (linkData: LinkData[]) =>
+        linkData
+            .filter(({ roles }) => !roles || hasIntersection(roles, userRoles))
+            .map(({ to, label }: LinkData) => (
+                <Anchor key={to} onClick={closeNavbar} renderRoot={({ ...others }) => (
+                    <Link to={`/${to}`} key={to} {...others}>{label}</Link>
+                )} />
+            ))
 
-    const linksFlex = (
-        <Flex direction={direction} visibleFrom={visibleFrom} gap={gap}>
-            {
-                linkData
-                    .filter(({ roles }) => !roles || hasIntersection(userRoles, roles))
-                    .map(({ to, label }) => (
-                        <Anchor key={to} onClick={closeNavbar} renderRoot={({ ...others }) => (
-                            <Link to={`/${to}`} key={to} {...others}>{label}</Link>
-                        )} />
-                    ))
-            }
-        </Flex>
+    const links1 = linkBuilder(linkData1)
+    const links2 = linkBuilder(linkData2)
+    const selectors = (
+        <>
+            <ThemeSelector />
+            <LangSelector />
+        </>
     )
+
+    if (useIn === 'header') {
+        return (
+            <>
+                <Flex direction="row" visibleFrom="sm" gap={20}>
+                    {links1}
+                </Flex>
+                <Group gap={15} visibleFrom="sm">
+                    {links2}
+                    {selectors}
+                </Group>
+            </>
+        )
+    }
 
     return (
         <>
-            {
-                useIn === 'header' ? linksFlex : <AppShell.Section grow>{linksFlex}</AppShell.Section>
-            }
-            <Group gap={5} visibleFrom={visibleFrom}>
-                <ThemeSelector />
-                <LangSelector />
-            </Group>
+            <AppShell.Section grow>
+                <Flex direction="column" gap={10}>
+                    {links1}
+                </Flex>
+            </AppShell.Section>
+            <AppShell.Section>
+                <Flex direction="column" gap={10}>
+                    {links2}
+                    <Group gap={5}>
+                        <ThemeSelector />
+                        <LangSelector />
+                    </Group>
+                </Flex>
+            </AppShell.Section>
         </>
     )
 }

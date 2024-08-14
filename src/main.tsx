@@ -9,6 +9,8 @@ import Cards, { loadCards, loadFavorites, loadMyCards } from './pages/Cards'
 import About from './pages/About'
 import ControlPanel from './pages/ControlPanel'
 import { getCurrentUser } from './http/users'
+import Profile from './pages/Profile'
+import Login from './pages/Login'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -20,6 +22,10 @@ const router = createBrowserRouter(
                 <Route path="my-cards" element={<Cards />} loader={loadMyCards} />
                 <Route path="about" element={<About />} />
                 <Route path="control-panel" element={<ControlPanel />} />
+                <Route path="profile" element={<Profile />} />
+                {/* <Route path="logout" element={<ControlPanel />} /> */}
+                <Route path="register" element={<Profile />} />
+                <Route path="login" element={<Login />} />
             </Route>
         </Route>
     )
