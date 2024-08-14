@@ -1,10 +1,10 @@
-import { TbMoon, TbSun } from 'react-icons/tb'
-import { ActionIcon, Anchor, AppShell, Flex, Group, useComputedColorScheme, useMantineColorScheme } from '@mantine/core'
+import { Anchor, AppShell, Flex, Group } from '@mantine/core'
 import { Link, useRouteLoaderData } from 'react-router-dom'
 import LangSelector from './LangSelector'
 import { Role, User } from '../http/types'
 import { hasIntersection } from '../util'
 import { getRoles } from '../shared'
+import ThemeSelector from './ThemeSelector'
 
 type Props = {
     useIn: 'header' | 'navigation',
@@ -25,12 +25,16 @@ const linkData: LinkData[] = [
     { to: 'about', label: 'About' }
 ]
 
+const linkData2: LinkData[] = [
+    { to: 'profile', label: 'Profile', roles: ['user'] },
+    { to: 'logout', label: 'Log out', roles: ['user'] },
+    { to: 'register', label: 'Register', roles: ['guest'] },
+    { to: 'login', label: 'Log in', roles: ['guest'] }
+]
+
 const NavParts = ({ useIn, closeNavbar }: Props) => {
     const user = useRouteLoaderData('root') as User | null
     const userRoles = getRoles(user)
-
-    const { setColorScheme } = useMantineColorScheme()
-    const colorScheme = useComputedColorScheme()
 
     const [direction, visibleFrom, gap] =
         useIn === 'header' ?
@@ -42,9 +46,9 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
             {
                 linkData
                     .filter(({ roles }) => !roles || hasIntersection(userRoles, roles))
-                    .map(x => (
-                        <Anchor key={x.to} onClick={closeNavbar} renderRoot={({ ...others }) => (
-                            <Link to={`/${x.to}`} key={x.to} {...others}>{x.label}</Link>
+                    .map(({ to, label }) => (
+                        <Anchor key={to} onClick={closeNavbar} renderRoot={({ ...others }) => (
+                            <Link to={`/${to}`} key={to} {...others}>{label}</Link>
                         )} />
                     ))
             }
@@ -57,14 +61,7 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
                 useIn === 'header' ? linksFlex : <AppShell.Section grow>{linksFlex}</AppShell.Section>
             }
             <Group gap={5} visibleFrom={visibleFrom}>
-                {/* user buttons:
-                    if user, show Profile and Logout links
-                    if guest, show Login and Register links
-                 */}
-                Hello, {user?.name.first ?? 'Guest'}
-                <ActionIcon onClick={() => setColorScheme(colorScheme == 'light' ? 'dark' : 'light')} variant="default">
-                    {colorScheme === 'dark' ? <TbSun /> : <TbMoon />}
-                </ActionIcon>
+                <ThemeSelector />
                 <LangSelector />
             </Group>
         </>
