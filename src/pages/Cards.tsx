@@ -1,8 +1,8 @@
 import { useLoaderData } from 'react-router-dom'
 
-export const loadCards = () => 'Cards'
-export const loadFavorites = () => 'Favorites'
-export const loadMyCards = () => 'My cards'
+export const cardsLoader = () => 'Cards'
+export const favoritesLoader = () => 'Favorites'
+export const mycardsLoader = () => 'My cards'
 
 const Cards = () => {
     const caption = useLoaderData() as string
