@@ -23,6 +23,10 @@ const logoutAction = () => {
     // TODO when logging out, try to return to current page
     return redirect('/')
 }
+const loginAction = () => {
+    // TODO get source page from Login; redirect to that original page
+    return redirect('/')
+}
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -41,7 +45,7 @@ const router = createBrowserRouter(
                     <Route path="control-panel" element={<ControlPanel />} />
                     <Route path="profile" element={<Profile />} loader={profileLoader} />
                     <Route path="register" element={<Profile />} loader={registrationLoader} />
-                    <Route path="login" element={<Login reloadStoredUser={reloadStoredUser} />} />
+                    <Route path="login" element={<Login reloadStoredUser={reloadStoredUser} />} action={loginAction} />
                 </Route>
             </Route>
             <Route path="/logout" action={logoutAction} />

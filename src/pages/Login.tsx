@@ -1,7 +1,7 @@
 import { Button, Container, InputError, PasswordInput, Stack, TextInput } from '@mantine/core'
 import { hasLength, isEmail, useForm } from '@mantine/form'
 import { useState } from 'react'
-import { redirect } from 'react-router-dom'
+import { useFetcher } from 'react-router-dom'
 import { login } from '../services/http/users'
 
 type Props = {
@@ -9,6 +9,8 @@ type Props = {
 }
 
 const Login = ({ reloadStoredUser }: Props) => {
+    const fetcher = useFetcher()
+
     const [submitError, setSubmitError] = useState('')
     const [submitting, setSubmitting] = useState(false)
 
@@ -39,9 +41,14 @@ const Login = ({ reloadStoredUser }: Props) => {
         }
 
         // TODO verify that successful login works and reloads user
+        // TODO when redirected here from a protected page, navigate back to that page
         // if successful, result contains a string with the new token
-        reloadStoredUser(result)
-        redirect('/')
+        await reloadStoredUser(result)
+        fetcher.submit(null, {
+            method: 'post',
+            action: '/login'
+        })
+        setSubmitting(false)
     }
 
     const disabled = !(form.isValid() && !submitError)

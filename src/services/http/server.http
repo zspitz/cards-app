@@ -1,8 +1,50 @@
 @baseUrl = https://monkfish-app-z9uza.ondigitalocean.app/bcard2 
 
+### Request specific user
 GET {{baseUrl}}/users/650ae759db3813a6502fc2fc
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBhZTc1OWRiMzgxM2E2NTAyZmMyZmMiLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2OTg4NDI5NTJ9.En62ry5Gu9FMBAvxyltv0eRYhpJIJs_aW06QAtxXRck
 
-###
+### Request all users
 GET {{baseUrl}}/users
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBhZTc1OWRiMzgxM2E2NTAyZmMyZmMiLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2OTg4NDI5NTJ9.En62ry5Gu9FMBAvxyltv0eRYhpJIJs_aW06QAtxXRck
+
+### Failed login
+GET {{baseUrl}}/users/login
+
+{
+    "email":"aaa@b.co",
+    "password": "1234567"
+}
+
+### Register
+
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": {
+    "first": "Bobby",
+    "last": "Dollar"
+  },
+  "phone": "0512345567",
+  "email": "bdollar@ethereal.com",
+  "password": "Abc!123Abc",
+  "address": {
+    "country": "Israel",
+    "city": "Anytown",
+    "street": "Anystreet",
+    "houseNumber": 1,
+    "zip": 8920435
+  },
+  "isBusiness": true,
+  "image": {}
+}
+
+### Login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "email": "bdollar@ethereal.com",
+    "password": "Abc!123Abc"
+}
