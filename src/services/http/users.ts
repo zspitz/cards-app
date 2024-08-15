@@ -5,14 +5,23 @@ const baseUrl = 'https://monkfish-app-z9uza.ondigitalocean.app/bcard2'
 
 export const tokenKey = 'token'
 
-const getInit = (): RequestInit | undefined => {
-    const token = localStorage.getItem(tokenKey)
-    if (!token) { return undefined }
-    return ({
-        headers: {
-            'x-auth-token': token
-        }
-    })
+const getInit = (withToken = false, body?: object) => {
+    const init: RequestInit = {}
+    const headers: HeadersInit = {}
+    init.headers = headers
+
+    if (withToken) {
+        const token = localStorage.getItem(tokenKey)
+        if (!token) { return undefined }
+        headers['x-auth-token'] = token
+    }
+    if (body) {
+        init.body = JSON.stringify(body)
+        headers['content-type'] = 'application/json'
+        init.method = 'POST'
+    }
+
+    return init
 }
 
 export const getCurrentUser = async () => {
@@ -32,7 +41,7 @@ export const getCurrentUser = async () => {
 
 const getById = async (_id: string) => {
     if (!_id) { return null }
-    const init = getInit()
+    const init = getInit(true)
     if (!init) { return null }
     const response = await fetch(`${baseUrl}/users/${_id}`, init)
     if (!response.ok) {
@@ -45,7 +54,10 @@ export const login = async (email: string, password: string) => {
     if (!email || !password) {
         return { message: 'Missing username or password.' }
     }
-    const response = await fetch(`${baseUrl}/users/login`)
+    const response = await fetch(`${baseUrl}/users/login`, getInit(false, {
+        email,
+        password
+    }))
     const text = await response.text()
     if (!response.ok) {
         return { message: text }
