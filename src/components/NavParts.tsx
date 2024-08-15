@@ -1,10 +1,11 @@
 import { Anchor, AppShell, Flex, Group } from '@mantine/core'
-import { Link, useRouteLoaderData } from 'react-router-dom'
+import { Link, redirect, useFetcher, useRouteLoaderData } from 'react-router-dom'
 import LangSelector from './LangSelector'
-import { Role, User } from '../http/types'
+import { Role, User } from '../services/types'
 import { hasIntersection } from '../util'
 import { getRoles } from '../shared'
 import ThemeSelector from './ThemeSelector'
+import { logout } from '../services/users'
 
 type Props = {
     useIn: 'header' | 'navigation',
@@ -17,7 +18,12 @@ type LinkData = {
     roles?: Role[]
 }
 
-const linkData1: LinkData[] = [
+export const logoutAction = () => {
+    logout()
+    return redirect('/')
+}
+
+const baseLinks: LinkData[] = [
     { to: 'cards', label: 'Cards' },
     { to: 'favorites', label: 'Favorites', roles: [] },
     { to: 'my-cards', label: 'My cards', roles: ['business', 'admin'] },
@@ -25,28 +31,47 @@ const linkData1: LinkData[] = [
     { to: 'about', label: 'About' }
 ]
 
-const linkData2: LinkData[] = [
-    { to: 'profile', label: 'Profile', roles: ['user'] },
-    { to: 'logout', label: 'Log out', roles: ['user'] },
+const guestLinks: LinkData[] = [
     { to: 'register', label: 'Register', roles: ['guest'] },
     { to: 'login', label: 'Log in', roles: ['guest'] }
 ]
 
+// const linkData2: LinkData[] = [
+//     { to: 'profile', label: 'Profile', roles: ['user'] },
+//     { to: 'logout', label: 'Log out', roles: ['user'] },
+//     { to: 'register', label: 'Register', roles: ['guest'] },
+//     { to: 'login', label: 'Log in', roles: ['guest'] }
+// ]
+
 const NavParts = ({ useIn, closeNavbar }: Props) => {
+    const fetcher = useFetcher()
+
     const user = useRouteLoaderData('root') as User | null
     const userRoles = getRoles(user)
 
-    const linkBuilder = (linkData: LinkData[]) =>
-        linkData
-            .filter(({ roles }) => !roles || hasIntersection(roles, userRoles))
-            .map(({ to, label }: LinkData) => (
-                <Anchor key={to} onClick={closeNavbar} renderRoot={({ ...others }) => (
-                    <Link to={`/${to}`} key={to} {...others}>{label}</Link>
-                )} />
-            ))
+    const linkDataMapper = ({ to, label }: LinkData) => (
+        <Anchor key={to} onClick={closeNavbar} renderRoot={({ ...others }) => (
+            <Link to={`/${to}`} key={to} {...others}>{label}</Link>
+        )} />
+    )
 
-    const links1 = linkBuilder(linkData1)
-    const links2 = linkBuilder(linkData2)
+    const links1 =
+        baseLinks
+            .filter(({ roles }) => !roles || hasIntersection(roles, userRoles))
+            .map(linkDataMapper)
+
+    const links2 =
+        userRoles.includes('user') ?
+            <>
+                {linkDataMapper({ to: '/profile', label: 'Profile' })}
+                <fetcher.Form method="post" action="/logout">
+                    <Anchor onClick={closeNavbar} renderRoot={({ ...others }) => (
+                        <button type="submit" {...others}>Log out</button>
+                    )} />
+                </fetcher.Form>
+            </> :
+            guestLinks.map(linkDataMapper)
+
     const selectors = (
         <>
             <ThemeSelector />

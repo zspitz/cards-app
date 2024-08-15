@@ -40,3 +40,5 @@ const getById = async (_id: string) => {
     }
     return await response.json() as User
 }
+
+export const logout = () => localStorage.removeItem(tokenKey)
