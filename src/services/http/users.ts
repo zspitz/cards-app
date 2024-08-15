@@ -3,7 +3,7 @@ import { User } from './types'
 
 const baseUrl = 'https://monkfish-app-z9uza.ondigitalocean.app/bcard2'
 
-const tokenKey = 'token'
+export const tokenKey = 'token'
 
 const getInit = (): RequestInit | undefined => {
     const token = localStorage.getItem(tokenKey)
@@ -18,15 +18,15 @@ const getInit = (): RequestInit | undefined => {
 export const getCurrentUser = async () => {
     const token = localStorage.getItem(tokenKey)
     if (!token) { return null }
+
+    // The api for getting a specific user requires the user id
+    // The only way to access that is via parsing the existing token
     let _id: string
     try {
         ({ _id } = jwtDecode(token))
     } catch (error) {
         return null
     }
-
-    // The api for getting a specific user requires the user id
-    // The only way to access that is via parsing the existing token
     return await getById(_id)
 }
 
@@ -40,5 +40,3 @@ const getById = async (_id: string) => {
     }
     return await response.json() as User
 }
-
-export const logout = () => localStorage.removeItem(tokenKey)

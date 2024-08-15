@@ -1,11 +1,10 @@
 import { Anchor, AppShell, Flex, Group } from '@mantine/core'
-import { Link, redirect, useFetcher, useRouteLoaderData } from 'react-router-dom'
+import { Link, useFetcher, useRouteLoaderData } from 'react-router-dom'
 import LangSelector from './LangSelector'
-import { Role, User } from '../services/types'
+import { Role, User } from '../services/http/types'
 import { hasIntersection } from '../util'
 import { getRoles } from '../shared'
 import ThemeSelector from './ThemeSelector'
-import { logout } from '../services/users'
 
 type Props = {
     useIn: 'header' | 'navigation',
@@ -16,11 +15,6 @@ type LinkData = {
     to: string,
     label: string,
     roles?: Role[]
-}
-
-export const logoutAction = () => {
-    logout()
-    return redirect('/')
 }
 
 const baseLinks: LinkData[] = [
@@ -35,13 +29,6 @@ const guestLinks: LinkData[] = [
     { to: 'register', label: 'Register', roles: ['guest'] },
     { to: 'login', label: 'Log in', roles: ['guest'] }
 ]
-
-// const linkData2: LinkData[] = [
-//     { to: 'profile', label: 'Profile', roles: ['user'] },
-//     { to: 'logout', label: 'Log out', roles: ['user'] },
-//     { to: 'register', label: 'Register', roles: ['guest'] },
-//     { to: 'login', label: 'Log in', roles: ['guest'] }
-// ]
 
 const NavParts = ({ useIn, closeNavbar }: Props) => {
     const fetcher = useFetcher()
@@ -60,6 +47,9 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
             .filter(({ roles }) => !roles || hasIntersection(roles, userRoles))
             .map(linkDataMapper)
 
+    // When not logged in, the second group of links is just navigation to some page
+    // But when current user is a user, logout isn't a simple navigation but rather an internal POST
+    // For react-router, this requires fetcher.Form and a submit button
     const links2 =
         userRoles.includes('user') ?
             <>
