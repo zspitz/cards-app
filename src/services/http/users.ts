@@ -40,3 +40,15 @@ const getById = async (_id: string) => {
     }
     return await response.json() as User
 }
+
+export const login = async (email: string, password: string) => {
+    if (!email || !password) {
+        return { message: 'Missing username or password.' }
+    }
+    const response = await fetch(`${baseUrl}/users/login`)
+    const text = await response.text()
+    if (!response.ok) {
+        return { message: text }
+    }
+    return text
+}

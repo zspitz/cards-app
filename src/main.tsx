@@ -1,18 +1,22 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import '@mantine/core/styles.css'
+
+// providers
 import LangProvider from './context/lang/LangProvider'
-import Root from './Root'
+import authProvider from './services/authProvider'
+
+// router and router components
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, redirect } from 'react-router-dom'
+import Root from './Root'
 import ErrorPage from './pages/Error'
 import Cards, { cardsLoader, favoritesLoader, mycardsLoader } from './pages/Cards'
 import About from './pages/About'
 import ControlPanel from './pages/ControlPanel'
 import Profile, { profileLoader, registrationLoader } from './pages/Profile'
 import Login from './pages/Login'
-import authProvider from './services/authProvider'
 
-const { getStoredUser, logout } = await authProvider()
+const { getStoredUser, logout, reloadStoredUser } = await authProvider()
 
 const logoutAction = () => {
     logout()
@@ -37,7 +41,7 @@ const router = createBrowserRouter(
                     <Route path="control-panel" element={<ControlPanel />} />
                     <Route path="profile" element={<Profile />} loader={profileLoader} />
                     <Route path="register" element={<Profile />} loader={registrationLoader} />
-                    <Route path="login" element={<Login />} />
+                    <Route path="login" element={<Login reloadStoredUser={reloadStoredUser} />} />
                 </Route>
             </Route>
             <Route path="/logout" action={logoutAction} />

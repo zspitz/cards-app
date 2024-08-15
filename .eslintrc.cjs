@@ -52,6 +52,13 @@ module.exports = {
         '@stylistic/eol-last': ['error', 'always'],
         'no-empty': ['error', {
             'allowEmptyCatch': true
+        }],
+        '@typescript-eslint/no-misused-promises': ['error', {
+            checksConditionals: true,
+            checksVoidReturn: {
+                arguments: false
+            },
+            checksSpreads: true
         }]
     },
     settings: {

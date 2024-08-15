@@ -8,13 +8,18 @@ export default async () => {
         localStorage.removeItem(tokenKey)
         user = null
     }
-    const reloadStoredUser = async () => user = await getCurrentUser()
+    const reloadStoredUser = async (token?: string) => {
+        if (token) {
+            localStorage.setItem(tokenKey, token)
+        }
+        user = await getCurrentUser()
+    }
 
     // TODO function for logging in, which calls users.login, and updates local user if successful
 
     return {
         getStoredUser,
         logout,
-        reloadUser: reloadStoredUser
+        reloadStoredUser
     }
 }
