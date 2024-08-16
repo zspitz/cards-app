@@ -15,43 +15,21 @@ type Props = {
 
 const translations: Translations = {
     'en': {
-        'translatable todo manager': 'Translatable Todo Manager',
-        'please add todo items using the input fields.': 'Please add todo items using the input fields.',
-        'home': 'Home',
-        'work': 'Work',
-        'important': 'Important',
-        'morning': 'Morning',
-        'add todo...': 'Add todo...',
-        'me': 'Me',
-        'yaakov': 'Yaakov',
-        'anat': 'Anat',
-        'guy': 'Guy',
-        'rivka': 'Rivka',
-        'submit': 'Submit',
-        'completed items': 'Completed items',
-        'uncompleted items': 'Uncompleted items',
-        'delete': 'Delete',
-        'assigned to:': 'Assigned to:'
     },
     'he': {
         _isRtl: 'true',
-        'translatable todo manager': 'מנהל משימות עם אפשרות תרגום',
-        'please add todo items using the input fields.': 'נא להוסיף משימות באמצעות השדות.',
-        'home': 'בית',
-        'work': 'עבודה',
-        'important': 'חשוב',
-        'morning': 'בקר',
-        'add todo...': 'הוספת משימה...',
-        'me': 'אני',
-        'yaakov': 'יעקב',
-        'anat': 'ענת',
-        'guy': 'גיא',
-        'rivka': 'רבקה',
-        'submit': 'שמור',
-        'completed items': 'משימות שבוצעו',
-        'uncompleted items': 'משימות לביצוע',
-        'delete': 'מחיקה',
-        'assigned to:': 'הועבר ל:'
+        'about': 'אודות',
+        'cards': 'כרטיסים',
+        'my cards': 'כרטיסים שלי',
+        'profile': 'פרופיל',
+        'log out': 'ניתוק',
+        'favorites': 'נבחרים',
+        'log in': 'התחברות',
+        'register': 'רישום',
+        'email': 'דוא"ל',
+        'password': 'סיסמא',
+        'invalid email': 'דוא"ל לא תקין',
+        'submit': 'בצע'
     }
 }
 const langs = Object.keys(translations)
@@ -64,10 +42,11 @@ const LangProvider = ({ children }: Props) => {
     const currentTranslations = translations[lang] ?? translations.en
     const t: LangContextValue['t'] = s => {
         if (!s || typeof s !== 'string') { return s }
+        // TODO attempt to match case of source string in object keys
         const key = s.toLocaleLowerCase()
         const translation = currentTranslations[key]
         if (translation) { return translation }
-        console.log(`Missing translation for ${key}`)
+        if (lang != 'en') { console.log(`Missing translation for ${key} in ${lang}`) }
         return s
     }
 

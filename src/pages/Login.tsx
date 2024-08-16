@@ -3,12 +3,15 @@ import { hasLength, isEmail, useForm } from '@mantine/form'
 import { useState } from 'react'
 import { useFetcher } from 'react-router-dom'
 import { login } from '../services/http/users'
+import { useLang } from '../context/lang/useLang'
 
 type Props = {
     reloadStoredUser: (token?: string) => Promise<void>
 }
 
 const Login = ({ reloadStoredUser }: Props) => {
+    const { t } = useLang()
+
     const fetcher = useFetcher()
 
     const [submitError, setSubmitError] = useState('')
@@ -24,7 +27,7 @@ const Login = ({ reloadStoredUser }: Props) => {
             password: ''
         },
         validate: {
-            email: isEmail('Invalid email.'),
+            email: isEmail(t('Invalid email')),
             password: hasLength({ min: 7 })
         },
         validateInputOnChange: true,
@@ -57,14 +60,14 @@ const Login = ({ reloadStoredUser }: Props) => {
         <Container size="xs">
             <form onSubmit={form.onSubmit(handleSubmit)}>
                 <Stack mb={25}>
-                    <TextInput label="Email" required placeholder="abc@gmail.com" key={form.key('email')}
+                    <TextInput label={t('Email')} required placeholder="abc@gmail.com" key={form.key('email')}
                         {...form.getInputProps('email')}
                     />
-                    <PasswordInput label="Password" required key={form.key('password')}
+                    <PasswordInput label={t('Password')} required key={form.key('password')}
                         {...form.getInputProps('password')}
                     />
                 </Stack>
-                <Button type="submit" mb="xs" disabled={disabled} loading={submitting}>Submit</Button>
+                <Button type="submit" mb="xs" disabled={disabled} loading={submitting}>{t('Submit')}</Button>
                 {
                     submitError &&
                     <InputError>

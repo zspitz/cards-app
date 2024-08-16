@@ -5,6 +5,7 @@ import { Role, User } from '../services/http/types'
 import { hasIntersection } from '../util'
 import { getRoles } from '../shared'
 import ThemeSelector from './ThemeSelector'
+import { useLang } from '../context/lang/useLang'
 
 type Props = {
     useIn: 'header' | 'navigation',
@@ -19,7 +20,7 @@ type LinkData = {
 
 const baseLinks: LinkData[] = [
     { to: 'cards', label: 'Cards' },
-    { to: 'favorites', label: 'Favorites', roles: [] },
+    { to: 'favorites', label: 'Favorites', roles: ['user'] },
     { to: 'my-cards', label: 'My cards', roles: ['business', 'admin'] },
     { to: 'control-panel', label: 'Control panel', roles: ['admin'] },
     { to: 'about', label: 'About' }
@@ -31,6 +32,8 @@ const guestLinks: LinkData[] = [
 ]
 
 const NavParts = ({ useIn, closeNavbar }: Props) => {
+    const { t } = useLang()
+
     const fetcher = useFetcher()
 
     const user = useRouteLoaderData('root') as User | null
@@ -38,7 +41,7 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
 
     const linkDataMapper = ({ to, label }: LinkData) => (
         <Anchor key={to} onClick={closeNavbar} renderRoot={({ ...others }) => (
-            <Link to={`/${to}`} key={to} {...others}>{label}</Link>
+            <Link to={`/${to}`} key={to} {...others}>{t(label)}</Link>
         )} />
     )
 
@@ -56,7 +59,7 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
                 {linkDataMapper({ to: '/profile', label: 'Profile' })}
                 <fetcher.Form method="post" action="/logout">
                     <Anchor onClick={closeNavbar} renderRoot={({ ...others }) => (
-                        <button type="submit" {...others}>Log out</button>
+                        <button type="submit" {...others}>{t('Log out')}</button>
                     )} />
                 </fetcher.Form>
             </> :
