@@ -50,6 +50,9 @@ const Login = () => {
 
     const disabled = !(form.isValid() && !submitError)
 
+    // TODO Consider using inputs that contain the label - https://ui.mantine.dev/category/inputs/#contained-inputs
+    // Or floating labels: https://ui.mantine.dev/category/inputs/#floating-label-input
+
     return (
         <Container size="xs">
             <form onSubmit={form.onSubmit(handleSubmit)}>

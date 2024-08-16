@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
-import { User } from './types'
+import { User } from '../../schemas/user'
 
 const baseUrl = 'https://monkfish-app-z9uza.ondigitalocean.app/bcard2'
 

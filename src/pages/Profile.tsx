@@ -1,7 +1,8 @@
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
 import * as users from '../services/http/users'
 import { redirectToLogin } from '../shared'
-import { User } from '../services/http/types'
+import { User } from '../schemas/user'
+import { MongoRecord } from '../schemas/helpers'
 
 export const profileLoader = async (args: LoaderFunctionArgs) => {
     const user = await users.getCurrent()
@@ -14,7 +15,7 @@ export const registrationLoader = () => {
 }
 
 const Profile = () => {
-    const data = useLoaderData() as User
+    const data = useLoaderData() as MongoRecord<User>
     console.log(data)
     return (
         <>{

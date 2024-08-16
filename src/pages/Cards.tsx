@@ -6,6 +6,9 @@ export const mycardsLoader = () => 'My cards'
 
 const Cards = () => {
     const caption = useLoaderData() as string
+
+    // TODO layout cards using flex-direction row + flex-wrap + flex-grow
+    // https://css-tricks.com/piecing-together-approaches-for-a-css-masonry-layout/#aa-is-horizontal-line-masonry-ok
     return (
         <div>{caption}</div>
     )
