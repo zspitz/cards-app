@@ -56,7 +56,7 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
     const links2 =
         userRoles.includes('user') ?
             <>
-                {linkDataMapper({ to: '/profile', label: 'Profile' })}
+                {linkDataMapper({ to: 'profile', label: 'Profile' })}
                 <fetcher.Form method="post" action="/logout">
                     <Anchor onClick={closeNavbar} renderRoot={({ ...others }) => (
                         <button type="submit" {...others}>{t('Log out')}</button>

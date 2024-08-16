@@ -1,10 +1,10 @@
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
-import { getCurrentUser } from '../services/http/users'
+import * as users from '../services/http/users'
 import { redirectToLogin } from '../shared'
 import { User } from '../services/http/types'
 
 export const profileLoader = async (args: LoaderFunctionArgs) => {
-    const user = await getCurrentUser()
+    const user = await users.getCurrent()
     if (user) { return user }
     return redirectToLogin(args)
 }

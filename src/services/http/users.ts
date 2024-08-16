@@ -24,7 +24,7 @@ const getInit = (withToken = false, body?: object) => {
     return init
 }
 
-export const getCurrentUser = async () => {
+export const getCurrent = async () => {
     const token = localStorage.getItem(tokenKey)
     if (!token) { return null }
 

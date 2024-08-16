@@ -7,7 +7,7 @@ import LangProvider from './context/lang/LangProvider'
 import authProvider from './services/authProvider'
 
 // router and router components
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements, redirect } from 'react-router-dom'
+import { ActionFunctionArgs, Route, RouterProvider, createBrowserRouter, createRoutesFromElements, redirect } from 'react-router-dom'
 import Root from './Root'
 import ErrorPage from './pages/Error'
 import Cards, { cardsLoader, favoritesLoader, mycardsLoader } from './pages/Cards'
@@ -23,7 +23,8 @@ const logoutAction = () => {
     // TODO when logging out, try to return to current page
     return redirect('/')
 }
-const loginAction = () => {
+const loginAction = async ({ params }: ActionFunctionArgs) => {
+    await reloadStoredUser(params.newToken)
     // TODO get source page from Login; redirect to that original page
     return redirect('/')
 }
@@ -45,7 +46,7 @@ const router = createBrowserRouter(
                     <Route path="control-panel" element={<ControlPanel />} />
                     <Route path="profile" element={<Profile />} loader={profileLoader} />
                     <Route path="register" element={<Profile />} loader={registrationLoader} />
-                    <Route path="login" element={<Login reloadStoredUser={reloadStoredUser} />} action={loginAction} />
+                    <Route path="login/:newToken?" element={<Login />} action={loginAction} />
                 </Route>
             </Route>
             <Route path="/logout" action={logoutAction} />

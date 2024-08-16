@@ -5,11 +5,7 @@ import { useFetcher } from 'react-router-dom'
 import { login } from '../services/http/users'
 import { useLang } from '../context/lang/useLang'
 
-type Props = {
-    reloadStoredUser: (token?: string) => Promise<void>
-}
-
-const Login = ({ reloadStoredUser }: Props) => {
+const Login = () => {
     const { t } = useLang()
 
     const fetcher = useFetcher()
@@ -45,11 +41,9 @@ const Login = ({ reloadStoredUser }: Props) => {
 
         // TODO when redirected here from a protected page, navigate back to that page
         // if successful, result contains a string with the new token
-        // TODO move this to main.tsx, instead of reloadStoredUser passed down as a prop
-        await reloadStoredUser(result)
         fetcher.submit(null, {
             method: 'post',
-            action: '/login'
+            action: `/login/${result}`
         })
         setSubmitting(false)
     }
