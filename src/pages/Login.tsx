@@ -43,9 +43,9 @@ const Login = ({ reloadStoredUser }: Props) => {
             return
         }
 
-        // TODO verify that successful login works and reloads user
         // TODO when redirected here from a protected page, navigate back to that page
         // if successful, result contains a string with the new token
+        // TODO move this to main.tsx, instead of reloadStoredUser passed down as a prop
         await reloadStoredUser(result)
         fetcher.submit(null, {
             method: 'post',

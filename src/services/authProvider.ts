@@ -9,13 +9,13 @@ export default async () => {
         user = null
     }
     const reloadStoredUser = async (token?: string) => {
-        if (token) {
+        const receivedUser = await getCurrentUser()
+        if (token && receivedUser) {
+            // only update localstorage if token has been received, and server recognizes the token
             localStorage.setItem(tokenKey, token)
         }
-        user = await getCurrentUser()
+        user = receivedUser
     }
-
-    // TODO function for logging in, which calls users.login, and updates local user if successful
 
     return {
         getStoredUser,
