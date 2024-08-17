@@ -7,10 +7,6 @@ export const mongoSchema = <TSchema extends ZodTypeAny>(schema: TSchema) => z.in
     schema
 )
 
-export type MongoRecord<T> = {
-    _id: string
-} & T
-
 export const image =
     z.object({
         url: z.string().url().min(14).optional(),

@@ -1,7 +1,7 @@
 import { Anchor, AppShell, Flex, Group } from '@mantine/core'
 import { Link, useFetcher, useRouteLoaderData } from 'react-router-dom'
 import LangSelector from './LangSelector'
-import { Role, User } from '../services/http/types'
+import { Role, User } from '../types'
 import { hasIntersection } from '../util'
 import { getRoles } from '../shared'
 import ThemeSelector from './ThemeSelector'

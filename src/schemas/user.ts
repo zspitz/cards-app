@@ -17,5 +17,3 @@ export const user =
         address: helperSchemas.address,
         isBusiness: z.boolean()
     })
-
-export type User = z.infer<typeof user>

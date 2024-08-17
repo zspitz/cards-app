@@ -14,5 +14,3 @@ export const card =
         image: helperSchemas.image,
         address: helperSchemas.address
     })
-
-export type Card = z.infer<typeof card>
