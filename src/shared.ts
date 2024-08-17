@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs, redirect } from 'react-router-dom'
-import { Role, User } from './types'
+import { Role, UserResponse } from './types'
 
-export const getRoles = (user: User | null) => {
+export const getRoles = (user: UserResponse | null) => {
     const roles: Role[] = []
     if (user) {
         roles.push('user')

@@ -1,7 +1,7 @@
 import { Anchor, AppShell, Flex, Group } from '@mantine/core'
 import { Link, useFetcher, useRouteLoaderData } from 'react-router-dom'
 import LangSelector from './LangSelector'
-import { Role, User } from '../types'
+import { Role, UserResponse } from '../types'
 import { hasIntersection } from '../util'
 import { getRoles } from '../shared'
 import ThemeSelector from './ThemeSelector'
@@ -36,8 +36,9 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
 
     const fetcher = useFetcher()
 
-    const user = useRouteLoaderData('root') as User | null
+    const user = useRouteLoaderData('root') as UserResponse | null
     const userRoles = getRoles(user)
+    console.log(user)
 
     const linkDataMapper = ({ to, label }: LinkData) => (
         <Anchor key={to} onClick={closeNavbar} renderRoot={({ ...others }) => (
