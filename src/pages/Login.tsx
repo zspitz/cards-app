@@ -1,18 +1,16 @@
 import { Button, Container, InputError, PasswordInput, Stack, TextInput } from '@mantine/core'
-import { hasLength, isEmail, useForm } from '@mantine/form'
+import { useForm, zodResolver } from '@mantine/form'
 import { useFetcher } from 'react-router-dom'
 import { loginFetchArgs } from '../services/http/users'
 import { useLang } from '../context/lang/useLang'
 import * as types from '../types'
 import { useFetch } from '../hooks/useFetch'
+import { login as loginSchema } from '../schemas/login'
 
 const Login = () => {
     const { t } = useLang()
 
     const { loading, error, runFetch, clearError } = useFetch()
-
-    // TODO use zod for validations - https://mantine.dev/form/schema-validation/
-    // revalidate within users.login
 
     const form = useForm<types.Login>({
         mode: 'uncontrolled',
@@ -20,10 +18,7 @@ const Login = () => {
             email: '',
             password: ''
         },
-        validate: {
-            email: isEmail(t('Invalid email')),
-            password: hasLength({ min: 1 })
-        },
+        validate: zodResolver(loginSchema),
         validateInputOnChange: true,
         onValuesChange: () => clearError()
     })
