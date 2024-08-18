@@ -29,7 +29,10 @@ const translations: Translations = {
         'email': 'דוא"ל',
         'password': 'סיסמא',
         'invalid email': 'דוא"ל לא תקין',
-        'submit': 'בצע'
+        'submit': 'בצע',
+        'light theme': 'עיצוב בהיר',
+        'dark theme': 'עיצוב כהה',
+        'language': 'שפה'
     }
 }
 const langs = Object.keys(translations)

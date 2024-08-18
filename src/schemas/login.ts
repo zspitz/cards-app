@@ -4,5 +4,5 @@ import * as helperSchemas from './helpers'
 export const login =
     z.object({
         email: helperSchemas.email,
-        password: z.string().min(1)
+        password: z.string().min(1, 'Password must contain at least one character')
     })
