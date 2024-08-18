@@ -9,7 +9,9 @@ GET {{baseUrl}}/users
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBhZTc1OWRiMzgxM2E2NTAyZmMyZmMiLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2OTg4NDI5NTJ9.En62ry5Gu9FMBAvxyltv0eRYhpJIJs_aW06QAtxXRck
 
 ### Failed login
-GET {{baseUrl}}/users/login
+POST {{baseUrl}}/users/login
+Accept: application/json
+Content-Type: application/json
 
 {
     "email":"aaa@b.co",

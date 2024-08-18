@@ -7,43 +7,48 @@ But no exception would be raised.
 Mantine's useFetch would then try to parse as JSON which would throw an error about unparseable JSON
 
 This is a modified version of the hook with the following modifications:
-- Treats anything other than response.ok as an error, using the text as the error message
+- Treats !response.ok, or text when JSON expected, as an error
 - Uses async/await syntax instead of Promise callbacks
-- Defaults autoInvoke to false
-- Handles null for options, which happens when no token exists
+- Handles null for options, which happens when a token is required but doesn't exist
+- hook doesn't run fetch automatically, but returns a function that initiates the fetch when possible.
 */
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
+import { parseHeaders } from '../util'
 
-export interface UseFetchOptions extends RequestInit {
-    autoInvoke?: boolean;
+const hasJsonContentType = (headers: HeadersInit) => {
+    const entries = parseHeaders(headers)
+    return entries.some(([name, value]) => name === 'content-type' && value.includes('application/json'))
 }
 
-export const useFetch = <T>(url: string, options: UseFetchOptions | null = {}) => {
-    const autoInvoke = options?.autoInvoke ?? false
-
-    const [data, setData] = useState<T | null>(null)
+export const useFetch = <T>() => {
+    const [data, setData] = useState<T | string | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<Error | null>(null)
     const controller = useRef<AbortController | null>(null)
 
-    const refetch = useCallback(async () => {
+    const runFetch = useCallback(async (url: string, options: RequestInit | null) => {
         if (!url || !options) { return }
-        if (controller.current) {
-            controller.current.abort()
-        }
+
+        controller.current?.abort()
         controller.current = new AbortController()
 
         setLoading(true)
 
         try {
-            const res = await fetch(url, { signal: controller.current.signal, ...options })
+            const res = await fetch(url, { ...options, signal: controller.current.signal })
+            const text = await res.text()
+
             if (!res.ok) {
                 setLoading(false)
-                setError(new Error(await res.text()))
+                setError(new Error(text))
                 return
             }
-            const resData = await res.json() as T
+
+            const resData =
+                hasJsonContentType(res.headers) ?
+                    JSON.parse(text) as T :
+                    text
             setData(resData)
             setLoading(false)
             return resData
@@ -57,17 +62,15 @@ export const useFetch = <T>(url: string, options: UseFetchOptions | null = {}) =
             }
             return err
         }
-    }, [url])
+    }, [])
 
     const abort = useCallback(() => {
         controller.current?.abort('')
     }, [])
 
-    useEffect(() => {
-        if (autoInvoke) { refetch() }
+    const clearError = useCallback(() => {
+        setError(null)
+    }, [])
 
-        return () => controller.current?.abort('')
-    }, [refetch, autoInvoke])
-
-    return { data, loading, error, refetch, abort }
+    return { data, loading, error, runFetch, abort, clearError }
 }

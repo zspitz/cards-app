@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
-import { User } from '../../types'
+import { Login, User } from '../../types'
 
 const baseUrl = 'https://monkfish-app-z9uza.ondigitalocean.app/bcard2'
 
@@ -64,3 +64,14 @@ export const login = async (email: string, password: string) => {
     }
     return text
 }
+
+type FetchArgs = {
+    url: string,
+    init: RequestInit | undefined
+}
+
+export const loginFetchArgs = (login: Login): FetchArgs =>
+({
+    url: `${baseUrl}/users/login`,
+    init: getInit(false, login)
+})

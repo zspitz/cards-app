@@ -11,7 +11,7 @@ export const user =
             last: z.string().min(2).max(256)
         }),
         phone: z.string().min(9).max(11),
-        email: z.string().email().min(5),
+        email: helperSchemas.email,
         password: z.string().min(7).max(20),
         image: helperSchemas.image,
         address: helperSchemas.address,

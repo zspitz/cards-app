@@ -7,3 +7,11 @@ export const isEmptyObject = (o: NonNullable<object>) => {
     }
     return true
 }
+
+export const parseHeaders = (headers: HeadersInit) => {
+    const entries =
+        headers instanceof Headers || Array.isArray(headers) ?
+            Array.from(headers) :
+            Object.entries(headers)
+    return entries.map(([name, value]) => [name.toLowerCase(), value.toLowerCase()] as const)
+}

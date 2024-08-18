@@ -1,22 +1,20 @@
 import { Button, Container, InputError, PasswordInput, Stack, TextInput } from '@mantine/core'
 import { hasLength, isEmail, useForm } from '@mantine/form'
-import { useState } from 'react'
 import { useFetcher } from 'react-router-dom'
-import { login } from '../services/http/users'
+import { loginFetchArgs } from '../services/http/users'
 import { useLang } from '../context/lang/useLang'
+import * as types from '../types'
+import { useFetch } from '../hooks/useFetch'
 
 const Login = () => {
     const { t } = useLang()
 
-    const fetcher = useFetcher()
-
-    const [submitError, setSubmitError] = useState('')
-    const [submitting, setSubmitting] = useState(false)
+    const { loading, error, runFetch, clearError } = useFetch()
 
     // TODO use zod for validations - https://mantine.dev/form/schema-validation/
     // revalidate within users.login
 
-    const form = useForm({
+    const form = useForm<types.Login>({
         mode: 'uncontrolled',
         initialValues: {
             email: '',
@@ -24,31 +22,28 @@ const Login = () => {
         },
         validate: {
             email: isEmail(t('Invalid email')),
-            password: hasLength({ min: 7 })
+            password: hasLength({ min: 1 })
         },
         validateInputOnChange: true,
-        onValuesChange: () => setSubmitError('')
+        onValuesChange: () => clearError()
     })
 
-    const handleSubmit = async ({ email, password }: typeof form.values) => {
-        setSubmitting(true)
-        const result = await login(email, password)
-        if (typeof result !== 'string') {
-            setSubmitError(result.message)
-            setSubmitting(false)
-            return
-        }
+    const fetcher = useFetcher()
+
+    const handleSubmit = async (login: typeof form.values) => {
+        const { url, init } = loginFetchArgs(login)
+        const token = await runFetch(url, init ?? null)
+        if (typeof token !== 'string') { return }
 
         // TODO when redirected here from a protected page, navigate back to that page
         // if successful, result contains a string with the new token
         fetcher.submit(null, {
             method: 'post',
-            action: `/login/${result}`
+            action: `/login/${token}`
         })
-        setSubmitting(false)
     }
 
-    const disabled = !(form.isValid() && !submitError)
+    const disabled = !(form.isValid() && !error)
 
     // TODO Consider using inputs that contain the label - https://ui.mantine.dev/category/inputs/#contained-inputs
     // Or floating labels: https://ui.mantine.dev/category/inputs/#floating-label-input
@@ -64,12 +59,12 @@ const Login = () => {
                         {...form.getInputProps('password')}
                     />
                 </Stack>
-                <Button type="submit" mb="xs" disabled={disabled} loading={submitting}>{t('Submit')}</Button>
+                <Button type="submit" mb="xs" disabled={disabled} loading={loading}>{t('Submit')}</Button>
                 {
-                    submitError &&
+                    error &&
                     <InputError>
                         Unable to login.<br />
-                        {submitError}
+                        {error.message}
                     </InputError>
                 }
 

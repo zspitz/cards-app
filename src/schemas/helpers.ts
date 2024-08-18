@@ -22,3 +22,5 @@ export const address =
         country: z.string().min(2).max(256),
         zip: z.number().int().min(2).max(256)
     })
+
+export const email = z.string().email().min(5)
