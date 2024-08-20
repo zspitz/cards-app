@@ -32,7 +32,19 @@ const translations: Translations = {
         'submit': 'בצע',
         'light theme': 'עיצוב בהיר',
         'dark theme': 'עיצוב כהה',
-        'language': 'שפה'
+        'language': 'שפה',
+        'first name': 'שם פרטי',
+        'last name': 'שם משפחה',
+        'middle name': 'שם אמצעי',
+        'phone': 'מס\' נייד/נייח',
+        'street': 'רחוב',
+        'house': 'בית',
+        'city': 'עיר',
+        'state': 'מדינה',
+        'postal code': 'מיקוד',
+        'country': 'ארץ',
+        'business': 'עסק',
+        'edit profile': 'עריכת פרופיל'
     }
 }
 const langs = Object.keys(translations)
@@ -45,11 +57,12 @@ const LangProvider = ({ children }: Props) => {
     const currentTranslations = translations[lang] ?? translations.en
     const t: LangContextValue['t'] = s => {
         if (!s || typeof s !== 'string') { return s }
-        // TODO attempt to match case of source string in object keys
-        const key = s.toLocaleLowerCase()
-        const translation = currentTranslations[key]
+        const lcase = s.toLocaleLowerCase()
+        const translation =
+            currentTranslations[s] ??
+            currentTranslations[lcase]
         if (translation) { return translation }
-        if (lang != 'en') { console.log(`Missing translation for ${key} in ${lang}`) }
+        if (lang != 'en') { console.log(`Missing translation for ${s} in ${lang}`) }
         return s
     }
 
