@@ -1,7 +1,7 @@
 @baseUrl = https://monkfish-app-z9uza.ondigitalocean.app/bcard2 
 
 ### Request specific user
-GET {{baseUrl}}/users/650ae759db3813a6502fc2fc
+GET {{baseUrl}}/users/66be6b8a00b4d006b4208500
 x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBhZTc1OWRiMzgxM2E2NTAyZmMyZmMiLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2OTg4NDI5NTJ9.En62ry5Gu9FMBAvxyltv0eRYhpJIJs_aW06QAtxXRck
 
 ### Request all users
@@ -29,7 +29,7 @@ Content-Type: application/json
     "last": "Dollar"
   },
   "phone": "0512345567",
-  "email": "bdollar@ethereal.com",
+  "email": "bdollar3@ethereal.com",
   "password": "Abc!123Abc",
   "address": {
     "country": "Israel",

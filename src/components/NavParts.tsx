@@ -38,7 +38,6 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
 
     const user = useRouteLoaderData('root') as UserResponse | null
     const userRoles = getRoles(user)
-    console.log(user)
 
     const linkDataMapper = ({ to, label }: LinkData) => (
         <Anchor key={to} onClick={closeNavbar} renderRoot={({ ...others }) => (

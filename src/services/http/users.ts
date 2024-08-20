@@ -1,24 +1,24 @@
 import { jwtDecode } from 'jwt-decode'
-import { Login, User } from '../../types'
+import { FetchArgs, Login, UserPost, UserPut, UserResponse } from '../../types'
 
 const baseUrl = 'https://monkfish-app-z9uza.ondigitalocean.app/bcard2'
 
 export const tokenKey = 'token'
 
-const getInit = (withToken = false, body?: object) => {
+const getInit = (withToken = false, body?: object, method?: string) => {
     const init: RequestInit = {}
     const headers: HeadersInit = {}
     init.headers = headers
 
     if (withToken) {
         const token = localStorage.getItem(tokenKey)
-        if (!token) { return undefined }
+        if (!token) { return null }
         headers['x-auth-token'] = token
     }
     if (body) {
         init.body = JSON.stringify(body)
         headers['content-type'] = 'application/json'
-        init.method = 'POST'
+        init.method = method ?? 'POST'
     }
 
     return init
@@ -47,31 +47,24 @@ const getById = async (_id: string) => {
     if (!response.ok) {
         return null
     }
-    return await response.json() as User
-}
-
-export const login = async (email: string, password: string) => {
-    if (!email || !password) {
-        return { message: 'Missing username or password.' }
-    }
-    const response = await fetch(`${baseUrl}/users/login`, getInit(false, {
-        email,
-        password
-    }))
-    const text = await response.text()
-    if (!response.ok) {
-        return { message: text }
-    }
-    return text
-}
-
-type FetchArgs = {
-    url: string,
-    init: RequestInit | undefined
+    return await response.json() as UserResponse
 }
 
 export const loginFetchArgs = (login: Login): FetchArgs =>
 ({
     url: `${baseUrl}/users/login`,
     init: getInit(false, login)
+})
+
+export const profileUpdateFetchArgs = (_id: string, user: UserPut): FetchArgs => {
+    return {
+        url: `${baseUrl}/users/${_id}`,
+        init: !_id ? null : getInit(false, user, 'put')
+    }
+}
+
+export const registerFetchArgs = (user: UserPost): FetchArgs =>
+({
+    url: `${baseUrl}/users/register`,
+    init: getInit(false, user)
 })

@@ -23,7 +23,7 @@ const logoutAction = () => {
     // TODO when logging out, try to return to current page
     return redirect('/')
 }
-const loginAction = async ({ params }: ActionFunctionArgs) => {
+const reloadAction = async ({ params }: ActionFunctionArgs) => {
     await reloadStoredUser(params.newToken)
     // TODO get source page from Login; redirect to that original page
     return redirect('/')
@@ -44,9 +44,9 @@ const router = createBrowserRouter(
                     <Route path="my-cards" element={<Cards />} loader={mycardsLoader} />
                     <Route path="about" element={<About />} />
                     <Route path="control-panel" element={<ControlPanel />} />
-                    <Route path="profile" element={<Profile />} loader={profileLoader} />
+                    <Route path="profile" element={<Profile />} loader={profileLoader} action={reloadAction} />
                     <Route path="register" element={<Profile />} loader={registrationLoader} />
-                    <Route path="login/:newToken?" element={<Login />} action={loginAction} />
+                    <Route path="login/:newToken?" element={<Login />} action={reloadAction} />
                 </Route>
             </Route>
             <Route path="/logout" action={logoutAction} />

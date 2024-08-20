@@ -9,7 +9,7 @@ export const card =
         subtitle: z.string().min(2).max(256),
         description: z.string().min(2).max(1024),
         phone: z.string().min(9).max(11),
-        email: z.string().email().min(5),
+        email: helperSchemas.email,
         web: z.string().min(14).url().optional(),
         image: helperSchemas.image,
         address: helperSchemas.address

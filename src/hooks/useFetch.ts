@@ -21,14 +21,14 @@ const hasJsonContentType = (headers: HeadersInit) => {
     return entries.some(([name, value]) => name === 'content-type' && value.includes('application/json'))
 }
 
-export const useFetch = <T>() => {
-    const [data, setData] = useState<T | string | null>(null)
+export const useFetch = () => {
+    const [data, setData] = useState<unknown>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<Error | null>(null)
     const controller = useRef<AbortController | null>(null)
 
-    const runFetch = useCallback(async (url: string, options: RequestInit | null) => {
-        if (!url || !options) { return }
+    const runFetch = useCallback(async (url: string, options?: RequestInit | null) => {
+        if (!url || options === null) { return }
 
         controller.current?.abort()
         controller.current = new AbortController()
@@ -45,9 +45,9 @@ export const useFetch = <T>() => {
                 return
             }
 
-            const resData =
+            const resData: unknown =
                 hasJsonContentType(res.headers) ?
-                    JSON.parse(text) as T :
+                    JSON.parse(text) :
                     text
             setData(resData)
             setLoading(false)
@@ -60,7 +60,6 @@ export const useFetch = <T>() => {
             if (err.name !== 'AbortError') {
                 setError(err)
             }
-            return err
         }
     }, [])
 

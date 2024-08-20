@@ -27,11 +27,11 @@ const Login = () => {
 
     const handleSubmit = async (login: typeof form.values) => {
         const { url, init } = loginFetchArgs(login)
-        const token = await runFetch(url, init ?? null)
+        const token = await runFetch(url, init)
         if (typeof token !== 'string') { return }
 
-        // TODO when redirected here from a protected page, navigate back to that page
         // if successful, result contains a string with the new token
+        // TODO when redirected here from a protected page, navigate back to that page
         fetcher.submit(null, {
             method: 'post',
             action: `/login/${token}`
