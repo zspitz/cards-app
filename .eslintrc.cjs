@@ -59,7 +59,10 @@ module.exports = {
                 arguments: false
             },
             checksSpreads: true
-        }]
+        }],
+        'no-console': ['warn'],
+        'no-alert': ['warn'],
+        'no-debugger': ['warn'],
     },
     settings: {
         react: {
