@@ -7,7 +7,8 @@ import * as types from '../types'
 import { useForm, zodResolver } from '@mantine/form'
 import { useFetch } from '../hooks/useFetch'
 import { userPost as userPostSchema, userPut as userPutSchema } from '../schemas/user'
-import { Button, Checkbox, Container, Group, Flex, InputError, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput } from '@mantine/core'
+import { Button, Checkbox, Container, Flex, InputError, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput } from '@mantine/core'
+import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
 
 export const profileLoader = async (args: LoaderFunctionArgs) => {
     const user = await users.getCurrent()
@@ -15,15 +16,11 @@ export const profileLoader = async (args: LoaderFunctionArgs) => {
     return redirectToLogin(args)
 }
 
-export const registrationLoader = () => {
-    return {}
-}
-
 const Profile = () => {
     const { t } = useLang()
     const { loading, error, runFetch, clearError } = useFetch()
 
-    const currentUserData = useLoaderData() as UserResponse | null
+    const currentUserData = useLoaderData() as UserResponse | undefined
     const initialValues: types.UserPut | types.UserPost = currentUserData ?? {
         name: {
             first: '',
@@ -100,12 +97,12 @@ const Profile = () => {
                     t('Register')
             }</Title>
             <form onSubmit={form.onSubmit(handleSubmit)}>
-                <Stack>
+                <Stack mb={20}>
                     <Flex {...flexProps}>
                         <TextInput label={t('First name')} required key={form.key('name.first')} flex="1"
                             {...form.getInputProps('name.first')}
                         />
-                        <TextInput label={t('Middle name')} required key={form.key('name.middle')} flex=".75"
+                        <TextInput label={t('Middle name')} key={form.key('name.middle')} flex=".75"
                             {...form.getInputProps('name.middle')}
                         />
                         <TextInput label={t('Last name')} required key={form.key('name.last')} flex="1"
@@ -123,10 +120,15 @@ const Profile = () => {
                             {...form.getInputProps('password')}
                         />
                     </Flex>
-                    <Group justify='space-between' grow>
-                        <TextInput label={t('Image url')} required key={form.key('image.url')} {...form.getInputProps('image.url')} />
-                        <TextInput label={t('Image alt text')} required key={form.key('image.alt')} {...form.getInputProps('image.alt')} />
-                    </Group>
+                    <Flex gap={15} mt={14} align="stretch">
+                        <ImageOrPlaceholder url={form.values.image.url} alt={form.values.image.alt} height="150px" />
+                        <Stack flex="1">
+                            <TextInput label={t('Image url')} key={form.key('image.url')} {...form.getInputProps('image.url')}
+                                value={form.values.image.url}
+                                onChange={(e) => form.setFieldValue('image.url', e.currentTarget.value)} />
+                            <TextInput label={t('Image alt text')} key={form.key('image.alt')} {...form.getInputProps('image.alt')} />
+                        </Stack>
+                    </Flex>
                     <Flex {...flexProps}>
                         <TextInput label={t('Street')} required key={form.key('address.street')}
                             {...form.getInputProps('address.street')} flex="1"

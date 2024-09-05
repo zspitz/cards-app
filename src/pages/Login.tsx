@@ -46,7 +46,7 @@ const Login = () => {
     return (
         <Container size="xs">
             <form onSubmit={form.onSubmit(handleSubmit)}>
-                <Stack mb={25}>
+                <Stack mb={20}>
                     <TextInput label={t('Email')} required placeholder="abc@gmail.com" key={form.key('email')}
                         {...form.getInputProps('email')}
                     />

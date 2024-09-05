@@ -13,7 +13,7 @@ import ErrorPage from './pages/Error'
 import Cards, { cardsLoader, favoritesLoader, mycardsLoader } from './pages/Cards'
 import About from './pages/About'
 import ControlPanel from './pages/ControlPanel'
-import Profile, { profileLoader, registrationLoader } from './pages/Profile'
+import Profile, { profileLoader } from './pages/Profile'
 import Login from './pages/Login'
 
 const { getStoredUser, logout, reloadStoredUser } = await authProvider()
@@ -45,7 +45,7 @@ const router = createBrowserRouter(
                     <Route path="about" element={<About />} />
                     <Route path="control-panel" element={<ControlPanel />} />
                     <Route path="profile" element={<Profile />} loader={profileLoader} action={reloadAction} />
-                    <Route path="register" element={<Profile />} loader={registrationLoader} />
+                    <Route path="register" element={<Profile />} />
                     <Route path="login/:newToken?" element={<Login />} action={reloadAction} />
                 </Route>
             </Route>
