@@ -1,15 +1,14 @@
-@baseUrl = https://monkfish-app-z9uza.ondigitalocean.app/bcard2 
 
 ### Request specific user
-GET {{baseUrl}}/users/66be6b8a00b4d006b4208500
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBhZTc1OWRiMzgxM2E2NTAyZmMyZmMiLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2OTg4NDI5NTJ9.En62ry5Gu9FMBAvxyltv0eRYhpJIJs_aW06QAtxXRck
+GET {{apiUrl}}/users/{{adminUserId}}
+x-auth-token: {{adminToken}}
 
 ### Request all users
-GET {{baseUrl}}/users
-x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTBhZTc1OWRiMzgxM2E2NTAyZmMyZmMiLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2OTg4NDI5NTJ9.En62ry5Gu9FMBAvxyltv0eRYhpJIJs_aW06QAtxXRck
+GET {{apiUrl}}/users
+x-auth-token: {{adminToken}}
 
 ### Failed login
-POST {{baseUrl}}/users/login
+POST {{apiUrl}}/users/login
 Accept: application/json
 Content-Type: application/json
 
@@ -20,7 +19,7 @@ Content-Type: application/json
 
 ### Register
 
-POST {{baseUrl}}/users
+POST {{apiUrl}}/users
 Content-Type: application/json
 
 {
@@ -29,7 +28,7 @@ Content-Type: application/json
     "last": "Dollar"
   },
   "phone": "0512345567",
-  "email": "bdollar3@ethereal.com",
+  "email": "bdollar@ethereal.com",
   "password": "Abc!123Abc",
   "address": {
     "country": "Israel",
@@ -43,7 +42,7 @@ Content-Type: application/json
 }
 
 ### Login
-POST {{baseUrl}}/users/login
+POST {{apiUrl}}/users/login
 Content-Type: application/json
 
 {

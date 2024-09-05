@@ -1,7 +1,7 @@
 import { jwtDecode } from 'jwt-decode'
 import { FetchArgs, Login, UserPost, UserPut, UserResponse } from '../../types'
 
-const baseUrl = 'https://monkfish-app-z9uza.ondigitalocean.app/bcard2'
+const baseUrl = import.meta.env.VITE_API_BASEURL as string
 
 export const tokenKey = 'token'
 
