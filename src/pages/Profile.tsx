@@ -121,11 +121,9 @@ const Profile = () => {
                         />
                     </Flex>
                     <Flex gap={15} mt={14} align="stretch">
-                        <ImageOrPlaceholder url={form.values.image.url} alt={form.values.image.alt} height="150px" />
+                        <ImageOrPlaceholder url={form.getValues().image.url} alt={form.values.image.alt} height="150px" />
                         <Stack flex="1">
-                            <TextInput label={t('Image url')} key={form.key('image.url')} {...form.getInputProps('image.url')}
-                                value={form.values.image.url}
-                                onChange={(e) => form.setFieldValue('image.url', e.currentTarget.value)} />
+                            <TextInput label={t('Image url')} key={form.key('image.url')} {...form.getInputProps('image.url')} />
                             <TextInput label={t('Image alt text')} key={form.key('image.alt')} {...form.getInputProps('image.alt')} />
                         </Stack>
                     </Flex>
@@ -141,7 +139,7 @@ const Profile = () => {
                         />
                     </Flex>
                     <Flex {...flexProps}>
-                        <TextInput label={t('State')} required key={form.key('address.state')}
+                        <TextInput label={t('State')} key={form.key('address.state')}
                             {...form.getInputProps('address.state')} flex="1"
                         />
                         <NumberInput label={t('Postal code')} required key={form.key('address.zip')}

@@ -1,4 +1,5 @@
 import { Box, Image, MantineStyleProps, Text } from '@mantine/core'
+import placeholder from '/noun-image-broken-2279654 edited.svg'
 
 // Note that the 50% filter and the gray text works for both the dark and light themes.
 
@@ -15,7 +16,7 @@ const ImageOrPlaceholder = ({ url, alt, height }: Props) => {
 
     return (
         <Box h={height} w="auto" pos="relative">
-            <Image src="/noun-image-broken-2279654 edited.svg" alt="Placeholder" h={height} w="auto" style={{
+            <Image src={placeholder} alt="Placeholder" h={height} w="auto" style={{
                 filter: 'invert(50%)'
             }} />
             <Text pos="absolute" bottom={8} w="100%" c="gray" fz="8px" ta="center">
