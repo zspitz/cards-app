@@ -4,30 +4,28 @@ import '@mantine/core/styles.css'
 
 // providers
 import LangProvider from './context/lang/LangProvider'
-import authProvider from './services/authProvider'
 
 // router and router components
-import { ActionFunctionArgs, Route, RouterProvider, createBrowserRouter, createRoutesFromElements, redirect } from 'react-router-dom'
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import Root from './Root'
 import ErrorPage from './pages/Error'
-import Cards, { cardsLoader, favoritesLoader, mycardsLoader } from './pages/Cards'
+import Cards from './pages/Cards'
 import About from './pages/About'
 import ControlPanel from './pages/ControlPanel'
-import Profile, { profileLoader } from './pages/Profile'
+import Profile from './pages/Profile'
 import Login from './pages/Login'
 
-const { getStoredUser, logout, reloadStoredUser } = await authProvider()
+// loaders and actions
+import {
+    // users
+    getStoredUser, reloadUserAction, logoutAction,
 
-const logoutAction = () => {
-    logout()
-    // TODO when logging out, try to return to current page
-    return redirect('/')
-}
-const reloadAction = async ({ params }: ActionFunctionArgs) => {
-    await reloadStoredUser(params.newToken)
-    // TODO get source page from Login; redirect to that original page
-    return redirect('/')
-}
+    // profile
+    profileLoader,
+
+    // cards
+    cardsLoader, favoritesLoader, mycardsLoader
+} from './loadersActions'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -44,9 +42,9 @@ const router = createBrowserRouter(
                     <Route path="my-cards" element={<Cards />} loader={mycardsLoader} />
                     <Route path="about" element={<About />} />
                     <Route path="control-panel" element={<ControlPanel />} />
-                    <Route path="profile" element={<Profile />} loader={profileLoader} action={reloadAction} />
+                    <Route path="profile" element={<Profile />} loader={profileLoader} action={reloadUserAction} />
                     <Route path="register" element={<Profile />} />
-                    <Route path="login/:newToken?" element={<Login />} action={reloadAction} />
+                    <Route path="login/:newToken?" element={<Login />} action={reloadUserAction} />
                 </Route>
             </Route>
             <Route path="/logout" action={logoutAction} />

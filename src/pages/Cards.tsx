@@ -1,11 +1,8 @@
 import { useLoaderData } from 'react-router-dom'
-
-export const cardsLoader = () => 'Cards'
-export const favoritesLoader = () => 'Favorites'
-export const mycardsLoader = () => 'My cards'
+import { CardsLoaderReturnData } from '../loadersActions'
 
 const Cards = () => {
-    const caption = useLoaderData() as string
+    const caption = useLoaderData() as CardsLoaderReturnData
 
     // TODO layout cards using flex-direction row + flex-wrap + flex-grow
     // https://css-tricks.com/piecing-together-approaches-for-a-css-masonry-layout/#aa-is-horizontal-line-masonry-ok

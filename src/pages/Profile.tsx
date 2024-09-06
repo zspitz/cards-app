@@ -1,6 +1,5 @@
-import { LoaderFunctionArgs, useFetcher, useLoaderData } from 'react-router-dom'
+import { useFetcher, useLoaderData } from 'react-router-dom'
 import * as users from '../services/http/users'
-import { redirectToLogin } from '../shared'
 import { isMongoRecord, UserResponse } from '../types'
 import { useLang } from '../context/lang/useLang'
 import * as types from '../types'
@@ -9,18 +8,13 @@ import { useFetch } from '../hooks/useFetch'
 import { userPost as userPostSchema, userPut as userPutSchema } from '../schemas/user'
 import { Button, Checkbox, Container, Flex, InputError, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput } from '@mantine/core'
 import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
-
-export const profileLoader = async (args: LoaderFunctionArgs) => {
-    const user = await users.getCurrent()
-    if (user) { return user }
-    return redirectToLogin(args)
-}
+import { ProfileLoaderReturnData } from '../loadersActions'
 
 const Profile = () => {
     const { t } = useLang()
     const { loading, error, runFetch, clearError } = useFetch()
 
-    const currentUserData = useLoaderData() as UserResponse | undefined
+    const currentUserData = useLoaderData() as ProfileLoaderReturnData | undefined
     const initialValues: types.UserPut | types.UserPost = currentUserData ?? {
         name: {
             first: '',
