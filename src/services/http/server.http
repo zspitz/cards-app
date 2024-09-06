@@ -29,7 +29,7 @@ Content-Type: application/json
   },
   "phone": "0512345567",
   "email": "bdollar@ethereal.com",
-  "password": "Abc!123Abc",
+  "password": "{{password}}",
   "address": {
     "country": "Israel",
     "city": "Anytown",
@@ -47,5 +47,5 @@ Content-Type: application/json
 
 {
     "email": "bdollar@ethereal.com",
-    "password": "Abc!123Abc"
+    "password": "{{password}}"
 }

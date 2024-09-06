@@ -1,4 +1,3 @@
-import { LoaderFunctionArgs, redirect } from 'react-router-dom'
 import { Role, UserResponse } from './types'
 
 export const getRoles = (user: UserResponse | null) => {
@@ -11,10 +10,4 @@ export const getRoles = (user: UserResponse | null) => {
         roles.push('guest')
     }
     return roles
-}
-
-export const redirectToLogin = ({ request }: LoaderFunctionArgs) => {
-    const params = new URLSearchParams()
-    params.set('from', new URL(request.url).pathname)
-    return redirect('/login?' + params.toString())
 }
