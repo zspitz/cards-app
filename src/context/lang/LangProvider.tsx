@@ -44,7 +44,10 @@ const translations: Translations = {
         'postal code': 'מיקוד',
         'country': 'ארץ',
         'business': 'עסק',
-        'edit profile': 'עריכת פרופיל'
+        'edit profile': 'עריכת פרופיל',
+        'unable to update': 'לא ניתן לעדכן',
+        'unable to register': 'לא ניתן להירשם',
+        'control panel': 'בקרה'
     }
 }
 const langs = Object.keys(translations)
