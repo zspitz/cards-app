@@ -75,10 +75,10 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
     if (useIn === 'header') {
         return (
             <>
-                <Flex direction="row" visibleFrom="sm" gap={20}>
+                <Flex direction="row" visibleFrom="sm" gap={12}>
                     {links1}
                 </Flex>
-                <Group gap={15} visibleFrom="sm">
+                <Group gap={10} visibleFrom="sm">
                     {links2}
                     {selectors}
                 </Group>
