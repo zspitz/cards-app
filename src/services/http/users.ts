@@ -59,7 +59,7 @@ export const loginFetchArgs = (login: Login): FetchArgs =>
 export const profileUpdateFetchArgs = (_id: string, user: UserPut): FetchArgs => {
     return {
         url: `${baseUrl}/users/${_id}`,
-        init: !_id ? null : getInit(false, user, 'put')
+        init: !_id ? null : getInit(true, user, 'put')
     }
 }
 

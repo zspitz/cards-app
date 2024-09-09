@@ -51,8 +51,9 @@ const Profile = () => {
     const fetcher = useFetcher()
 
     const handleSubmit = async (user: typeof form.values) => {
+        const parsedUser = schema.parse(user)
         if (isMongoRecord(user)) {
-            const { url, init } = users.profileUpdateFetchArgs(user._id, user)
+            const { url, init } = users.profileUpdateFetchArgs(user._id, parsedUser)
             const response = await runFetch(url, init)
             if (typeof response !== 'object') { return }
             fetcher.submit(null, {
@@ -102,18 +103,27 @@ const Profile = () => {
                         <TextInput label={t('Last name')} required key={form.key('name.last')} flex="1"
                             {...form.getInputProps('name.last')}
                         />
+                        {
+                            currentUserData &&
+                            <TextInput label={t('Phone')} required key={form.key('phone')} flex="1"
+                                {...form.getInputProps('phone')}
+                            />
+                        }
                     </Flex>
-                    <Flex {...flexProps}>
-                        <TextInput label={t('Phone')} required key={form.key('phone')} flex="1"
-                            {...form.getInputProps('phone')}
-                        />
-                        <TextInput label={t('Email')} required key={form.key('email')} flex="1"
-                            {...form.getInputProps('email')}
-                        />
-                        <PasswordInput label={t('Password')} required key={form.key('password')} flex="1"
-                            {...form.getInputProps('password')}
-                        />
-                    </Flex>
+                    {
+                        (!currentUserData) &&
+                        <Flex {...flexProps}>
+                            <TextInput label={t('Phone')} required key={form.key('phone')} flex="1"
+                                {...form.getInputProps('phone')}
+                            />
+                            <TextInput label={t('Email')} required key={form.key('email')} flex="1"
+                                {...form.getInputProps('email')}
+                            />
+                            <PasswordInput label={t('Password')} required key={form.key('password')} flex="1"
+                                {...form.getInputProps('password')}
+                            />
+                        </Flex>
+                    }
                     <Flex gap={15} mt={14} align="stretch">
                         <ImageOrPlaceholder url={form.getValues().image.url} alt={form.values.image.alt} height="150px" />
                         <Stack flex="1">
@@ -143,13 +153,16 @@ const Profile = () => {
                             {...form.getInputProps('address.country')} flex="1"
                         />
                     </Flex>
-                    <Checkbox label={t('Business')} key={form.key('isBusiness')} {...form.getInputProps('isBusiness')} />
+                    {
+                        (!currentUserData) &&
+                        <Checkbox label={t('Business')} key={form.key('isBusiness')} {...form.getInputProps('isBusiness')} />
+                    }
                 </Stack>
                 <Button type="submit" mb="xs" disabled={disabled} loading={loading}>{t('Submit')}</Button>
                 {
                     error &&
                     <InputError>
-                        Unable to login.<br />
+                        t(`Unable to ${currentUserData ? 'update' : 'register'}`)<br />
                         {error.message}
                     </InputError>
                 }
@@ -159,19 +172,3 @@ const Profile = () => {
 }
 
 export default Profile
-
-/*
-firstname	middle name	last name
-phone	email 	password
-
-profile image:
-url	preview
-alt
-
-address:
-street	housenumber
-city	state	country	zip
-
-isbusiness
-
-        */
