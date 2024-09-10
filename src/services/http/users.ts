@@ -19,6 +19,8 @@ const getInit = (withToken = false, body?: object, method?: string) => {
         init.body = JSON.stringify(body)
         headers['content-type'] = 'application/json'
         init.method = method ?? 'POST'
+    } else {
+        init.method = method ?? 'GET'
     }
 
     return init
@@ -67,4 +69,10 @@ export const registerFetchArgs = (user: UserPost): FetchArgs =>
 ({
     url: `${baseUrl}/users/register`,
     init: getInit(false, user)
+})
+
+export const toggleIsBusinessArgs = (_id: string): FetchArgs =>
+({
+    url: `${baseUrl}/users/${_id}`,
+    init: getInit(true, undefined, 'PATCH')
 })

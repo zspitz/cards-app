@@ -6,9 +6,11 @@ import * as types from '../types'
 import { useForm, zodResolver } from '@mantine/form'
 import { useFetch } from '../hooks/useFetch'
 import { userPost as userPostSchema, userPut as userPutSchema } from '../schemas/user'
-import { Button, Container, Flex, InputError, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput, Switch } from '@mantine/core'
+import { Container, Flex, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput, Switch } from '@mantine/core'
 import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
 import { ProfileLoaderReturnData } from '../loadersActions'
+import ToggleIsBusiness from '../components/ToggleIsBusiness'
+import SubmitReset from '../components/SubmitReset'
 
 const UserForm = () => {
     const { t } = useLang()
@@ -78,7 +80,6 @@ const UserForm = () => {
         })
     }
 
-    const disabled = !(form.isDirty() && form.isValid() && !error)
     const flexProps: FlexProps = {
         direction: { base: 'column', sm: 'row' },
         gap: 15
@@ -158,15 +159,16 @@ const UserForm = () => {
                         <Switch label={t('Is business')} key={form.key('isBusiness')} {...form.getInputProps('isBusiness')} />
                     }
                 </Stack>
-                <Button type="submit" mb="xs" disabled={disabled} loading={loading}>{t('Submit')}</Button>
-                {
-                    error &&
-                    <InputError>
-                        t(`Unable to ${currentUserData ? 'update' : 'register'}`)<br />
-                        {error.message}
-                    </InputError>
-                }
+                <SubmitReset loading={loading} error={error} form={form}
+                    errorPrefix={`Unable to ${currentUserData ? 'update' : 'register'}`} />
             </form>
+            {
+                currentUserData &&
+                <>
+                    <hr />
+                    <ToggleIsBusiness user={currentUserData} />
+                </>
+            }
         </Container>
     )
 }

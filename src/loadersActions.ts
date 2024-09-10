@@ -31,6 +31,10 @@ const logoutAction = () => {
     // TODO when logging out, try to return to current page
     return redirect('/')
 }
+
+// TODO often when this action is triggered, it's after some response with the updated user
+// As is, the action currently makes another call to the server
+// Instead, the action should receive the new user as a parameter (?) and reload using the new user object with fresh data
 const reloadUserAction = async ({ params }: ActionFunctionArgs) => {
     await reloadStoredUser(params.newToken)
     // TODO get source page from Login; redirect to that original page
