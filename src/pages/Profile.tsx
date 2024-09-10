@@ -6,7 +6,7 @@ import * as types from '../types'
 import { useForm, zodResolver } from '@mantine/form'
 import { useFetch } from '../hooks/useFetch'
 import { userPost as userPostSchema, userPut as userPutSchema } from '../schemas/user'
-import { Button, Checkbox, Container, Flex, InputError, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput } from '@mantine/core'
+import { Button, Container, Flex, InputError, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput, Switch } from '@mantine/core'
 import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
 import { ProfileLoaderReturnData } from '../loadersActions'
 
@@ -78,7 +78,7 @@ const Profile = () => {
         })
     }
 
-    const disabled = !(form.isValid() && !error)
+    const disabled = !(form.isDirty() && form.isValid() && !error)
     const flexProps: FlexProps = {
         direction: { base: 'column', sm: 'row' },
         gap: 15
@@ -155,7 +155,7 @@ const Profile = () => {
                     </Flex>
                     {
                         (!currentUserData) &&
-                        <Checkbox label={t('Business')} key={form.key('isBusiness')} {...form.getInputProps('isBusiness')} />
+                        <Switch label={t('Is business')} key={form.key('isBusiness')} {...form.getInputProps('isBusiness')} />
                     }
                 </Stack>
                 <Button type="submit" mb="xs" disabled={disabled} loading={loading}>{t('Submit')}</Button>

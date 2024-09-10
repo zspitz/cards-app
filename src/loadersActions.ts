@@ -8,7 +8,7 @@ const redirectToLogin = ({ request }: LoaderFunctionArgs) => {
     return redirect('/login?' + params.toString())
 }
 
-// Loaders/actions that don't depend on authorization
+// Loaders/actions that don't depend on authProvider
 
 const profileLoader = async (args: LoaderFunctionArgs) => {
     const user = await users.getCurrent()
@@ -22,7 +22,7 @@ const favoritesLoader = () => 'Favorites'
 const mycardsLoader = () => 'My cards'
 export type CardsLoaderReturnData = string // TODO
 
-// Loaders/actions that depend on authorization
+// Loaders/actions that depend on authProvider
 
 const { getStoredUser, logout, reloadStoredUser } = await authProvider()
 

@@ -38,7 +38,7 @@ const Login = () => {
         })
     }
 
-    const disabled = !(form.isValid() && !error)
+    const disabled = !(form.isDirty() && form.isValid() && !error)
 
     // TODO Consider using inputs that contain the label - https://ui.mantine.dev/category/inputs/#contained-inputs
     // Or floating labels: https://ui.mantine.dev/category/inputs/#floating-label-input
