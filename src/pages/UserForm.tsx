@@ -10,7 +10,7 @@ import { Button, Container, Flex, InputError, PasswordInput, Stack, TextInput, T
 import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
 import { ProfileLoaderReturnData } from '../loadersActions'
 
-const Profile = () => {
+const UserForm = () => {
     const { t } = useLang()
     const { loading, error, runFetch, clearError } = useFetch()
 
@@ -171,4 +171,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default UserForm

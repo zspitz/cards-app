@@ -12,7 +12,7 @@ import ErrorPage from './pages/Error'
 import Cards from './pages/Cards'
 import About from './pages/About'
 import ControlPanel from './pages/ControlPanel'
-import Profile from './pages/Profile'
+import UserForm from './pages/UserForm'
 import Login from './pages/Login'
 
 // loaders and actions
@@ -42,8 +42,8 @@ const router = createBrowserRouter(
                     <Route path="my-cards" element={<Cards />} loader={mycardsLoader} />
                     <Route path="about" element={<About />} />
                     <Route path="control-panel" element={<ControlPanel />} />
-                    <Route path="profile" element={<Profile />} loader={profileLoader} action={reloadUserAction} />
-                    <Route path="register" element={<Profile />} />
+                    <Route path="profile" element={<UserForm />} loader={profileLoader} action={reloadUserAction} />
+                    <Route path="register" element={<UserForm />} />
                     <Route path="login/:newToken?" element={<Login />} action={reloadUserAction} />
                 </Route>
             </Route>
