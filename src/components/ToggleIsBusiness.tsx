@@ -1,48 +1,42 @@
-import { Stack, Switch, Title } from '@mantine/core'
+import { Button, InputError, Stack } from '@mantine/core'
 import { useLang } from '../context/lang/useLang'
 import { useFetch } from '../hooks/useFetch'
 import { ProfileLoaderReturnData } from '../loadersActions'
 import { useFetcher } from 'react-router-dom'
-import { useForm } from '@mantine/form'
-import { toggleIsBusinessArgs } from '../services/http/users'
-import SubmitReset from './SubmitReset'
+import { toggleIsBusinessFetchArgs } from '../services/http/users'
+import { MdCheckBox, MdIndeterminateCheckBox } from 'react-icons/md'
 
 type Props = {
     user: ProfileLoaderReturnData
 }
 
-const ToggleIsBusiness = ({ user }: Props) => {
+const ToggleIsBusiness = ({ user: { _id, isBusiness } }: Props) => {
     const { t } = useLang()
-    const { loading, error, runFetch, clearError } = useFetch()
-
-    const form = useForm({
-        mode: 'uncontrolled',
-        initialValues: {
-            isBusiness: user.isBusiness
-        },
-        onValuesChange: () => clearError()
-    })
+    const { loading, error, runFetch } = useFetch()
 
     const fetcher = useFetcher()
 
-    const handleSubmit = async () => {
-        const { url, init } = toggleIsBusinessArgs(user._id)
+    const clickHandler = async () => {
+        const { url, init } = toggleIsBusinessFetchArgs(_id)
         const response = (await runFetch(url, init)) as ProfileLoaderReturnData | undefined
         if (!response) { return }
         fetcher.submit(null, {
-            method: 'post',
+            method: 'put',
             action: '/profile'
         })
     }
 
     return (
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-            <Stack gap="1rem" mt={20}>
-                <Title>Toggle IsBusiness</Title>
-                <Switch label={t('Is business')} key={form.key('isBusiness')} {...form.getInputProps('isBusiness', { type: 'checkbox' })} />
-                <SubmitReset loading={loading} error={error} form={form} errorPrefix="Can't toggle isBusiness" />
-            </Stack>
-        </form>
+        <Stack align="flex-start">
+            <Button loading={loading} leftSection={isBusiness ? <MdCheckBox /> : <MdIndeterminateCheckBox />} onClick={() => clickHandler()}>{t('Toggle isBusiness')}</Button>
+            {
+                error &&
+                <InputError>
+                    {t('Can\'t toggle isBusiness')}<br />
+                    {error.message}
+                </InputError>
+            }
+        </Stack>
     )
 }
 
