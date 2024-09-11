@@ -24,7 +24,8 @@ import {
     profileLoader,
 
     // cards
-    cardsLoader, favoritesLoader, mycardsLoader
+    cardsLoader, favoritesLoader, mycardsLoader,
+    registerAction
 } from './loadersActions'
 
 const router = createBrowserRouter(
@@ -44,7 +45,7 @@ const router = createBrowserRouter(
                     <Route path="control-panel" element={<ControlPanel />} />
                     <Route path="profile" element={<UserForm />} loader={profileLoader} action={reloadUserAction} />
                     <Route path="register" element={<UserForm />} />
-                    <Route path="login/:newToken?" element={<Login />} action={reloadUserAction} />
+                    <Route path="login/:newToken?" element={<Login />} action={registerAction} />
                 </Route>
             </Route>
             <Route path="/logout" action={logoutAction} />

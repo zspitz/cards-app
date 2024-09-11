@@ -1,6 +1,7 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from 'react-router-dom'
 import authProvider from './services/authProvider'
 import * as users from './services/http/users'
+import { okResponse } from './util'
 
 const redirectToLogin = ({ request }: LoaderFunctionArgs) => {
     const params = new URLSearchParams()
@@ -34,19 +35,24 @@ const logoutAction = () => {
 
 // TODO often when this action is triggered, it's after some response with the updated user
 // As is, the action currently makes another call to the server
-// Instead, the action should receive the new user as a parameter (?) and reload using the new user object with fresh data
-const reloadUserAction = async ({ params }: ActionFunctionArgs) => {
+// Instead, the action should receive the new user via JSON and reload using the new user object with fresh data
+const registerAction = async ({ params }: ActionFunctionArgs) => {
     await reloadStoredUser(params.newToken)
     // TODO get source page from Login; redirect to that original page
     return redirect('/')
 }
+const reloadUserAction = async () => {
+    await reloadStoredUser()
+    return okResponse
+}
 
 export {
     logoutAction,
-    reloadUserAction,
+    registerAction,
     getStoredUser,
     profileLoader,
     cardsLoader,
     mycardsLoader,
-    favoritesLoader
+    favoritesLoader,
+    reloadUserAction
 }
