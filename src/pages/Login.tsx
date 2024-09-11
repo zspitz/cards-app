@@ -1,4 +1,4 @@
-import { Button, Container, InputError, PasswordInput, Stack, TextInput } from '@mantine/core'
+import { Container, PasswordInput, Stack, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { useFetcher } from 'react-router-dom'
 import { loginFetchArgs } from '../services/http/users'
@@ -6,6 +6,7 @@ import { useLang } from '../context/lang/useLang'
 import * as types from '../types'
 import { useFetch } from '../hooks/useFetch'
 import { login as loginSchema } from '../schemas/login'
+import SubmitReset from '../components/SubmitReset'
 
 const Login = () => {
     const { t } = useLang()
@@ -38,8 +39,6 @@ const Login = () => {
         })
     }
 
-    const disabled = !(form.isDirty() && form.isValid() && !error)
-
     // TODO Consider using inputs that contain the label - https://ui.mantine.dev/category/inputs/#contained-inputs
     // Or floating labels: https://ui.mantine.dev/category/inputs/#floating-label-input
 
@@ -54,15 +53,7 @@ const Login = () => {
                         {...form.getInputProps('password')}
                     />
                 </Stack>
-                <Button type="submit" mb="xs" disabled={disabled} loading={loading}>{t('Submit')}</Button>
-                {
-                    error &&
-                    <InputError>
-                        Unable to login.<br />
-                        {error.message}
-                    </InputError>
-                }
-
+                <SubmitReset error={error} errorPrefix='Unable to login' form={form} loading={loading} resetText='Clear' />
             </form>
         </Container>
     )
