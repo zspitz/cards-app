@@ -71,8 +71,14 @@ export const registerFetchArgs = (user: UserPost): FetchArgs =>
     init: getInit(false, user)
 })
 
-export const toggleIsBusinessArgs = (_id: string): FetchArgs =>
+export const toggleIsBusinessFetchArgs = (_id: string): FetchArgs =>
 ({
     url: `${baseUrl}/users/${_id}`,
-    init: getInit(true, undefined, 'PATCH')
+    init: !_id ? null : getInit(true, undefined, 'PATCH')
+})
+
+export const deleteUserFetchArgs = (_id: string): FetchArgs =>
+({
+    url: `${baseUrl}/users/${_id}`,
+    init: !_id ? null : getInit(true, undefined, 'DELETE')
 })

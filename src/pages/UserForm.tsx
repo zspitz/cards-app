@@ -6,11 +6,15 @@ import * as types from '../types'
 import { useForm, zodResolver } from '@mantine/form'
 import { useFetch } from '../hooks/useFetch'
 import { userPost as userPostSchema, userPut as userPutSchema } from '../schemas/user'
-import { Container, Flex, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput, Switch } from '@mantine/core'
+import { Container, Flex, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput, Switch, Group, Space } from '@mantine/core'
 import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
 import { ProfileLoaderReturnData } from '../loadersActions'
 import ToggleIsBusiness from '../components/ToggleIsBusiness'
 import SubmitReset from '../components/SubmitReset'
+import DeleteUser from '../components/DeleteUser'
+
+// TODO Currently this is used either for registering new users, or editing the current user's profile
+// In theory, it could also be used by an admin to edit any user
 
 const UserForm = () => {
     const { t } = useLang()
@@ -160,13 +164,19 @@ const UserForm = () => {
                     }
                 </Stack>
                 <SubmitReset loading={loading} error={error} form={form}
+                    resetText={currentUserData ? 'Reset' : 'Clear'}
                     errorPrefix={`Unable to ${currentUserData ? 'update' : 'register'}`} />
             </form>
             {
                 currentUserData &&
                 <>
+                    <Space h="md" />
                     <hr />
-                    <ToggleIsBusiness user={currentUserData} />
+                    <Space h="md" />
+                    <Group align="flex-start" gap={30}>
+                        <ToggleIsBusiness user={currentUserData} />
+                        <DeleteUser user={currentUserData} />
+                    </Group>
                 </>
             }
         </Container>
