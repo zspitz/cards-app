@@ -1,52 +1,32 @@
-import { useFetcher, useLoaderData } from 'react-router-dom'
-import * as users from '../services/http/users'
-import { isMongoRecord, UserResponse } from '../types'
+import { Container, Flex, FlexProps, NumberInput, PasswordInput, Stack, Switch, TextInput, Title } from '@mantine/core'
 import { useLang } from '../context/lang/useLang'
-import * as types from '../types'
 import { useForm, zodResolver } from '@mantine/form'
+import ImageOrPlaceholder from './ImageOrPlaceholder'
+import * as types from '../types'
+import SubmitReset from './SubmitReset'
+import { PropsWithChildren } from 'react'
+import { z } from 'zod'
 import { useFetch } from '../hooks/useFetch'
-import { userPost as userPostSchema, userPut as userPutSchema } from '../schemas/user'
-import { Container, Flex, PasswordInput, Stack, TextInput, Title, FlexProps, NumberInput, Switch, Group, Space } from '@mantine/core'
-import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
-import { ProfileLoaderReturnData } from '../loadersActions'
-import ToggleIsBusiness from '../components/ToggleIsBusiness'
-import SubmitReset from '../components/SubmitReset'
-import DeleteUser from '../components/DeleteUser'
 
-// TODO Currently this is used either for registering new users, or editing the current user's profile
-// In theory, it could also be used by an admin to edit any user
+export type Props<
+    FormValues extends types.UserPost | types.UserPut,
+    Schema extends z.ZodTypeAny
+> = {
+    titleKey: string,
+    handleSubmit: (values: FormValues, runFetch: (url: string, options?: RequestInit | null) => Promise<unknown>) => Promise<void>,
+    initialValues: FormValues,
+    schema: Schema
+}
 
-const UserForm = () => {
+const UserForm = <
+    FormValues extends types.UserPost | types.UserPut,
+    Schema extends z.ZodTypeAny
+>({ titleKey, handleSubmit, initialValues, children, schema }: PropsWithChildren<Props<FormValues, Schema>>) => {
     const { t } = useLang()
-    const { loading, error, runFetch, clearError } = useFetch()
 
-    const currentUserData = useLoaderData() as ProfileLoaderReturnData | undefined
-    const initialValues: types.UserPut | types.UserPost = currentUserData ?? {
-        name: {
-            first: '',
-            last: ''
-        },
-        address: {
-            street: '',
-            houseNumber: 0,
-            city: '',
-            state: '',
-            country: '',
-            zip: 0
-        },
-        email: '',
-        password: '',
-        phone: '',
-        image: {},
-        isBusiness: false
-    }
+    const isExistingRecord = types.isMongoRecord(initialValues)
 
-    const schema =
-        currentUserData ?
-            userPutSchema :
-            userPostSchema
-
-    const form = useForm<types.UserPost | types.UserPut>({
+    const form = useForm({
         mode: 'uncontrolled',
         initialValues,
         validate: zodResolver(schema),
@@ -54,49 +34,17 @@ const UserForm = () => {
         onValuesChange: () => clearError()
     })
 
-    const fetcher = useFetcher()
-
-    const handleSubmit = async (user: typeof form.values) => {
-        const parsedUser = schema.parse(user)
-        if (isMongoRecord(user)) {
-            const { url, init } = users.profileUpdateFetchArgs(user._id, parsedUser)
-            const response = await runFetch(url, init)
-            if (typeof response !== 'object') { return }
-            fetcher.submit(null, {
-                method: 'post',
-                action: '/profile'
-            })
-            return
-        }
-
-        const user1 = user as types.UserPost
-        let { url, init } = users.registerFetchArgs(user1)
-        const response = await runFetch(url, init)
-        if (typeof response !== 'object') { return }
-        ({ url, init } = users.loginFetchArgs({
-            email: (response as UserResponse).email,
-            password: user1.password
-        }))
-        const token = (await runFetch(url, init)) as string
-        fetcher.submit(null, {
-            method: 'post',
-            action: `/login/${token}`
-        })
-    }
-
     const flexProps: FlexProps = {
         direction: { base: 'column', sm: 'row' },
         gap: 15
     }
 
+    const { loading, error, runFetch, clearError } = useFetch()
+
     return (
         <Container size="md">
-            <Title>{
-                isMongoRecord(form.values) ?
-                    t('Edit profile') :
-                    t('Register')
-            }</Title>
-            <form onSubmit={form.onSubmit(handleSubmit)}>
+            <Title>{titleKey}</Title>
+            <form onSubmit={form.onSubmit(values => handleSubmit(values, runFetch))}>
                 <Stack mb={20}>
                     <Flex {...flexProps}>
                         <TextInput label={t('First name')} required key={form.key('name.first')} flex="1"
@@ -109,14 +57,14 @@ const UserForm = () => {
                             {...form.getInputProps('name.last')}
                         />
                         {
-                            currentUserData &&
+                            isExistingRecord &&
                             <TextInput label={t('Phone')} required key={form.key('phone')} flex="1"
                                 {...form.getInputProps('phone')}
                             />
                         }
                     </Flex>
                     {
-                        (!currentUserData) &&
+                        (!isExistingRecord) &&
                         <Flex {...flexProps}>
                             <TextInput label={t('Phone')} required key={form.key('phone')} flex="1"
                                 {...form.getInputProps('phone')}
@@ -159,27 +107,16 @@ const UserForm = () => {
                         />
                     </Flex>
                     {
-                        (!currentUserData) &&
+                        (!isExistingRecord) &&
                         <Switch label={t('Is business')} key={form.key('isBusiness')} {...form.getInputProps('isBusiness')} />
                     }
                 </Stack>
                 <SubmitReset loading={loading} error={error} form={form}
-                    resetText={currentUserData ? 'Reset' : 'Clear'}
-                    errorPrefix={`Unable to ${currentUserData ? 'update' : 'register'}`} />
+                    resetText={isExistingRecord ? 'Reset' : 'Clear'}
+                    errorPrefix={`Unable to ${isExistingRecord ? 'update' : 'register'}`} />
             </form>
-            {
-                currentUserData &&
-                <>
-                    <Space h="md" />
-                    <hr />
-                    <Space h="md" />
-                    <Group align="flex-start" gap={30}>
-                        <ToggleIsBusiness user={currentUserData} />
-                        <DeleteUser user={currentUserData} />
-                    </Group>
-                </>
-            }
-        </Container>
+            {children}
+        </Container >
     )
 }
 

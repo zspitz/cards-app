@@ -1,13 +1,13 @@
 import { Button, InputError, Stack } from '@mantine/core'
 import { useLang } from '../context/lang/useLang'
 import { useFetch } from '../hooks/useFetch'
-import { ProfileLoaderReturnData } from '../loadersActions'
 import { useFetcher } from 'react-router-dom'
 import { toggleIsBusinessFetchArgs } from '../services/http/users'
 import { MdCheckBox, MdIndeterminateCheckBox } from 'react-icons/md'
+import { UserResponse } from '../types'
 
 type Props = {
-    user: ProfileLoaderReturnData
+    user: UserResponse
 }
 
 const ToggleIsBusiness = ({ user: { _id, isBusiness } }: Props) => {
@@ -18,7 +18,7 @@ const ToggleIsBusiness = ({ user: { _id, isBusiness } }: Props) => {
 
     const clickHandler = async () => {
         const { url, init } = toggleIsBusinessFetchArgs(_id)
-        const response = (await runFetch(url, init)) as ProfileLoaderReturnData | undefined
+        const response = (await runFetch(url, init)) as UserResponse | undefined
         if (!response) { return }
         fetcher.submit(null, {
             method: 'put',

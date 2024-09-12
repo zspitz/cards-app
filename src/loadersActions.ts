@@ -2,6 +2,7 @@ import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from 'react-router-d
 import authProvider from './services/authProvider'
 import * as users from './services/http/users'
 import { okResponse } from './util'
+import { UserResponse } from './types'
 
 const redirectToLogin = ({ request }: LoaderFunctionArgs) => {
     const params = new URLSearchParams()
@@ -16,7 +17,7 @@ const profileLoader = async (args: LoaderFunctionArgs) => {
     if (user) { return user }
     return redirectToLogin(args)
 }
-export type ProfileLoaderReturnData = Exclude<Awaited<ReturnType<typeof profileLoader>>, Response>
+export type ProfileLoaderReturnData = UserResponse | null
 
 const cardsLoader = () => 'Cards'
 const favoritesLoader = () => 'Favorites'

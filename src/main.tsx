@@ -12,7 +12,6 @@ import ErrorPage from './pages/Error'
 import Cards from './pages/Cards'
 import About from './pages/About'
 import ControlPanel from './pages/ControlPanel'
-import UserForm from './pages/UserForm'
 import Login from './pages/Login'
 
 // loaders and actions
@@ -27,6 +26,8 @@ import {
     cardsLoader, favoritesLoader, mycardsLoader,
     registerAction
 } from './loadersActions'
+import Profile from './pages/Profile'
+import Register from './pages/Register'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -43,8 +44,8 @@ const router = createBrowserRouter(
                     <Route path="my-cards" element={<Cards />} loader={mycardsLoader} />
                     <Route path="about" element={<About />} />
                     <Route path="control-panel" element={<ControlPanel />} />
-                    <Route path="profile" element={<UserForm />} loader={profileLoader} action={reloadUserAction} />
-                    <Route path="register" element={<UserForm />} />
+                    <Route path="profile" element={<Profile />} loader={profileLoader} action={reloadUserAction} />
+                    <Route path="register" element={<Register />} />
                     <Route path="login/:newToken?" element={<Login />} action={registerAction} />
                 </Route>
             </Route>

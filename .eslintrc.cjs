@@ -57,7 +57,8 @@ module.exports = {
             checksConditionals: true,
             checksVoidReturn: {
                 arguments: false,
-                attributes: false
+                attributes: false,
+                properties: false
             },
             checksSpreads: true
         }],

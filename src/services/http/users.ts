@@ -67,7 +67,7 @@ export const profileUpdateFetchArgs = (_id: string, user: UserPut): FetchArgs =>
 
 export const registerFetchArgs = (user: UserPost): FetchArgs =>
 ({
-    url: `${baseUrl}/users/register`,
+    url: `${baseUrl}/users`,
     init: getInit(false, user)
 })
 

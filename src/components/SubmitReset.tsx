@@ -15,7 +15,7 @@ const SubmitReset = <FormValues,>({ loading, error, errorPrefix, form, resetText
     const disabled = !(form.isDirty() && form.isValid() && !error)
     return (
         <>
-            <Group gap={5}>
+            <Group gap={20}>
                 <Button type="submit" disabled={disabled} loading={loading}>{t('Submit')}</Button>
                 <Button onClick={() => form.reset()}>{t(resetText)}</Button>
             </Group>
