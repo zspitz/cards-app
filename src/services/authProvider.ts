@@ -1,24 +1,25 @@
+import { UserResponse } from '../types'
 import { getCurrent, tokenKey } from './http/users'
 
 export default async () => {
     let user = await getCurrent()
 
-    const getStoredUser = () => user
-    const logout = () => {
-        localStorage.removeItem(tokenKey)
-        user = null
-    }
-    const reloadStoredUser = async (newToken?: string) => {
-        if (newToken) {
-            localStorage.setItem(tokenKey, newToken)
+    const getLocalUser = () => user
+    const setLocalUser = (newUser: UserResponse) => user = newUser
+
+    const updateTokenAndUser = async (newToken: string | undefined) => {
+        if (!newToken) {
+            localStorage.removeItem(tokenKey)
+            user = null
+            return
         }
-        const receivedUser = await getCurrent()
-        user = receivedUser
+        localStorage.setItem(tokenKey, newToken)
+        user = await getCurrent()
     }
 
     return {
-        getStoredUser,
-        logout,
-        reloadStoredUser
+        getLocalUser,
+        setLocalUser,
+        updateTokenAndUser
     }
 }

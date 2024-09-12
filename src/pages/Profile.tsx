@@ -1,4 +1,4 @@
-import { useFetcher, useLoaderData } from 'react-router-dom'
+import { useFetcher, useRouteLoaderData } from 'react-router-dom'
 import * as types from '../types'
 import { userPut as userPutSchema } from '../schemas/user'
 import * as users from '../services/http/users'
@@ -8,7 +8,7 @@ import ToggleIsBusiness from '../components/ToggleIsBusiness'
 import DeleteUser from '../components/DeleteUser'
 
 const Profile = () => {
-    const user = useLoaderData() as types.UserResponse
+    const user = useRouteLoaderData('root') as types.UserResponse
     const fetcher = useFetcher()
 
     const userformProps: UserFormProps<types.UserResponse, typeof userPutSchema> = {
@@ -19,11 +19,12 @@ const Profile = () => {
         handleSubmit: async (user, runFetch) => {
             const parsed = userPutSchema.parse(user)
             const { url, init } = users.profileUpdateFetchArgs(user._id, parsed)
-            const response = await runFetch(url, init)
+            const response = (await runFetch(url, init)) as types.UserResponse | undefined
             if (typeof response !== 'object') { return }
-            fetcher.submit(null, {
+            fetcher.submit(response, {
                 method: 'post',
-                action: '/profile'
+                action: '/',
+                encType: 'application/json'
             })
         }
     }

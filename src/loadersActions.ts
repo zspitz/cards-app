@@ -1,23 +1,8 @@
-import { ActionFunctionArgs, LoaderFunctionArgs, redirect } from 'react-router-dom'
+import { ActionFunctionArgs, redirect } from 'react-router-dom'
 import authProvider from './services/authProvider'
-import * as users from './services/http/users'
-import { okResponse } from './util'
 import { UserResponse } from './types'
 
-const redirectToLogin = ({ request }: LoaderFunctionArgs) => {
-    const params = new URLSearchParams()
-    params.set('from', new URL(request.url).pathname)
-    return redirect('/login?' + params.toString())
-}
-
 // Loaders/actions that don't depend on authProvider
-
-const profileLoader = async (args: LoaderFunctionArgs) => {
-    const user = await users.getCurrent()
-    if (user) { return user }
-    return redirectToLogin(args)
-}
-export type ProfileLoaderReturnData = UserResponse | null
 
 const cardsLoader = () => 'Cards'
 const favoritesLoader = () => 'Favorites'
@@ -26,34 +11,40 @@ export type CardsLoaderReturnData = string // TODO
 
 // Loaders/actions that depend on authProvider
 
-const { getStoredUser, logout, reloadStoredUser } = await authProvider()
+const { getLocalUser, setLocalUser, updateTokenAndUser } = await authProvider()
 
-const logoutAction = () => {
-    logout()
-    // TODO when logging out, try to return to current page
+// const redirectToLogin = ({ request }: LoaderFunctionArgs) => {
+//     const params = new URLSearchParams()
+//     params.set('from', new URL(request.url).pathname)
+//     return redirect('/login?' + params.toString())
+// }
+
+const updateTokenAndUserAction = async ({ params }: ActionFunctionArgs) => {
+    await updateTokenAndUser(params.newToken)
+    // TODO get previous page from Login/logout; try to redirect to that original page
     return redirect('/')
 }
 
-// TODO often when this action is triggered, it's after some response with the updated user
-// As is, the action currently makes another call to the server
-// Instead, the action should receive the new user via JSON and reload using the new user object with fresh data
-const registerAction = async ({ params }: ActionFunctionArgs) => {
-    await reloadStoredUser(params.newToken)
-    // TODO get source page from Login; redirect to that original page
+const localUserAction = async ({ request }: ActionFunctionArgs) => {
+    const userResponse = (await request.json()) as UserResponse
+    if (request.method !== 'DELETE') {
+        setLocalUser(userResponse)
+        return { ok: true }
+    }
+
+    if (userResponse._id !== getLocalUser()?._id) {
+        return { ok: true }
+    }
+    updateTokenAndUser(undefined)
     return redirect('/')
-}
-const reloadUserAction = async () => {
-    await reloadStoredUser()
-    return okResponse
 }
 
 export {
-    logoutAction,
-    registerAction,
-    getStoredUser,
-    profileLoader,
+    getLocalUser,
+    updateTokenAndUserAction,
+    localUserAction,
+
     cardsLoader,
     mycardsLoader,
-    favoritesLoader,
-    reloadUserAction
+    favoritesLoader
 }

@@ -19,9 +19,10 @@ const DeleteUser = ({ user: { _id } }: Props) => {
         const { url, init } = deleteUserFetchArgs(_id)
         const response = (await runFetch(url, init)) as UserResponse | undefined
         if (!response) { return }
-        fetcher.submit(null, {
-            method: 'put',
-            action: '/logout'
+        fetcher.submit(response, {
+            method: 'delete',
+            action: '/',
+            encType: 'application/json'
         })
     }
 

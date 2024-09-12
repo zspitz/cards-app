@@ -20,9 +20,10 @@ const ToggleIsBusiness = ({ user: { _id, isBusiness } }: Props) => {
         const { url, init } = toggleIsBusinessFetchArgs(_id)
         const response = (await runFetch(url, init)) as UserResponse | undefined
         if (!response) { return }
-        fetcher.submit(null, {
+        fetcher.submit(response, {
             method: 'put',
-            action: '/profile'
+            action: '/',
+            encType: 'application/json'
         })
     }
 

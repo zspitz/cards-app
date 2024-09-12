@@ -15,7 +15,3 @@ export const parseHeaders = (headers: HeadersInit) => {
             Object.entries(headers)
     return entries.map(([name, value]) => [name.toLowerCase(), value.toLowerCase()] as const)
 }
-
-export const okResponse = new Response(null, {
-    status: 200
-})

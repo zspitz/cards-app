@@ -17,14 +17,10 @@ import Login from './pages/Login'
 // loaders and actions
 import {
     // users
-    getStoredUser, reloadUserAction, logoutAction,
-
-    // profile
-    profileLoader,
+    getLocalUser, updateTokenAndUserAction, localUserAction,
 
     // cards
-    cardsLoader, favoritesLoader, mycardsLoader,
-    registerAction
+    cardsLoader, favoritesLoader, mycardsLoader
 } from './loadersActions'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
@@ -32,24 +28,24 @@ import Register from './pages/Register'
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
-            <Route loader={getStoredUser} id="root" path="/" element={<Root />} errorElement={<ErrorPage />}>
+            <Route loader={getLocalUser} id="root" path="/" element={<Root />} errorElement={<ErrorPage />} action={localUserAction}>
 
                 {/* For downstream errors, wrapping in a pathless route with ErrorPage renders the error page in the Root's Outlet, instead of replacing the entire Root */}
                 {/* https://reactrouter.com/en/main/start/tutorial#pathless-routes */}
                 <Route errorElement={<ErrorPage />}>
-
                     <Route index element={<Cards />} loader={cardsLoader} />
                     <Route path="cards" element={<Cards />} loader={cardsLoader} />
                     <Route path="favorites" element={<Cards />} loader={favoritesLoader} />
                     <Route path="my-cards" element={<Cards />} loader={mycardsLoader} />
                     <Route path="about" element={<About />} />
                     <Route path="control-panel" element={<ControlPanel />} />
-                    <Route path="profile" element={<Profile />} loader={profileLoader} action={reloadUserAction} />
+                    <Route path="profile" element={<Profile />} />
                     <Route path="register" element={<Register />} />
-                    <Route path="login/:newToken?" element={<Login />} action={registerAction} />
+                    <Route path="login" element={<Login />} />
                 </Route>
             </Route>
-            <Route path="/logout" action={logoutAction} />
+            <Route path="/logout" action={updateTokenAndUserAction} />
+            <Route path="/login/:newToken" action={updateTokenAndUserAction} />
         </>
     )
 )
