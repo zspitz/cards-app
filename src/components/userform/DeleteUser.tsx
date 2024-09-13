@@ -1,9 +1,9 @@
 import { Button, InputError, Stack } from '@mantine/core'
-import { useLang } from '../context/lang/useLang'
+import { useLang } from '../../context/lang/useLang'
 import { useFetcher } from 'react-router-dom'
-import { deleteUserFetchArgs } from '../services/http/users'
-import { useFetch } from '../hooks/useFetch'
-import { UserResponse } from '../types'
+import { deleteUserFetchArgs } from '../../services/http/users'
+import { useFetch } from '../../hooks/useFetch'
+import { UserResponse } from '../../types'
 
 type Props = {
     user: UserResponse

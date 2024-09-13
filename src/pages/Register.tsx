@@ -2,7 +2,7 @@ import { useFetcher } from 'react-router-dom'
 import * as types from '../types'
 import { userPost as userPostSchema } from '../schemas/user'
 import * as users from '../services/http/users'
-import UserForm, { Props as UserFormProps } from '../components/UserForm'
+import UserForm, { Props as UserFormProps } from '../components/userform/UserForm'
 
 const Register = () => {
     const initialValues: types.UserPost = {

@@ -1,10 +1,10 @@
 import { Button, InputError, Stack } from '@mantine/core'
-import { useLang } from '../context/lang/useLang'
-import { useFetch } from '../hooks/useFetch'
+import { useLang } from '../../context/lang/useLang'
+import { useFetch } from '../../hooks/useFetch'
 import { useFetcher } from 'react-router-dom'
-import { toggleIsBusinessFetchArgs } from '../services/http/users'
+import { toggleIsBusinessFetchArgs } from '../../services/http/users'
 import { MdCheckBox, MdIndeterminateCheckBox } from 'react-icons/md'
-import { UserResponse } from '../types'
+import { UserResponse } from '../../types'
 
 type Props = {
     user: UserResponse

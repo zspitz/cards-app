@@ -2,10 +2,10 @@ import { useFetcher, useRouteLoaderData } from 'react-router-dom'
 import * as types from '../types'
 import { userPut as userPutSchema } from '../schemas/user'
 import * as users from '../services/http/users'
-import UserForm, { Props as UserFormProps } from '../components/UserForm'
+import UserForm, { Props as UserFormProps } from '../components/userform/UserForm'
 import { Group, Space } from '@mantine/core'
-import ToggleIsBusiness from '../components/ToggleIsBusiness'
-import DeleteUser from '../components/DeleteUser'
+import ToggleIsBusiness from '../components/userform/ToggleIsBusiness'
+import DeleteUser from '../components/userform/DeleteUser'
 
 const Profile = () => {
     const user = useRouteLoaderData('root') as types.UserResponse

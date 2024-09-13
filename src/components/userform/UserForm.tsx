@@ -1,12 +1,12 @@
 import { Container, Flex, FlexProps, NumberInput, PasswordInput, Stack, Switch, TextInput, Title } from '@mantine/core'
-import { useLang } from '../context/lang/useLang'
+import { useLang } from '../../context/lang/useLang'
 import { useForm, zodResolver } from '@mantine/form'
-import ImageOrPlaceholder from './ImageOrPlaceholder'
-import * as types from '../types'
-import SubmitReset from './SubmitReset'
+import ImageOrPlaceholder from '../ImageOrPlaceholder'
+import * as types from '../../types'
+import SubmitReset from '../SubmitReset'
 import { PropsWithChildren } from 'react'
 import { z } from 'zod'
-import { useFetch } from '../hooks/useFetch'
+import { useFetch } from '../../hooks/useFetch'
 
 export type Props<
     FormValues extends types.UserPost | types.UserPut,
