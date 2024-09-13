@@ -1,6 +1,7 @@
-import { ActionFunctionArgs, redirect } from 'react-router-dom'
+import { ActionFunctionArgs, LoaderFunction, LoaderFunctionArgs, redirect } from 'react-router-dom'
 import authProvider from './services/authProvider'
-import { UserResponse } from './types'
+import { Role, UserResponse } from './types'
+import { getRoles } from './shared'
 
 // Loaders/actions that don't depend on authProvider
 
@@ -39,6 +40,25 @@ const localUserAction = async ({ request }: ActionFunctionArgs) => {
     return redirect('/')
 }
 
+const protectLoader = (role: Role, loader?: LoaderFunction) =>
+    (args: LoaderFunctionArgs) => {
+        const user = getLocalUser()
+        const roles = getRoles(user)
+
+        if (!roles.includes(role)) {
+            const redirectUrl = user ?
+                '/' :
+                '/login'
+            return redirect(redirectUrl)
+        }
+
+        if (loader) {
+            return loader(args)
+        }
+
+        return true
+    }
+
 export {
     getLocalUser,
     updateTokenAndUserAction,
@@ -46,5 +66,7 @@ export {
 
     cardsLoader,
     mycardsLoader,
-    favoritesLoader
+    favoritesLoader,
+
+    protectLoader
 }

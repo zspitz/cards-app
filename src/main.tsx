@@ -20,7 +20,9 @@ import {
     getLocalUser, updateTokenAndUserAction, localUserAction,
 
     // cards
-    cardsLoader, favoritesLoader, mycardsLoader
+    cardsLoader, favoritesLoader, mycardsLoader,
+
+    protectLoader
 } from './loadersActions'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
@@ -35,11 +37,11 @@ const router = createBrowserRouter(
                 <Route errorElement={<ErrorPage />}>
                     <Route index element={<Cards />} loader={cardsLoader} />
                     <Route path="cards" element={<Cards />} loader={cardsLoader} />
-                    <Route path="favorites" element={<Cards />} loader={favoritesLoader} />
-                    <Route path="my-cards" element={<Cards />} loader={mycardsLoader} />
+                    <Route path="favorites" element={<Cards />} loader={protectLoader('user', favoritesLoader)} />
+                    <Route path="my-cards" element={<Cards />} loader={protectLoader('business', mycardsLoader)} />
                     <Route path="about" element={<About />} />
-                    <Route path="control-panel" element={<ControlPanel />} />
-                    <Route path="profile" element={<Profile />} />
+                    <Route path="control-panel" element={<ControlPanel />} loader={protectLoader('admin')} />
+                    <Route path="profile" element={<Profile />} loader={protectLoader('user')} />
                     <Route path="register" element={<Register />} />
                     <Route path="login" element={<Login />} />
                 </Route>

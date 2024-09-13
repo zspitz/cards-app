@@ -8,6 +8,9 @@ import ToggleIsBusiness from '../components/userform/ToggleIsBusiness'
 import DeleteUser from '../components/userform/DeleteUser'
 
 const Profile = () => {
+    // TODO modify to use for editing another user
+    // take user as a prop, and only use the router-stored current user if the prop is undeinfed
+
     const user = useRouteLoaderData('root') as types.UserResponse
     const fetcher = useFetcher()
 
