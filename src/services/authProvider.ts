@@ -1,5 +1,6 @@
 import { UserResponse } from '../types'
-import { getCurrent, tokenKey } from './http/users'
+import { getCurrent } from './http/users'
+import { tokenKey } from './http/shared'
 
 export default async () => {
     let user = await getCurrent()
