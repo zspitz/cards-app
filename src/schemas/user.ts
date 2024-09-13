@@ -20,6 +20,7 @@ export const userPost = z.intersection(
     z.object({
         email: helperSchemas.email,
         password: z.string().min(7).max(20),
-        isBusiness: z.boolean()
+        isBusiness: z.boolean(),
+        isAdmin: z.boolean()
     })
 )

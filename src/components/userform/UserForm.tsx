@@ -108,7 +108,10 @@ const UserForm = <
                     </Flex>
                     {
                         (!isExistingRecord) &&
-                        <Switch label={t('Is business')} key={form.key('isBusiness')} {...form.getInputProps('isBusiness')} />
+                        <>
+                            <Switch label={t('Is business')} key={form.key('isBusiness')} {...form.getInputProps('isBusiness')} />
+                            <Switch label={t('Is admin')} key={form.key('isAdmin')} {...form.getInputProps('isAdmin')} />
+                        </>
                     }
                 </Stack>
                 <SubmitReset loading={loading} error={error} form={form}

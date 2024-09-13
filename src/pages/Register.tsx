@@ -22,14 +22,15 @@ const Register = () => {
         password: '',
         phone: '',
         image: {},
-        isBusiness: false
+        isBusiness: false,
+        isAdmin: false
     }
 
     const fetcher = useFetcher()
 
     const handleSubmit = async (user: types.UserPost, runFetch: (url: string, options?: RequestInit | null) => Promise<unknown>) => {
         let { url, init } = users.registerFetchArgs(user)
-        const response = await runFetch(url, init)
+        const response = (await runFetch(url, init)) as types.RegisterResponse | undefined
         if (typeof response !== 'object') { return }
         ({ url, init } = users.loginFetchArgs({
             email: user.email,

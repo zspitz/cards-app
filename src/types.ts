@@ -22,6 +22,7 @@ export type RegisterResponse = {
     },
     email: string
 }
+
 export type Card = z.infer<typeof cardSchema>
 
 export type MongoRecord<T> = {
