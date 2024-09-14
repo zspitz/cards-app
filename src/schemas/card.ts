@@ -3,7 +3,7 @@
 import { z } from 'zod'
 import * as helperSchemas from './helpers'
 
-export const card =
+export const cardPost =
     z.object({
         title: z.string().min(2).max(256),
         subtitle: z.string().min(2).max(256),
@@ -12,5 +12,6 @@ export const card =
         email: helperSchemas.email,
         web: z.string().min(14).url().optional(),
         image: helperSchemas.image,
-        address: helperSchemas.address
+        address: helperSchemas.address,
+        bizNumber: z.number().optional()
     })

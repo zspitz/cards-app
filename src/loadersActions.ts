@@ -1,14 +1,19 @@
 import { ActionFunctionArgs, LoaderFunction, LoaderFunctionArgs, redirect } from 'react-router-dom'
 import authProvider from './services/authProvider'
-import { Role, UserResponse } from './types'
+import { CardResponse, Role, UserResponse } from './types'
 import { getRoles } from './shared'
+import { cardsFetchArgs } from './services/http/cards'
 
 // Loaders/actions that don't depend on authProvider
 
-const cardsLoader = () => 'Cards'
+const cardsLoader = async () => {
+    const { url, init } = cardsFetchArgs()
+    const response = await fetch(url, init ?? undefined)
+    return await response.json() as CardResponse[]
+}
 const favoritesLoader = () => 'Favorites'
 const mycardsLoader = () => 'My cards'
-export type CardsLoaderReturnData = string // TODO
+export type CardsLoaderReturnData = Awaited<ReturnType<typeof cardsLoader>>
 
 // Loaders/actions that depend on authProvider
 

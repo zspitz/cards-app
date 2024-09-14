@@ -1,13 +1,19 @@
 import { useLoaderData } from 'react-router-dom'
 import { CardsLoaderReturnData } from '../loadersActions'
+import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
+import { Card, Title } from '@mantine/core'
 
 const Cards = () => {
-    const caption = useLoaderData() as CardsLoaderReturnData
+    const cards = useLoaderData() as CardsLoaderReturnData
 
-    // TODO layout cards using flex-direction row + flex-wrap + flex-grow
-    // https://css-tricks.com/piecing-together-approaches-for-a-css-masonry-layout/#aa-is-horizontal-line-masonry-ok
     return (
-        <div>{caption}</div>
+        cards.map(card => (
+            <Card radius="md" key={card._id} m="md" p="0">
+                <ImageOrPlaceholder url={card.image.url} height={200} alt={card.image.alt} />
+                <Title order={2}>{card.title}</Title>
+                <Title order={4}>{card.subtitle}</Title>
+            </Card>
+        ))
     )
 }
 

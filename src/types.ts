@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { card as cardSchema } from './schemas/card'
+import { cardPost as cardPostSchema } from './schemas/card'
 import { userPost as userPostSchema, userPut as userPutSchema } from './schemas/user'
 import { login as loginSchema } from './schemas/login'
 
@@ -23,7 +23,10 @@ export type RegisterResponse = {
     email: string
 }
 
-export type Card = z.infer<typeof cardSchema>
+export type CardPost = z.infer<typeof cardPostSchema>
+export type CardResponse = MongoRecord<CardPost> & {
+    bizNumber: number
+}
 
 export type MongoRecord<T> = {
     _id: string

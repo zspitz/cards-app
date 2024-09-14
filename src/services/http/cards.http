@@ -1,2 +1,5 @@
 ### Get all cards
 GET {{apiUrl}}/cards
+
+### Get card by id
+GET {{apiUrl}}/cards/66be69d96bd475665c804cb4
