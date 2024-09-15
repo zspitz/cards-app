@@ -47,7 +47,8 @@ const translations: Translations = {
         'edit profile': 'עריכת פרופיל',
         'unable to update': 'לא ניתן לעדכן',
         'unable to register': 'לא ניתן להירשם',
-        'control panel': 'בקרה'
+        'control panel': 'בקרה',
+        'create card': 'יצירת כרטיס'
     }
 }
 const langs = Object.keys(translations)
