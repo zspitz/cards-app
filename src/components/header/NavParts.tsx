@@ -1,10 +1,10 @@
 import { Anchor, AppShell, Flex, Group } from '@mantine/core'
 import { Link, useFetcher } from 'react-router-dom'
-import LangSelector from './header/LangSelector'
-import { Role } from '../types'
-import ThemeSelector from './header/ThemeSelector'
-import { useLang } from '../context/lang/useLang'
-import { useRoles } from '../hooks/useRoles'
+import LangSelector from './LangSelector'
+import { Role } from '../../types'
+import ThemeSelector from './ThemeSelector'
+import { useLang } from '../../context/lang/useLang'
+import { useRoles } from '../../hooks/useRoles'
 
 type Props = {
     useIn: 'header' | 'navigation',

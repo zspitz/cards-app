@@ -3,7 +3,7 @@ import { useLang } from './context/lang/useLang'
 import { useDisclosure } from '@mantine/hooks'
 import logo from '/logo.png'
 import { Link, Outlet } from 'react-router-dom'
-import NavParts from './components/NavParts'
+import NavParts from './components/header/NavParts'
 
 const Root = () => {
     const { dir } = useLang()
