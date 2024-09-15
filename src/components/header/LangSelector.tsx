@@ -1,5 +1,5 @@
 import { Tooltip } from '@mantine/core'
-import { useLang } from '../context/lang/useLang'
+import { useLang } from '../../context/lang/useLang'
 
 const LangSelector = () => {
     const { lang, setLang, langs, t } = useLang()
