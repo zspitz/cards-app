@@ -5,9 +5,14 @@ import MasonryCard from '../components/cards/MasonryCard'
 import { Affix, Button, useMatches } from '@mantine/core'
 import { TbPlus } from 'react-icons/tb'
 import { useLang } from '../context/lang/useLang'
-import { shuffleArray } from '../util'
+import { Role } from '../types'
+import { useRoles } from '../hooks/useRoles'
+
+const cardCreateRoles: Role[] = ['admin', 'business']
 
 const Cards = () => {
+    const { hasRole } = useRoles()
+
     const { t } = useLang()
     const cards = useLoaderData() as CardsLoaderReturnData
     const columnWidth = useMatches({
@@ -19,14 +24,15 @@ const Cards = () => {
         sm: 5
     })
 
-    shuffleArray(cards)
-
     return (
         <>
             <Masonry items={cards} render={MasonryCard} columnWidth={columnWidth} columnGutter={columnGutter} />
-            <Affix position={{ top: 80, right: 20 }}>
-                <Button size="lg" leftSection={<TbPlus />}>{t('Create card')}</Button>
-            </Affix>
+            {
+                hasRole(...cardCreateRoles) &&
+                <Affix position={{ top: 80, right: 20 }}>
+                    <Button size="lg" leftSection={<TbPlus />}>{t('Create card')}</Button>
+                </Affix>
+            }
         </>
     )
 }

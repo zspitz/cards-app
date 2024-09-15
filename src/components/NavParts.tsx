@@ -1,11 +1,10 @@
 import { Anchor, AppShell, Flex, Group } from '@mantine/core'
-import { Link, useFetcher, useRouteLoaderData } from 'react-router-dom'
+import { Link, useFetcher } from 'react-router-dom'
 import LangSelector from './header/LangSelector'
-import { Role, UserResponse } from '../types'
-import { hasIntersection } from '../util'
-import { getRoles } from '../shared'
+import { Role } from '../types'
 import ThemeSelector from './header/ThemeSelector'
 import { useLang } from '../context/lang/useLang'
+import { useRoles } from '../hooks/useRoles'
 
 type Props = {
     useIn: 'header' | 'navigation',
@@ -36,8 +35,7 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
 
     const fetcher = useFetcher()
 
-    const user = useRouteLoaderData('root') as UserResponse | null
-    const userRoles = getRoles(user)
+    const { hasRole } = useRoles()
 
     const linkDataMapper = ({ to, label }: LinkData) => (
         <Anchor key={to} onClick={closeNavbar} renderRoot={({ ...others }) => (
@@ -47,14 +45,14 @@ const NavParts = ({ useIn, closeNavbar }: Props) => {
 
     const links1 =
         baseLinks
-            .filter(({ roles }) => !roles || hasIntersection(roles, userRoles))
+            .filter(({ roles }) => !roles || hasRole(...roles))
             .map(linkDataMapper)
 
     // When not logged in, the second group of links is just navigation to some page
     // But when current user is a user, logout isn't a simple navigation but rather an internal POST
     // For react-router, this requires fetcher.Form and a submit button
     const links2 =
-        userRoles.includes('user') ?
+        hasRole('user') ?
             <>
                 {linkDataMapper({ to: 'profile', label: 'Profile' })}
                 <fetcher.Form method="post" action="/logout">

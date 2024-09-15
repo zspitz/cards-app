@@ -25,7 +25,8 @@ export type RegisterResponse = {
 
 export type CardPost = z.infer<typeof cardPostSchema>
 export type CardResponse = MongoRecord<CardPost> & {
-    bizNumber: number
+    bizNumber: number,
+    user_id: string
 }
 
 export type MongoRecord<T> = {
