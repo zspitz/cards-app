@@ -20,6 +20,7 @@ const Root = () => {
                 <>
 
                     <AppShell
+                        zIndex={300}
                         header={{
                             height: 60
                         }}
@@ -51,7 +52,7 @@ const Root = () => {
                             <Outlet />
                         </AppShell.Main>
                     </AppShell>
-                    <Affix position={burgerPosition} hiddenFrom="sm">
+                    <Affix position={burgerPosition} hiddenFrom="sm" zIndex={300}>
                         <Burger opened={opened} onClick={toggle} size="sm" />
                     </Affix>
                 </>
