@@ -3,6 +3,7 @@ import { CardResponse } from '../../types'
 import classes from './MasonryCard.module.css'
 import { TbHeart, TbHeartFilled, TbTrash, TbPencil } from 'react-icons/tb'
 import { useRoles } from '../../hooks/useRoles'
+import { useLike } from '../../hooks/useLike'
 
 type Props = {
     index: number,
@@ -12,6 +13,7 @@ type Props = {
 
 const MasonryCard = ({ data: card }: Props) => {
     const { hasRole, isOwner } = useRoles()
+    const { isLiked } = useLike()
 
     return (
         <Card radius="md" key={card._id} m="xs" p="0" className={classes.card} mih={150}>
@@ -27,9 +29,9 @@ const MasonryCard = ({ data: card }: Props) => {
                             {
                                 hasRole('user') &&
                                 <ActionIcon variant="transparent">
-                                    {Math.random() > .5 ?
-                                        <TbHeart color="#e33bc4" /> :
-                                        <TbHeartFilled color="#e33bc4" />}
+                                    {isLiked(card.likes) ?
+                                        <TbHeartFilled color="#e33bc4" /> :
+                                        <TbHeart color="#e33bc4" />}
                                 </ActionIcon>
                             }
                             {
