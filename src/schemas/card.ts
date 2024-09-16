@@ -8,7 +8,7 @@ export const cardPost =
         title: z.string().min(2).max(256),
         subtitle: z.string().min(2).max(256),
         description: z.string().min(2).max(1024),
-        phone: z.string().min(9).max(11),
+        phone: helperSchemas.phone,
         email: helperSchemas.email,
         web: z.string().min(14).url().optional(),
         image: helperSchemas.image,

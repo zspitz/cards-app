@@ -27,3 +27,5 @@ export const address =
     })
 
 export const email = z.string().email().min(5)
+
+export const phone = z.string().min(9).max(11).regex(/0[0-9]{1,2}-?\s?[0-9]{3}\s?[0-9]{4}/, 'Invalid phone')

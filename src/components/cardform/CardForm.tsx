@@ -4,8 +4,9 @@ import { cardPost as cardPostSchema } from '../../schemas/card'
 import { CardPost, isMongoRecord } from '../../types'
 import ImageAddress from '../ImageAddress'
 import { useFetch } from '../../hooks/useFetch'
-import { Container, Group, Stack, Textarea, TextInput, Title } from '@mantine/core'
+import { Container, Flex, Stack, Textarea, TextInput, Title } from '@mantine/core'
 import SubmitReset from '../SubmitReset'
+import { flexProps } from '../../shared'
 
 export type CardFormProps = {
     titleKey: string,
@@ -32,37 +33,51 @@ const CardForm = ({ titleKey, handleSubmit, initialValues }: CardFormProps) => {
         <Container size="md">
             <Title>{t(titleKey)}</Title>
             <form onSubmit={form.onSubmit(values => handleSubmit(values, runFetch))}>
-                <Group align="stretch" gap={15}>
-                    <Stack flex=".4">
-                        <TextInput label={t('Title')} required key={form.key('title')}
-                            {...form.getInputProps('title')}
+                <Stack>
+                    <Flex align="stretch" {...flexProps}>
+                        <Stack flex=".4">
+                            <TextInput label={t('Title')} required key={form.key('title')}
+                                {...form.getInputProps('title')}
+                            />
+                            <TextInput label={t('Subtitle')} required key={form.key('subtitle')}
+                                {...form.getInputProps('subtitle')}
+                            />
+                        </Stack>
+                        <Textarea label={t('Description')} required key={form.key('description')} flex="1" styles={{
+                            root: {
+                                display: 'flex',
+                                flexDirection: 'column'
+                            },
+                            wrapper: {
+                                flex: '1'
+                            },
+                            input: {
+                                height: '100%'
+                            }
+                        }}
+                            {...form.getInputProps('description')}
                         />
-                        <TextInput label={t('Subtitle')} key={form.key('subtitle')}
-                            {...form.getInputProps('subtitle')}
+                    </Flex>
+                    <Flex {...flexProps}>
+                        <TextInput label={t('Phone')} required key={form.key('phone')} flex=".5"
+                            {...form.getInputProps('phone')}
                         />
-                    </Stack>
-                    <Textarea label={t('Description')} key={form.key('description')} flex="1" styles={{
-                        root: {
-                            display: 'flex',
-                            flexDirection: 'column'
-                        },
-                        wrapper: {
-                            flex: '1'
-                        },
-                        input: {
-                            height: '100%'
-                        }
-                    }}
-                        {...form.getInputProps('description')}
-                    />
-                </Group>
-                <ImageAddress form={form} />
-                {
-                    // TODO if admin, assign/change user id
-                }
-                <SubmitReset loading={loading} error={error} form={form}
-                    resetText={isExistingRecord ? 'Reset' : 'Clear'}
-                    errorPrefix={`Unable to ${isExistingRecord ? 'update' : 'create'} card`} />
+                        <TextInput label={t('Email')} required key={form.key('email')} flex=".5"
+                            {...form.getInputProps('email')}
+                        />
+                        <TextInput label={t('Web')} required key={form.key('web')} flex="1"
+                            {...form.getInputProps('web')}
+                        />
+                    </Flex>
+
+                    <ImageAddress form={form} />
+                    {
+                        // TODO if admin, assign/change user id
+                    }
+                    <SubmitReset loading={loading} error={error} form={form}
+                        resetText={isExistingRecord ? 'Reset' : 'Clear'}
+                        errorPrefix={`Unable to ${isExistingRecord ? 'update' : 'create'} card`} />
+                </Stack>
             </form>
         </Container>
     )

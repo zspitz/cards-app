@@ -10,7 +10,7 @@ export const userPut =
             middle: z.string().min(2).max(256).optional(),
             last: z.string().min(2).max(256)
         }),
-        phone: z.string().min(9).max(11),
+        phone: helperSchemas.phone,
         image: helperSchemas.image,
         address: helperSchemas.address
     })
