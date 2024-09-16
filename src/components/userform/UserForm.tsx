@@ -1,12 +1,13 @@
-import { Container, Flex, FlexProps, NumberInput, PasswordInput, Stack, Switch, TextInput, Title } from '@mantine/core'
+import { Container, Flex, PasswordInput, Stack, Switch, TextInput, Title } from '@mantine/core'
 import { useLang } from '../../context/lang/useLang'
 import { useForm, zodResolver } from '@mantine/form'
-import ImageOrPlaceholder from '../ImageOrPlaceholder'
 import * as types from '../../types'
 import SubmitReset from '../SubmitReset'
 import { PropsWithChildren } from 'react'
 import { z } from 'zod'
 import { useFetch } from '../../hooks/useFetch'
+import { flexProps } from '../../shared'
+import ImageAddress from '../ImageAddress'
 
 export type Props<
     FormValues extends types.UserPost | types.UserPut,
@@ -34,16 +35,11 @@ const UserForm = <
         onValuesChange: () => clearError()
     })
 
-    const flexProps: FlexProps = {
-        direction: { base: 'column', sm: 'row' },
-        gap: 15
-    }
-
     const { loading, error, runFetch, clearError } = useFetch()
 
     return (
         <Container size="md">
-            <Title>{titleKey}</Title>
+            <Title>{t(titleKey)}</Title>
             <form onSubmit={form.onSubmit(values => handleSubmit(values, runFetch))}>
                 <Stack mb={20}>
                     <Flex {...flexProps}>
@@ -77,35 +73,7 @@ const UserForm = <
                             />
                         </Flex>
                     }
-                    <Flex gap={15} mt={14} align="stretch">
-                        <ImageOrPlaceholder url={form.getValues().image.url} alt={form.values.image.alt} height="150px" />
-                        <Stack flex="1">
-                            <TextInput label={t('Image url')} key={form.key('image.url')} {...form.getInputProps('image.url')} />
-                            <TextInput label={t('Image alt text')} key={form.key('image.alt')} {...form.getInputProps('image.alt')} />
-                        </Stack>
-                    </Flex>
-                    <Flex {...flexProps}>
-                        <TextInput label={t('Street')} required key={form.key('address.street')}
-                            {...form.getInputProps('address.street')} flex="1"
-                        />
-                        <NumberInput label={t('House')} required key={form.key('address.houseNumber')}
-                            {...form.getInputProps('address.houseNumber')} maw={{ base: '100%', sm: '100px' }}
-                        />
-                        <TextInput label={t('City')} required key={form.key('address.city')}
-                            {...form.getInputProps('address.city')} flex="1"
-                        />
-                    </Flex>
-                    <Flex {...flexProps}>
-                        <TextInput label={t('State')} key={form.key('address.state')}
-                            {...form.getInputProps('address.state')} flex="1"
-                        />
-                        <NumberInput label={t('Postal code')} required key={form.key('address.zip')}
-                            {...form.getInputProps('address.zip')} flex="1"
-                        />
-                        <TextInput label={t('Country')} required key={form.key('address.country')}
-                            {...form.getInputProps('address.country')} flex="1"
-                        />
-                    </Flex>
+                    <ImageAddress form={form} />
                     {
                         (!isExistingRecord) &&
                         <>

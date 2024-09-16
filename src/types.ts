@@ -2,6 +2,7 @@ import { z } from 'zod'
 import { cardPost as cardPostSchema } from './schemas/card'
 import { userPost as userPostSchema, userPut as userPutSchema } from './schemas/user'
 import { login as loginSchema } from './schemas/login'
+import { image as imageSchema, address as addressSchema } from './schemas/helpers'
 
 export type Role = 'admin' | 'business' | 'user' | 'guest'
 
@@ -26,7 +27,8 @@ export type RegisterResponse = {
 export type CardPost = z.infer<typeof cardPostSchema>
 export type CardResponse = MongoRecord<CardPost> & {
     bizNumber: number,
-    user_id: string
+    user_id: string,
+    likes: string[]
 }
 
 export type MongoRecord<T> = {
@@ -39,4 +41,9 @@ export const isMongoRecord = <T = object>(arg: T | MongoRecord<T>): arg is Mongo
 export type FetchArgs = {
     url: string,
     init: RequestInit | null
+}
+
+export type ImageAddressValues = {
+    image: z.infer<typeof imageSchema>,
+    address: z.infer<typeof addressSchema>
 }
