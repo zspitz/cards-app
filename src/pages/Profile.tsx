@@ -25,7 +25,7 @@ const Profile = () => {
             const response = (await runFetch(url, init)) as types.UserResponse | undefined
             if (typeof response !== 'object') { return }
             fetcher.submit(response, {
-                method: 'post',
+                method: 'put',
                 action: '/',
                 encType: 'application/json'
             })

@@ -34,7 +34,7 @@ const Login = () => {
         // if successful, result contains a string with the new token
         // TODO when redirected here from a protected page, navigate back to that page
         fetcher.submit(null, {
-            method: 'post',
+            method: 'put',
             action: `/login/${token}`
         })
     }

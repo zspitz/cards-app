@@ -48,7 +48,14 @@ const translations: Translations = {
         'unable to update': 'לא ניתן לעדכן',
         'unable to register': 'לא ניתן להירשם',
         'control panel': 'בקרה',
-        'create card': 'יצירת כרטיס'
+        'create card': 'יצירת כרטיס',
+        'clear': 'נקה',
+        'image alt text': 'טקסט חילופי',
+        'image url': 'כתובת תמונה',
+        'is business': 'עסק',
+        'is admin': 'מנהל',
+        'title': 'כותרת',
+        'subtitle': 'תת-כותרת'
     }
 }
 const langs = Object.keys(translations)

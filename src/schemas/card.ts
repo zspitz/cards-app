@@ -13,5 +13,6 @@ export const cardPost =
         web: z.string().min(14).url().optional(),
         image: helperSchemas.image,
         address: helperSchemas.address,
-        bizNumber: z.number().optional()
+        bizNumber: z.number().optional(),
+        user_id: z.string().optional()
     })

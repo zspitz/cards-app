@@ -1,3 +1,4 @@
+import { FlexProps } from '@mantine/core'
 import { Role, UserResponse } from './types'
 
 export const getRoles = (user: UserResponse | null) => {
@@ -10,4 +11,9 @@ export const getRoles = (user: UserResponse | null) => {
         roles.push('guest')
     }
     return roles
+}
+
+export const flexProps: FlexProps = {
+    direction: { base: 'column', sm: 'row' },
+    gap: 15
 }

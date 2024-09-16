@@ -11,8 +11,9 @@ const cardsLoader = async () => {
     const response = await fetch(url, init ?? undefined)
     return await response.json() as CardResponse[]
 }
-const favoritesLoader = () => 'Favorites'
-const mycardsLoader = () => 'My cards'
+// Dummy data, until we figure out https://github.com/zspitz/cards-app/issues/8
+const favoritesLoader = () => cardsLoader()
+const mycardsLoader = () => cardsLoader()
 export type CardsLoaderReturnData = Awaited<ReturnType<typeof cardsLoader>>
 
 // Loaders/actions that depend on authProvider

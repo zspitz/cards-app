@@ -38,7 +38,7 @@ const Register = () => {
         }))
         const token = (await runFetch(url, init)) as string
         fetcher.submit(null, {
-            method: 'post',
+            method: 'put',
             action: `/login/${token}`
         })
     }
