@@ -20,7 +20,7 @@ const ImageOrPlaceholder = ({ url, alt, height }: Props) => {
                 filter: 'invert(50%)'
             }} />
             <Text pos="absolute" bottom={8} w="100%" c="gray" fz="8px" ta="center">
-                image broken by shashank singh from <a href="https://thenounproject.com/browse/icons/term/image-broken/" target="_blank" rel="noreferrer" title="image broken Icons">Noun Project</a> (CC BY 3.0)
+                image broken by shashank singh from <a href="https://thenounproject.com/icon/image-broken-2279654/" target="_blank" rel="noreferrer" title="image broken shashank singh" tabIndex={-1}>Noun Project</a> (CC BY 3.0)
             </Text>
         </Box>
     )
