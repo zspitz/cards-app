@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom'
+import { NavLink, useLoaderData } from 'react-router-dom'
 import { CardsLoaderReturnData } from '../loadersActions'
 import { Masonry } from 'masonic'
 import MasonryCard from '../components/cards/MasonryCard'
@@ -30,7 +30,7 @@ const Cards = () => {
             {
                 hasRole(...cardCreateRoles) &&
                 <Affix position={{ top: 80, right: 20 }}>
-                    <Button size="lg" leftSection={<TbPlus />}>{t('Create card')}</Button>
+                    <Button size="lg" leftSection={<TbPlus />} component={NavLink} to="/cards/create">{t('Create card')}</Button>
                 </Affix>
             }
         </>

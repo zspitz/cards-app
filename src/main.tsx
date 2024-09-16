@@ -26,6 +26,7 @@ import {
 } from './loadersActions'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
+import CreateCard from './pages/CreateCard'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -35,15 +36,18 @@ const router = createBrowserRouter(
                 {/* For downstream errors, wrapping in a pathless route with ErrorPage renders the error page in the Root's Outlet, instead of replacing the entire Root */}
                 {/* https://reactrouter.com/en/main/start/tutorial#pathless-routes */}
                 <Route errorElement={<ErrorPage />}>
-                    <Route index element={<Cards />} loader={cardsLoader} />
-                    <Route path="cards" element={<Cards />} loader={cardsLoader} />
-                    <Route path="favorites" element={<Cards />} loader={protectLoader('user', favoritesLoader)} />
-                    <Route path="my-cards" element={<Cards />} loader={protectLoader('business', mycardsLoader)} />
                     <Route path="about" element={<About />} />
                     <Route path="control-panel" element={<ControlPanel />} loader={protectLoader('admin')} />
                     <Route path="profile" element={<Profile />} loader={protectLoader('user')} />
                     <Route path="register" element={<Register />} />
                     <Route path="login" element={<Login />} />
+
+                    <Route index element={<Cards />} loader={cardsLoader} />
+                    <Route path="cards" element={<Cards />} loader={cardsLoader} />
+                    <Route path="cards/favorites" element={<Cards />} loader={protectLoader('user', favoritesLoader)} />
+                    <Route path="cards/my" element={<Cards />} loader={protectLoader('business', mycardsLoader)} />
+                    <Route path="cards/create" element={<CreateCard />} loader={protectLoader('business')} />
+
                 </Route>
             </Route>
             <Route path="/logout" action={updateTokenAndUserAction} />

@@ -19,8 +19,8 @@ type LinkData = {
 
 const baseLinks: LinkData[] = [
     { to: 'cards', label: 'Cards' },
-    { to: 'favorites', label: 'Favorites', roles: ['user'] },
-    { to: 'my-cards', label: 'My cards', roles: ['business', 'admin'] },
+    { to: 'cards/favorites', label: 'Favorites', roles: ['user'] },
+    { to: 'cards/my', label: 'My cards', roles: ['business', 'admin'] },
     { to: 'control-panel', label: 'Control panel', roles: ['admin'] },
     { to: 'about', label: 'About' }
 ]
