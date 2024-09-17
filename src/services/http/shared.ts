@@ -15,9 +15,9 @@ export const getInit = (withToken = false, body?: object, method?: string) => {
     if (body) {
         init.body = JSON.stringify(body)
         headers['content-type'] = 'application/json'
-        init.method = method ?? 'POST'
+        init.method = (method ?? 'POST').toUpperCase()
     } else {
-        init.method = method ?? 'GET'
+        init.method = (method ?? 'GET').toUpperCase()
     }
 
     return init

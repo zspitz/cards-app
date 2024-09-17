@@ -12,3 +12,9 @@ export const createCardFetchArgs = (card: CardPost): FetchArgs =>
     url: `${baseUrl}/cards`,
     init: getInit(true, card, 'post')
 })
+
+export const toggleLikedFetchArgs = (cardId: string): FetchArgs =>
+({
+    url: `${baseUrl}/cards/${cardId}`,
+    init: getInit(true, undefined, 'patch')
+})
