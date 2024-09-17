@@ -4,9 +4,10 @@ import { TbHeart, TbHeartFilled } from 'react-icons/tb'
 import { useLang } from '../../context/lang/useLang'
 import { useFetch } from '../../hooks/useFetch'
 import { toggleLikedFetchArgs } from '../../services/http/cards'
-import { CardResponse } from '../../types'
 import { useRoles } from '../../hooks/useRoles'
 import { useFetcher } from 'react-router-dom'
+import { useEffect } from 'react'
+import { SubmitTarget } from 'react-router-dom/dist/dom'
 
 type Props = {
     cardId: string,
@@ -15,14 +16,14 @@ type Props = {
 
 const LikeActionIcon = ({ likes, cardId }: Props) => {
     const { t } = useLang()
-    const { loading, error, runFetch } = useFetch()
+    const { loading, error, runFetch, clearError } = useFetch()
     const { hasRole } = useRoles()
     const { isLiked } = useLike()
     const fetcher = useFetcher()
 
     const clickHandler = async () => {
         const { url, init } = toggleLikedFetchArgs(cardId)
-        const response = (await runFetch(url, init)) as CardResponse | undefined
+        const response = (await runFetch(url, init)) as SubmitTarget
         if (!response) { return }
         fetcher.submit(response, {
             method: 'put',
@@ -30,6 +31,14 @@ const LikeActionIcon = ({ likes, cardId }: Props) => {
             encType: 'application/json'
         })
     }
+
+    useEffect(() => {
+        if (!error) { return }
+        const intervalId = setInterval(() => {
+            clearError()
+        }, 3000)
+        return () => clearInterval(intervalId)
+    }, [error, clearError])
 
     if (!hasRole('user')) { return <></> }
 
@@ -51,7 +60,6 @@ const LikeActionIcon = ({ likes, cardId }: Props) => {
                     </InputError>
                 }
             </Popover.Dropdown>
-
         </Popover>
     )
 }
