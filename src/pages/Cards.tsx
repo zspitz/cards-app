@@ -24,6 +24,16 @@ const Cards = () => {
         sm: 5
     })
 
+    if (!cards.length) {
+        return <></> // Using Masonry with no data throws an error
+    }
+
+    cards.sort((a, b) => (
+        a.sortOrder < b.sortOrder ? -1 :
+            a.sortOrder > b.sortOrder ? 1 :
+                0
+    ))
+
     return (
         <>
             <Masonry items={cards} render={MasonryCard} columnWidth={columnWidth} columnGutter={columnGutter} />

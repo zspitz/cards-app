@@ -30,6 +30,9 @@ export type CardResponse = MongoRecord<CardPost> & {
     user_id: string,
     likes: string[]
 }
+export type CachedCardResponse = CardResponse & {
+    sortOrder: number
+}
 
 export type MongoRecord<T> = {
     _id: string

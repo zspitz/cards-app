@@ -2,19 +2,8 @@ import { ActionFunctionArgs, LoaderFunction, LoaderFunctionArgs, redirect } from
 import authProvider from './services/authProvider'
 import { CardResponse, Role, UserResponse } from './types'
 import { getRoles } from './shared'
-import { cardsFetchArgs } from './services/http/cards'
-
-// Loaders/actions that don't depend on authProvider
-
-const cardsLoader = async () => {
-    const { url, init } = cardsFetchArgs()
-    const response = await fetch(url, init ?? undefined)
-    return await response.json() as CardResponse[]
-}
-// Dummy data, until we figure out https://github.com/zspitz/cards-app/issues/8
-const favoritesLoader = () => cardsLoader()
-const mycardsLoader = () => cardsLoader()
-export type CardsLoaderReturnData = Awaited<ReturnType<typeof cardsLoader>>
+import { getCards, upsertCard } from './services/cardsProvider'
+import { hasIntersection } from './util'
 
 // Loaders/actions that depend on authProvider
 
@@ -46,12 +35,15 @@ const localUserAction = async ({ request }: ActionFunctionArgs) => {
     return redirect('/')
 }
 
-const protectLoader = (role: Role, loader?: LoaderFunction) =>
-    (args: LoaderFunctionArgs) => {
+const protectLoader = (validRoles: Role[] | Role, loader?: LoaderFunction) => {
+    if (!Array.isArray(validRoles)) {
+        validRoles = [validRoles]
+    }
+    return (args: LoaderFunctionArgs) => {
         const user = getLocalUser()
         const roles = getRoles(user)
 
-        if (!roles.includes(role)) {
+        if (!hasIntersection(roles, validRoles)) {
             const redirectUrl = user ?
                 '/' :
                 '/login'
@@ -64,15 +56,42 @@ const protectLoader = (role: Role, loader?: LoaderFunction) =>
 
         return true
     }
+}
+
+// cards provider loaders and actions
+
+const favoritesLoader = async () => {
+    const user = getLocalUser()
+    if (!user) { return [] }
+    return (
+        await getCards()
+    ).filter(x => x.likes.includes(user._id))
+}
+const mycardsLoader = async () => {
+    const user = getLocalUser()
+    if (!user) { return [] }
+    return (
+        await getCards()
+    ).filter(x => x.user_id === user._id)
+}
+export type CardsLoaderReturnData = Awaited<ReturnType<typeof getCards>>
+
+const mergeCardAction = async ({ request }: ActionFunctionArgs) => {
+    const card = (await request.json()) as CardResponse
+    await upsertCard(card)
+    // TODO return to favorite or my-cards
+    return redirect('/')
+}
 
 export {
     getLocalUser,
     updateTokenAndUserAction,
     localUserAction,
 
-    cardsLoader,
+    getCards,
     mycardsLoader,
     favoritesLoader,
+    mergeCardAction,
 
     protectLoader
 }

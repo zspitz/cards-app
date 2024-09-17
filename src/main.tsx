@@ -20,7 +20,7 @@ import {
     getLocalUser, updateTokenAndUserAction, localUserAction,
 
     // cards
-    cardsLoader, favoritesLoader, mycardsLoader,
+    getCards, favoritesLoader, mycardsLoader, mergeCardAction,
 
     protectLoader
 } from './loadersActions'
@@ -42,12 +42,16 @@ const router = createBrowserRouter(
                     <Route path="register" element={<Register />} />
                     <Route path="login" element={<Login />} />
 
-                    <Route index element={<Cards />} loader={cardsLoader} />
-                    <Route path="cards" element={<Cards />} loader={cardsLoader} />
-                    <Route path="cards/favorites" element={<Cards />} loader={protectLoader('user', favoritesLoader)} />
-                    <Route path="cards/my" element={<Cards />} loader={protectLoader('business', mycardsLoader)} />
-                    <Route path="cards/create" element={<CreateCard />} loader={protectLoader('business')} />
+                    <Route index element={<Cards />} loader={getCards} />
 
+                    <Route path="cards" action={mergeCardAction}>
+                        <Route index element={<Cards />} loader={getCards} />
+
+                        <Route path="favorites" element={<Cards />} loader={protectLoader('user', favoritesLoader)} />
+                        <Route path="my" element={<Cards />} loader={protectLoader('business', mycardsLoader)} />
+                        <Route path="create" element={<CreateCard />} loader={protectLoader('business')} />
+                        {/* <Route path="edit/:id" element={<EditCard />} loader={protectLoader(['business', 'admin'])} /> */}
+                    </Route>
                 </Route>
             </Route>
             <Route path="/logout" action={updateTokenAndUserAction} />
