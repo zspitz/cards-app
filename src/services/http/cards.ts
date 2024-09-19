@@ -18,3 +18,15 @@ export const toggleLikedFetchArgs = (cardId: string): FetchArgs =>
     url: `${baseUrl}/cards/${cardId}`,
     init: getInit(true, undefined, 'patch')
 })
+
+export const updateCardFetchArgs = (cardId: string, card: CardPost): FetchArgs =>
+({
+    url: `${baseUrl}/cards/${cardId}`,
+    init: getInit(true, card, 'patch')
+})
+
+export const deleteCardFetchArgs = (cardId: string): FetchArgs =>
+({
+    url: `${baseUrl}/cards/${cardId}`,
+    init: getInit(true, undefined, 'delete')
+})

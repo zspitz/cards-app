@@ -1,20 +1,24 @@
-import { NavLink, useLoaderData } from 'react-router-dom'
+import { NavLink, useLoaderData, useLocation, useRouteLoaderData } from 'react-router-dom'
 import { CardsLoaderReturnData } from '../loadersActions'
 import { Masonry } from 'masonic'
 import MasonryCard from '../components/cards/MasonryCard'
 import { Affix, Button, useMatches } from '@mantine/core'
 import { TbPlus } from 'react-icons/tb'
 import { useLang } from '../context/lang/useLang'
-import { Role } from '../types'
+import { CachedCardResponse, Role } from '../types'
 import { useRoles } from '../hooks/useRoles'
 
 const cardCreateRoles: Role[] = ['admin', 'business']
 
 const Cards = () => {
     const { hasRole } = useRoles()
-
     const { t } = useLang()
-    const cards = useLoaderData() as CardsLoaderReturnData
+    const { pathname } = useLocation()
+
+    const loaderData = useLoaderData()
+    const cardsLoaderData = useRouteLoaderData('cards')
+    const cards = (loaderData ?? cardsLoaderData) as CardsLoaderReturnData
+
     const columnWidth = useMatches({
         base: 200,
         sm: 300
@@ -24,10 +28,6 @@ const Cards = () => {
         sm: 5
     })
 
-    if (!cards.length) {
-        return <></> // Using Masonry with no data throws an error
-    }
-
     cards.sort((a, b) => (
         a.sortOrder < b.sortOrder ? -1 :
             a.sortOrder > b.sortOrder ? 1 :
@@ -36,7 +36,9 @@ const Cards = () => {
 
     return (
         <>
-            <Masonry items={cards} render={MasonryCard} columnWidth={columnWidth} columnGutter={columnGutter} />
+            <Masonry items={[...cards]} render={MasonryCard} key={pathname}
+                columnWidth={columnWidth} columnGutter={columnGutter}
+                itemKey={(data, index) => (data as CachedCardResponse | undefined)?._id ?? index} />
             {
                 hasRole(...cardCreateRoles) &&
                 <Affix position={{ top: 80, right: 20 }}>

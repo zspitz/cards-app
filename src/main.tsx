@@ -20,7 +20,7 @@ import {
     getLocalUser, updateTokenAndUserAction, localUserAction,
 
     // cards
-    getCards, favoritesLoader, mycardsLoader, mergeCardAction,
+    getCards, favoritesLoader, mycardsLoader, cardAction,
 
     protectLoader
 } from './loadersActions'
@@ -44,7 +44,7 @@ const router = createBrowserRouter(
 
                     <Route index element={<Cards />} loader={getCards} />
 
-                    <Route path="cards" action={mergeCardAction}>
+                    <Route path="cards" action={cardAction} id="cards">
                         <Route index element={<Cards />} loader={getCards} />
 
                         <Route path="favorites" element={<Cards />} loader={protectLoader('user', favoritesLoader)} />

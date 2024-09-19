@@ -2,7 +2,7 @@ import { ActionFunctionArgs, LoaderFunction, LoaderFunctionArgs, redirect } from
 import authProvider from './services/authProvider'
 import { CardResponse, Role, UserResponse } from './types'
 import { getRoles } from './shared'
-import { getCards, upsertCard } from './services/cardsProvider'
+import { deleteCard, getCards, upsertCard } from './services/cardsProvider'
 import { hasIntersection } from './util'
 
 // Loaders/actions that depend on authProvider
@@ -76,11 +76,14 @@ const mycardsLoader = async () => {
 }
 export type CardsLoaderReturnData = Awaited<ReturnType<typeof getCards>>
 
-const mergeCardAction = async ({ request }: ActionFunctionArgs) => {
-    const card = (await request.json()) as CardResponse
-    await upsertCard(card)
-    // TODO return to favorite or my-cards
-    return redirect('/')
+const cardAction = async ({ request }: ActionFunctionArgs) => {
+    const cardResponse = (await request.json()) as CardResponse
+    if (request.method === 'DELETE') {
+        await deleteCard(cardResponse)
+    } else {
+        await upsertCard(cardResponse)
+    }
+    return { ok: true }
 }
 
 export {
@@ -91,7 +94,7 @@ export {
     getCards,
     mycardsLoader,
     favoritesLoader,
-    mergeCardAction,
+    cardAction,
 
     protectLoader
 }

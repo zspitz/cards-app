@@ -1,6 +1,6 @@
 import * as types from '../types'
 import * as cards from '../services/http/cards'
-import { useNavigate } from 'react-router-dom'
+import { useFetcher, useNavigate } from 'react-router-dom'
 import CardForm, { CardFormProps } from '../components/cardform/CardForm'
 
 const CreateCard = () => {
@@ -24,10 +24,18 @@ const CreateCard = () => {
         image: {}
     }
 
+    const fetcher = useFetcher()
+
     const handleSubmit = async (card: types.CardPost, runFetch: (url: string, options?: RequestInit | null) => Promise<unknown>) => {
         const { url, init } = cards.createCardFetchArgs(card)
         const response = (await runFetch(url, init)) as types.CardResponse | undefined
         if (typeof response !== 'object') { return }
+
+        fetcher.submit(response, {
+            method: 'post',
+            action: '/cards',
+            encType: 'application/json'
+        })
 
         // TODO navigate to previous page, if we've come from favorites or my-cards
         navigate('/cards')
