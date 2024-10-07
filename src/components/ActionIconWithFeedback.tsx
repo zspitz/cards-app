@@ -1,7 +1,7 @@
 import { useLang } from '../context/lang/useLang'
 import { FetchArgs } from '../types'
 import { FetcherSubmitOptions, SubmitTarget } from 'react-router-dom/dist/dom'
-import { PropsWithChildren, useEffect } from 'react'
+import { MouseEventHandler, PropsWithChildren, useEffect } from 'react'
 import { ActionIcon, InputError, Popover } from '@mantine/core'
 import { useFetch } from '../hooks/useFetch'
 import { useFetcher } from 'react-router-dom'
@@ -17,7 +17,8 @@ const ActionIconWithFeedback = ({ fetchArgsGetter, fetcherSubmitOptions, childre
     const { loading, error, runFetch, clearError } = useFetch()
     const fetcher = useFetcher()
 
-    const clickHandler = async () => {
+    const clickHandler: MouseEventHandler<HTMLButtonElement> = async (e) => {
+        e.preventDefault()
         const { url, init } = fetchArgsGetter()
         const response = (await runFetch(url, init)) as SubmitTarget
         if (!response) { return }

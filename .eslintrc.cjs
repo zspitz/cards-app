@@ -58,7 +58,8 @@ module.exports = {
             checksVoidReturn: {
                 arguments: false,
                 attributes: false,
-                properties: false
+                properties: false,
+                variables: false
             },
             checksSpreads: true
         }],

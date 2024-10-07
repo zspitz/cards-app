@@ -16,6 +16,16 @@ const getCards = async () => {
         cards =
             ((await res.json()) as CardResponse[])
                 .map(x => attachSortNumber(x))
+
+        if (import.meta.env.DEV) {
+            // Work around server url validations, which don't allow localhost or specifying the port
+            // This allows image URLs to be stored in the public folder and exposed by the Vite dev server
+            cards.forEach(card =>
+                card.image.url = card.image.url?.replace(
+                    'http://localhost.com',
+                    ''
+                ))
+        }
     }
     return cards
 }

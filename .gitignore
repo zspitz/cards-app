@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 business-cards-logo-zip-file.zip
 business_card_app.cards.json
+
+countryimages/

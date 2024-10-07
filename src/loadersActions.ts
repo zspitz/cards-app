@@ -76,6 +76,9 @@ const mycardsLoader = async () => {
 }
 export type CardsLoaderReturnData = Awaited<ReturnType<typeof getCards>>
 
+const cardLoader = async ({ params: { id } }: LoaderFunctionArgs) =>
+    (await getCards()).filter(x => x._id === id)[0]
+
 const cardAction = async ({ request }: ActionFunctionArgs) => {
     const cardResponse = (await request.json()) as CardResponse
     if (request.method === 'DELETE') {
@@ -94,6 +97,7 @@ export {
     getCards,
     mycardsLoader,
     favoritesLoader,
+    cardLoader,
     cardAction,
 
     protectLoader

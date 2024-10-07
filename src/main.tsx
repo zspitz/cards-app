@@ -20,13 +20,14 @@ import {
     getLocalUser, updateTokenAndUserAction, localUserAction,
 
     // cards
-    getCards, favoritesLoader, mycardsLoader, cardAction,
+    getCards, favoritesLoader, mycardsLoader, cardAction, cardLoader,
 
     protectLoader
 } from './loadersActions'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
 import CreateCard from './pages/CreateCard'
+import CardDetails from './pages/CardDetails'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -51,6 +52,7 @@ const router = createBrowserRouter(
                         <Route path="my" element={<Cards />} loader={protectLoader('business', mycardsLoader)} />
                         <Route path="create" element={<CreateCard />} loader={protectLoader('business')} />
                         {/* <Route path="edit/:id" element={<EditCard />} loader={protectLoader(['business', 'admin'])} /> */}
+                        <Route path=":id" element={<CardDetails />} loader={cardLoader} />
                     </Route>
                 </Route>
             </Route>

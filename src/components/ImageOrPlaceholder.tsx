@@ -4,8 +4,8 @@ import placeholder from '/noun-image-broken-2279654 edited.svg'
 // Note that the 50% filter and the gray text works for both the dark and light themes.
 
 type Props = {
-    url: string | undefined,
-    alt: string | undefined,
+    url?: string,
+    alt?: string,
     height: MantineStyleProps['h']
 }
 
