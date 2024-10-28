@@ -1,3 +1,26 @@
+# Cards app
+
+This is a front-end app for a database of business cards.
+
+![Home page](./screenshot.png)
+
+The app supports various operations for different user roles: CRUD, bookmarking ("like"/"unlike").
+
+![Create new card](./screenshot3.png)
+
+Features a multilingual interface, responsiveness (not hard with Mantine), and light/dark themes.
+
+![Card details](./screenshot2.png)
+
+## Tech stack:
+
+* [Typescript](https://www.typescriptlang.org/)
+* [React](https://react.dev/)
+* [React Router](https://reactrouter.com/en/main), including [loaders](https://reactrouter.com/en/main/start/overview#data-loading) and [actions](https://reactrouter.com/en/main/start/overview#data-mutations)
+* [Mantine UI](https://mantine.dev/)
+* [Zod](https://zod.dev/) - Typescript-friendly validations
+* [Masonic](https://github.com/jaredLunde/masonic?tab=readme-ov-file#rendercomponentprops) - high-performace React masonry layout library
+
 ## Installation
 
 `npm i`
