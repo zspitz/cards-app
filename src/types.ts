@@ -46,11 +46,11 @@ export type FetchArgs = {
     init: RequestInit | null
 }
 
-export type HasAddress = {
-    address: z.infer<typeof addressSchema>
-}
+export type Address = z.infer<typeof addressSchema>
 
 export type ImageAddressValues = {
     image: z.infer<typeof imageSchema>,
-    address: z.infer<typeof addressSchema>
+    address: Address
 }
+
+export type HasContactDetails = CardResponse | UserResponse

@@ -1,9 +1,11 @@
-import { Anchor, Container, Flex, FlexProps, Group, MantineStyleProp, Stack, Text, Title } from '@mantine/core'
-import { CardResponse, HasAddress } from '../types'
+import { Container, Flex, FlexProps, MantineStyleProp, Stack, Text, Title } from '@mantine/core'
+import { CardResponse, Address } from '../types'
 import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
 import { useLoaderData } from 'react-router-dom'
 import { FaAt, FaPhone, FaLink, FaHashtag } from 'react-icons/fa6'
 import { FaMapMarkerAlt } from 'react-icons/fa'
+import { IconType } from 'react-icons'
+import ContactDetail from '../components/ContactDetail'
 
 const flexProps1: FlexProps = {
     direction: { base: 'column', sm: 'row-reverse' },
@@ -15,7 +17,7 @@ const textStyle: MantineStyleProp = {
     whiteSpace: 'pre-line'
 }
 
-const formatAddress = ({ address: { street, houseNumber, city, state, country, zip } }: HasAddress) => {
+const formatAddress = ({ street, houseNumber, city, state, country, zip }: Address) => {
     const parts: string[] = []
     if (street !== 'n/a') { parts.push(`${street} ${houseNumber}`) }
     // TODO use filter and a type guard function - https://stackoverflow.com/a/70927747/111794
@@ -29,6 +31,15 @@ const formatAddress = ({ address: { street, houseNumber, city, state, country, z
 
 const CardDetails = () => {
     const card = useLoaderData() as CardResponse
+
+    const addressDetails: [string | number | undefined, IconType, boolean, string][] = [
+        [card.web, FaLink, true, ''] as const,
+        [card.email, FaAt, true, 'mailto'],
+        [formatAddress(card.address), FaMapMarkerAlt, false, ''],
+        [card.phone, FaPhone, true, 'tel'],
+        [card.bizNumber, FaHashtag, false, '']
+    ]
+
     return (
         <Container size="md">
             <Flex {...flexProps1}>
@@ -41,32 +52,11 @@ const CardDetails = () => {
                     }
                     <Text fs="italic" flex="1" style={textStyle}>{card.description}</Text>
                     <div>
-                        {/* TODO - replace with an array of objects instead of repetitive code. consider also making a separate component */}
-                        <Group wrap="nowrap" gap={10} mt={5}>
-                            <FaLink size="1rem" />
-                            <Anchor fz="xs" c="dimmed" href={card.web}>{card.web}</Anchor>
-                        </Group>
-
-                        <Group wrap="nowrap" gap={10} mt={5}>
-                            <FaAt size="1rem" />
-                            <Anchor fz="xs" c="dimmed" href={`mailto:${card.email}`}>{card.email}</Anchor>
-                        </Group>
-
-                        <Group wrap="nowrap" gap={10} mt={5}>
-                            <FaMapMarkerAlt size="1rem" />
-                            <Text fz="xs" c="dimmed" tt="lowercase">{formatAddress(card)}</Text>
-                        </Group>
-
-                        <Group wrap="nowrap" gap={10} mt={5}>
-                            <FaPhone size="1rem" />
-                            <Anchor fz="xs" c="dimmed" href={`tel:${card.phone}`}>{card.phone}</Anchor>
-                        </Group>
-
-                        <Group wrap="nowrap" gap={10} mt={5}>
-                            <FaHashtag size="1rem" />
-                            <Text fz="xs" c="dimmed">{card.bizNumber}</Text>
-                        </Group>
-
+                        {
+                            addressDetails.map(([detail, Icon, isAnchor, prefix], index) => (
+                                <ContactDetail {...{ detail, Icon, isAnchor, prefix }} key={index} />
+                            ))
+                        }
                     </div>
                 </Stack>
             </Flex>
