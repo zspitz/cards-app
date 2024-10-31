@@ -32,12 +32,12 @@ const formatAddress = ({ street, houseNumber, city, state, country, zip }: Addre
 const CardDetails = () => {
     const card = useLoaderData() as CardResponse
 
-    const addressDetails: [string | number | undefined, IconType, boolean, string][] = [
-        [card.web, FaLink, true, ''] as const,
-        [card.email, FaAt, true, 'mailto'],
-        [formatAddress(card.address), FaMapMarkerAlt, false, ''],
-        [card.phone, FaPhone, true, 'tel'],
-        [card.bizNumber, FaHashtag, false, '']
+    const addressDetails: [string | number | undefined, IconType, boolean, string, boolean][] = [
+        [card.web, FaLink, true, '', true] as const,
+        [card.email, FaAt, true, 'mailto', true],
+        [formatAddress(card.address), FaMapMarkerAlt, false, '', false],
+        [card.phone, FaPhone, true, 'tel', true],
+        [card.bizNumber, FaHashtag, false, '', false]
     ]
 
     return (
@@ -53,8 +53,8 @@ const CardDetails = () => {
                     <Text fs="italic" flex="1" style={textStyle}>{card.description}</Text>
                     <div>
                         {
-                            addressDetails.map(([detail, Icon, isAnchor, prefix], index) => (
-                                <ContactDetail {...{ detail, Icon, isAnchor, prefix }} key={index} />
+                            addressDetails.map(([detail, Icon, isAnchor, prefix, forceLtr], index) => (
+                                <ContactDetail {...{ detail, Icon, isAnchor, prefix, forceLtr }} key={index} />
                             ))
                         }
                     </div>

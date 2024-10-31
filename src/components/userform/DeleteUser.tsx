@@ -1,9 +1,7 @@
-import { Button, InputError, Stack } from '@mantine/core'
 import { useLang } from '../../context/lang/useLang'
-import { useFetcher } from 'react-router-dom'
 import { deleteUserFetchArgs } from '../../services/http/users'
-import { useFetch } from '../../hooks/useFetch'
 import { UserResponse } from '../../types'
+import ActionButton, { ActionButtonProps } from '../ActionButton'
 
 type Props = {
     user: UserResponse
@@ -11,32 +9,19 @@ type Props = {
 
 const DeleteUser = ({ user: { _id } }: Props) => {
     const { t } = useLang()
-    const { loading, error, runFetch } = useFetch()
-
-    const fetcher = useFetcher()
-
-    const handleDelete = async () => {
-        const { url, init } = deleteUserFetchArgs(_id)
-        const response = (await runFetch(url, init)) as UserResponse | undefined
-        if (!response) { return }
-        fetcher.submit(response, {
-            method: 'delete',
-            action: '/',
-            encType: 'application/json'
-        })
+    const actionButtonProps: ActionButtonProps = {
+        _id,
+        fetchArgsGetter: deleteUserFetchArgs,
+        actionErrorKey: 'Can\'t delete user',
+        reactRouterMethod: 'delete',
+        buttonProps: {
+            color: 'red',
+            children: t('Delete user')
+        }
     }
 
     return (
-        <Stack align="flex-start">
-            <Button loading={loading} color="red" onClick={() => handleDelete()}>{t('Delete user')}</Button>
-            {
-                error &&
-                <InputError>
-                    {t('Can\'t delete user')}<br />
-                    {error.message}
-                </InputError>
-            }
-        </Stack>
+        <ActionButton {...actionButtonProps} />
     )
 }
 

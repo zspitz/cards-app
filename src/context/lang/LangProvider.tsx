@@ -57,7 +57,10 @@ const translations: Translations = {
         'title': 'כותרת',
         'subtitle': 'תת-כותרת',
         'description': 'תאור',
-        'web': 'אתר'
+        'web': 'אתר',
+        'reset': 'אפס',
+        'toggle isbusiness': 'הפוך מצב עסקי',
+        'delete user': 'מחק משתמש'
     }
 }
 const langs = Object.keys(translations)

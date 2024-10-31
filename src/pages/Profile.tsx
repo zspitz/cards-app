@@ -3,9 +3,9 @@ import * as types from '../types'
 import { userPut as userPutSchema } from '../schemas/user'
 import * as users from '../services/http/users'
 import UserForm, { Props as UserFormProps } from '../components/userform/UserForm'
-import { Group, Space } from '@mantine/core'
 import ToggleIsBusiness from '../components/userform/ToggleIsBusiness'
 import DeleteUser from '../components/userform/DeleteUser'
+import ActionsSection from '../components/ActionsSection'
 
 const Profile = () => {
     // TODO modify to use for editing another user
@@ -34,15 +34,10 @@ const Profile = () => {
 
     return (
         <UserForm {...userformProps}>
-            <>
-                <Space h="md" />
-                <hr />
-                <Space h="md" />
-                <Group align="flex-start" gap={20}>
-                    <ToggleIsBusiness user={user} />
-                    <DeleteUser user={user} />
-                </Group>
-            </>
+            <ActionsSection>
+                <ToggleIsBusiness user={user} />
+                <DeleteUser user={user} />
+            </ActionsSection>
         </UserForm>
     )
 }
