@@ -3,30 +3,28 @@ import { useFetch } from '../hooks/useFetch'
 import { useFetcher } from 'react-router-dom'
 import { useLang } from '../context/lang/useLang'
 import { FetchArgs, UserResponse } from '../types'
-import { HTMLFormMethod } from '@remix-run/router/utils'
+import { FetcherSubmitOptions } from 'react-router-dom/dist/dom'
 
 export type ActionButtonProps = {
-    _id: string,
-    fetchArgsGetter: (_id: string) => FetchArgs,
-    actionErrorKey: string,
-    reactRouterMethod: HTMLFormMethod,
+    fetchArgsGetter: () => FetchArgs,
+    fetcherSubmitOptions: FetcherSubmitOptions,
+    errorPrefixKey: string,
     buttonProps: Omit<ButtonProps, 'loading' | 'onClick'>,
-    reactRouterAction?: string
 }
 
-const ActionButton = ({ _id, fetchArgsGetter, actionErrorKey, reactRouterMethod, buttonProps, reactRouterAction }: ActionButtonProps) => {
+const ActionButton = ({ fetchArgsGetter, errorPrefixKey, buttonProps, fetcherSubmitOptions }: ActionButtonProps) => {
     const { t } = useLang()
     const { loading, error, runFetch } = useFetch()
     const fetcher = useFetcher()
 
     const handler = async () => {
-        const { url, init } = fetchArgsGetter(_id)
+        const { url, init } = fetchArgsGetter()
         const response = (await runFetch(url, init)) as UserResponse | undefined
         if (!response) { return }
         fetcher.submit(response, {
-            method: reactRouterMethod,
-            action: reactRouterAction ?? '/',
-            encType: 'application/json'
+            encType: 'application/json',
+            action: '/',
+            ...fetcherSubmitOptions
         })
     }
 
@@ -36,7 +34,7 @@ const ActionButton = ({ _id, fetchArgsGetter, actionErrorKey, reactRouterMethod,
             {
                 error &&
                 <InputError>
-                    {t(actionErrorKey)}<br />
+                    {t(errorPrefixKey)}<br />
                     {error.message}
                 </InputError>
             }

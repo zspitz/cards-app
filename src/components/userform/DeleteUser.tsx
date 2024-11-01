@@ -10,13 +10,14 @@ type Props = {
 const DeleteUser = ({ user: { _id } }: Props) => {
     const { t } = useLang()
     const actionButtonProps: ActionButtonProps = {
-        _id,
-        fetchArgsGetter: deleteUserFetchArgs,
-        actionErrorKey: 'Can\'t delete user',
-        reactRouterMethod: 'delete',
+        fetchArgsGetter: () => deleteUserFetchArgs(_id),
+        errorPrefixKey: 'Can\'t delete user',
         buttonProps: {
             color: 'red',
             children: t('Delete user')
+        },
+        fetcherSubmitOptions: {
+            method: 'delete'
         }
     }
 

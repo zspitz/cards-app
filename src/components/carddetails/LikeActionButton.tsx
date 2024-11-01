@@ -20,17 +20,18 @@ const LikeActionButton = ({ likes, cardId }: Props) => {
     const likedState = isLiked(likes)
 
     const actionButtonProps: ActionButtonProps = {
-        _id: cardId,
-        fetchArgsGetter: toggleLikedFetchArgs,
-        actionErrorKey: 'Unable to toggle like',
+        fetchArgsGetter: () => toggleLikedFetchArgs(cardId),
+        errorPrefixKey: 'Unable to toggle like',
         buttonProps: {
             leftSection: likedState ?
                 <TbHeartFilled color="#e33bc4" /> :
                 <TbHeart color="#e33bc4" />,
             children: t(likedState ? 'Unlike' : 'Like')
         },
-        reactRouterMethod: 'put',
-        reactRouterAction: '/cards'
+        fetcherSubmitOptions: {
+            method: 'put',
+            action: '/cards'
+        }
     }
 
     return (

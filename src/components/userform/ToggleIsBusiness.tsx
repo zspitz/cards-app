@@ -11,13 +11,14 @@ type Props = {
 const ToggleIsBusiness = ({ user: { _id, isBusiness } }: Props) => {
     const { t } = useLang()
     const actionButtonProps: ActionButtonProps = {
-        _id,
-        fetchArgsGetter: toggleIsBusinessFetchArgs,
-        actionErrorKey: 'Can\'t toggle isBusiness',
-        reactRouterMethod: 'put',
+        fetchArgsGetter: () => toggleIsBusinessFetchArgs(_id),
+        errorPrefixKey: 'Can\'t toggle isBusiness',
         buttonProps: {
             leftSection: isBusiness ? <MdCheckBox /> : <MdIndeterminateCheckBox />,
             children: t('Toggle isBusiness')
+        },
+        fetcherSubmitOptions: {
+            method: 'put'
         }
     }
 
