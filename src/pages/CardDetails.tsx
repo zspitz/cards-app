@@ -6,6 +6,9 @@ import { FaAt, FaPhone, FaLink, FaHashtag } from 'react-icons/fa6'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import { IconType } from 'react-icons'
 import ContactDetail from '../components/ContactDetail'
+import ActionsSection from '../components/ActionsSection'
+import LikeActionButton from '../components/carddetails/LikeActionButton'
+import OwnerActions from '../components/carddetails/OwnerActions'
 
 const flexProps1: FlexProps = {
     direction: { base: 'column', sm: 'row-reverse' },
@@ -60,6 +63,10 @@ const CardDetails = () => {
                     </div>
                 </Stack>
             </Flex>
+            <ActionsSection>
+                <LikeActionButton likes={card.likes} cardId={card._id} />
+                <OwnerActions cardId={card._id} ownerId={card.user_id} />
+            </ActionsSection>
         </Container>
     )
 }

@@ -34,6 +34,7 @@ export const useFetch = () => {
         controller.current = new AbortController()
 
         setLoading(true)
+        setError(null)
 
         try {
             const res = await fetch(url, { ...options, signal: controller.current.signal })

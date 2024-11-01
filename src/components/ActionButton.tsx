@@ -10,10 +10,11 @@ export type ActionButtonProps = {
     fetchArgsGetter: (_id: string) => FetchArgs,
     actionErrorKey: string,
     reactRouterMethod: HTMLFormMethod,
-    buttonProps: Omit<ButtonProps, 'loading' | 'onClick'>
+    buttonProps: Omit<ButtonProps, 'loading' | 'onClick'>,
+    reactRouterAction?: string
 }
 
-const ActionButton = ({ _id, fetchArgsGetter, actionErrorKey, reactRouterMethod: method, buttonProps }: ActionButtonProps) => {
+const ActionButton = ({ _id, fetchArgsGetter, actionErrorKey, reactRouterMethod, buttonProps, reactRouterAction }: ActionButtonProps) => {
     const { t } = useLang()
     const { loading, error, runFetch } = useFetch()
     const fetcher = useFetcher()
@@ -23,8 +24,8 @@ const ActionButton = ({ _id, fetchArgsGetter, actionErrorKey, reactRouterMethod:
         const response = (await runFetch(url, init)) as UserResponse | undefined
         if (!response) { return }
         fetcher.submit(response, {
-            method,
-            action: '/',
+            method: reactRouterMethod,
+            action: reactRouterAction ?? '/',
             encType: 'application/json'
         })
     }
