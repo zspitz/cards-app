@@ -21,7 +21,7 @@ export const address =
         street: z.string().min(2).max(256),
         houseNumber: z.number().int().refine(refineNumberLength(1), 'House number has to be at least one digit.'),
         city: z.string().min(2).max(256),
-        state: z.string().min(2).max(256).optional(),
+        state: z.string().min(2).max(256).optional().or(z.literal('')),
         country: z.string().min(2).max(256),
         zip: z.number().refine(refineNumberLength(4), 'Postal code has to be at least four digits.')
     })
