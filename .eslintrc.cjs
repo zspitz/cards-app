@@ -66,6 +66,7 @@ module.exports = {
         'no-console': ['warn'],
         'no-alert': ['warn'],
         'no-debugger': ['warn'],
+        '@stylistic/comma-dangle': ['error', 'never']
     },
     settings: {
         react: {

@@ -22,7 +22,10 @@ const ActionIconWithFeedback = ({ fetchArgsGetter, fetcherSubmitOptions, childre
         const { url, init } = fetchArgsGetter()
         const response = (await runFetch(url, init)) as SubmitTarget
         if (!response) { return }
-        fetcher.submit(response, fetcherSubmitOptions)
+        fetcher.submit(response, {
+            encType: 'application/json',
+            ...fetcherSubmitOptions
+        })
     }
 
     useEffect(() => {

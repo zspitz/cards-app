@@ -14,16 +14,18 @@ const ToggleIsBusiness = ({ user: { _id, isBusiness } }: Props) => {
         fetchArgsGetter: () => toggleIsBusinessFetchArgs(_id),
         errorPrefixKey: 'Can\'t toggle isBusiness',
         buttonProps: {
-            leftSection: isBusiness ? <MdCheckBox /> : <MdIndeterminateCheckBox />,
-            children: t('Toggle isBusiness')
+            leftSection: isBusiness ? <MdCheckBox /> : <MdIndeterminateCheckBox />
         },
         fetcherSubmitOptions: {
-            method: 'put'
+            method: 'put',
+            action: '/'
         }
     }
 
     return (
-        <ActionButton {...actionButtonProps} />
+        <ActionButton {...actionButtonProps}>
+            {t('Toggle isBusiness')}
+        </ActionButton>
     )
 }
 

@@ -13,16 +13,18 @@ const DeleteUser = ({ user: { _id } }: Props) => {
         fetchArgsGetter: () => deleteUserFetchArgs(_id),
         errorPrefixKey: 'Can\'t delete user',
         buttonProps: {
-            color: 'red',
-            children: t('Delete user')
+            color: 'red'
         },
         fetcherSubmitOptions: {
-            method: 'delete'
+            method: 'delete',
+            action: '/'
         }
     }
 
     return (
-        <ActionButton {...actionButtonProps} />
+        <ActionButton {...actionButtonProps}>
+            {t('Delete user')}
+        </ActionButton>
     )
 }
 

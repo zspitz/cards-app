@@ -27,8 +27,7 @@ const OwnerActions = ({ cardId, ownerId }: Props) => {
                 fetchArgsGetter={() => deleteCardFetchArgs(cardId)}
                 fetcherSubmitOptions={{
                     method: 'delete',
-                    action: '/cards',
-                    encType: 'application/json'
+                    action: '/cards'
                 }}
             >
                 <TbTrash />

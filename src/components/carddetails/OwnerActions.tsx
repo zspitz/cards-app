@@ -3,6 +3,7 @@ import { TbPencil, TbTrash } from 'react-icons/tb'
 import { deleteCardFetchArgs } from '../../services/http/cards'
 import { Button } from '@mantine/core'
 import { useLang } from '../../context/lang/useLang'
+import ActionButton, { ActionButtonProps } from '../ActionButton'
 
 type Props = {
     cardId: string,
@@ -14,24 +15,28 @@ const OwnerActions = ({ cardId, ownerId }: Props) => {
     const { t } = useLang()
 
     const canEditDelete = isOwner(ownerId) || hasRole('admin')
-    if (!canEditDelete) {
-        return <></>
+    if (!canEditDelete) { return <></> }
+
+    const actionButtonProps: ActionButtonProps = {
+        fetchArgsGetter: () => deleteCardFetchArgs(cardId),
+        errorPrefixKey: 'Unable to delete card',
+        fetcherSubmitOptions: {
+            method: 'delete',
+            action: '/cards'
+        },
+        buttonProps: {
+            color: 'red',
+            leftSection: <TbTrash />
+        },
+        navigateTo: '/cards'
     }
 
     return (
         <>
             <Button leftSection={<TbPencil />}>{t('Edit')}</Button>
-            {/* <ActionIconWithFeedback
-                errorPrefixKey='Unable to delete card'
-                fetchArgsGetter={() => deleteCardFetchArgs(cardId)}
-                fetcherSubmitOptions={{
-                    method: 'delete',
-                    action: '/cards',
-                    encType: 'application/json'
-                }}
-            >
-                <TbTrash />
-            </ActionIconWithFeedback> */}
+            <ActionButton {...actionButtonProps}>
+                {t('Delete')}
+            </ActionButton>
         </>
     )
 }

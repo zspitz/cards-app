@@ -25,8 +25,7 @@ const LikeActionButton = ({ likes, cardId }: Props) => {
         buttonProps: {
             leftSection: likedState ?
                 <TbHeartFilled color="#e33bc4" /> :
-                <TbHeart color="#e33bc4" />,
-            children: t(likedState ? 'Unlike' : 'Like')
+                <TbHeart color="#e33bc4" />
         },
         fetcherSubmitOptions: {
             method: 'put',
@@ -35,7 +34,9 @@ const LikeActionButton = ({ likes, cardId }: Props) => {
     }
 
     return (
-        <ActionButton {...actionButtonProps} />
+        <ActionButton {...actionButtonProps}>
+            {t(likedState ? 'Unlike' : 'Like')}
+        </ActionButton>
     )
 }
 

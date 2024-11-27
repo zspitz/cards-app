@@ -46,12 +46,14 @@ const upsertCard = async (card: CardResponse) => {
     if (!found) {
         cards.push(normalize(card))
     }
+    return { ok: true }
 }
 
 const deleteCard = async (card: CardResponse) => {
     cards =
         (await getCards())
             .filter(x => x._id !== card._id)
+    return { ok: true }
 }
 
 export {
