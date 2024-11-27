@@ -18,13 +18,17 @@ const ContactDetail = ({ detail, Icon, isAnchor, prefix, forceLtr }: Props) => {
         !forceLtr ? undefined : {
             direction: 'ltr' as const
         }
+    const text =
+        (!detail || typeof detail !== 'string' || detail.length < 50) ?
+            detail :
+            detail.substring(0, 50) + '...'
 
     return (
         <Group wrap="nowrap" gap={10} mt={5}>
             <Icon size="1rem" stroke="1.5" color="light-dark(var(--mantine-color-gray-6), var(--mantine-color-dark-2))" />
             {
                 isAnchor ?
-                    <Anchor fz="xs" c="dimmed" href={href} style={textStyle}>{detail}</Anchor> :
+                    <Anchor fz="xs" c="dimmed" href={href} style={textStyle}>{text}</Anchor> :
                     <Text fz="xs" c="dimmed" style={textStyle}>{detail}</Text>
             }
         </Group>

@@ -6,7 +6,6 @@ import { image as imageSchema, address as addressSchema } from './schemas/helper
 
 export type Role = 'admin' | 'business' | 'user' | 'guest'
 
-// schema-inferred types
 export type UserPost = z.infer<typeof userPostSchema>
 export type UserPut = z.infer<typeof userPutSchema>
 
