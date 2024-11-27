@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, LoaderFunction, LoaderFunctionArgs, redirect } from 'react-router-dom'
 import authProvider from './services/authProvider'
-import { CardResponse, Role, UserResponse } from './types'
+import { CachedCardResponse, CardResponse, Role, UserResponse } from './types'
 import { getRoles } from './shared'
 import { deleteCard, getCards, upsertCard } from './services/cardsProvider'
 import { hasIntersection } from './util'
@@ -23,6 +23,8 @@ const updateTokenAndUserAction = async ({ params }: ActionFunctionArgs) => {
 
 const localUserAction = async ({ request }: ActionFunctionArgs) => {
     const userResponse = (await request.json()) as UserResponse
+
+    // if not deleting, set logged in user to the new/updated user
     if (request.method !== 'DELETE') {
         setLocalUser(userResponse)
         return { ok: true }
@@ -76,8 +78,13 @@ const mycardsLoader = async () => {
 }
 export type CardsLoaderReturnData = Awaited<ReturnType<typeof getCards>>
 
-const cardLoader = async ({ params: { id } }: LoaderFunctionArgs) =>
-    (await getCards()).filter(x => x._id === id)[0]
+const cardLoader = async ({ params: { id } }: LoaderFunctionArgs) => {
+    const card = (await getCards()).filter(x => x._id === id)[0] as CachedCardResponse | undefined
+    if (!card) {
+        throw new Error('Card not found')
+    }
+    return card
+}
 
 const cardAction = async ({ request }: ActionFunctionArgs) => {
     const cardResponse = (await request.json()) as CardResponse
