@@ -1,5 +1,5 @@
 import { Card, Group, Image, Paper, Stack, Text } from '@mantine/core'
-import { CardResponse } from '../../types'
+import type { CardResponse } from '../../types'
 import classes from './MasonryCard.module.css'
 import LikeActionIcon from './LikeActionIcon'
 import OwnerActions from './OwnerActions'

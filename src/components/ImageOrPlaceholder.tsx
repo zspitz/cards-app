@@ -1,4 +1,4 @@
-import { Box, Image, MantineStyleProps, Text } from '@mantine/core'
+import { Box, Image, type MantineStyleProps, Text } from '@mantine/core'
 import placeholder from '/noun-image-broken-2279654 edited.svg'
 
 // Note that the 50% filter and the gray text works for both the dark and light themes.

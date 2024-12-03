@@ -1,10 +1,10 @@
-import { Button, ButtonProps, InputError, Stack } from '@mantine/core'
+import { Button, type ButtonProps, InputError, Stack } from '@mantine/core'
 import { useFetch } from '../hooks/useFetch'
 import { useFetcher, useNavigate } from 'react-router-dom'
 import { useLang } from '../context/lang/useLang'
-import { FetchArgs, UserResponse } from '../types'
-import { FetcherSubmitOptions } from 'react-router-dom/dist/dom'
-import { PropsWithChildren } from 'react'
+import type { FetchArgs, UserResponse } from '../types'
+import type { FetcherSubmitOptions } from 'react-router-dom/dist/dom'
+import type { PropsWithChildren } from 'react'
 
 // we can't combine ActionButton and ActionIconWithFeedback
 // ActionButton allows customizing the button via Button props

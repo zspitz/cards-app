@@ -1,6 +1,6 @@
 import { Button, Group, InputError } from '@mantine/core'
 import { useLang } from '../context/lang/useLang'
-import { UseFormReturnType } from '@mantine/form'
+import type { UseFormReturnType } from '@mantine/form'
 
 type Props<FormValues> = {
     loading: boolean,

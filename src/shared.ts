@@ -1,5 +1,5 @@
-import { FlexProps } from '@mantine/core'
-import { Address, Role, UserResponse } from './types'
+import type { FlexProps } from '@mantine/core'
+import type { Address, Role, UserResponse } from './types'
 
 export const getRoles = (user: UserResponse | null) => {
     const roles: Role[] = []

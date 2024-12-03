@@ -1,5 +1,5 @@
 import { useRouteLoaderData } from 'react-router-dom'
-import { Role, UserResponse } from '../types'
+import type { Role, UserResponse } from '../types'
 import { getRoles } from '../shared'
 import { hasIntersection } from '../util'
 

@@ -1,5 +1,5 @@
 import { Group, Space } from '@mantine/core'
-import { PropsWithChildren } from 'react'
+import type { PropsWithChildren } from 'react'
 
 const ActionsSection = ({ children }: PropsWithChildren) => {
 

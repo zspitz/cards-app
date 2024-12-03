@@ -1,4 +1,4 @@
-import { CachedCardResponse, CardResponse } from '../types'
+import type { CachedCardResponse, CardResponse } from '../types'
 import { cardsFetchArgs } from './http/cards'
 
 let cards: CachedCardResponse[] | undefined

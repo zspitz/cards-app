@@ -1,4 +1,4 @@
-import { CardPost, FetchArgs } from '../../types'
+import type { CardPost, FetchArgs } from '../../types'
 import { baseUrl, getInit } from './shared'
 
 export const cardsFetchArgs = (): FetchArgs =>

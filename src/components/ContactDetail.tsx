@@ -1,5 +1,5 @@
 import { Anchor, Group, Text } from '@mantine/core'
-import { IconBaseProps } from 'react-icons'
+import type { IconBaseProps } from 'react-icons'
 
 type Props = {
     detail: string | undefined | number,

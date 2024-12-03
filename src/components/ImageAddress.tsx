@@ -1,7 +1,7 @@
 import { Flex, NumberInput, Stack, TextInput } from '@mantine/core'
 import ImageOrPlaceholder from './ImageOrPlaceholder'
-import * as types from '../types'
-import { UseFormReturnType } from '@mantine/form'
+import type * as types from '../types'
+import type { UseFormReturnType } from '@mantine/form'
 import { useLang } from '../context/lang/useLang'
 import { flexProps } from '../shared'
 

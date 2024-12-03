@@ -1,5 +1,5 @@
 import { useRouteLoaderData } from 'react-router-dom'
-import { UserResponse } from '../types'
+import type { UserResponse } from '../types'
 
 export const useLike = () => {
     const user = useRouteLoaderData('root') as UserResponse | null

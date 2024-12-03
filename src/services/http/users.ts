@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
-import { FetchArgs, Login, UserPost, UserPut, UserResponse } from '../../types'
+import type { FetchArgs, Login, UserPost, UserPut, UserResponse } from '../../types'
 import { baseUrl, getInit, tokenKey } from './shared'
 
 export const getCurrent = async () => {

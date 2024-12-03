@@ -1,8 +1,8 @@
-import { z } from 'zod'
-import { cardPost as cardPostSchema } from './schemas/card'
-import { userPost as userPostSchema, userPut as userPutSchema } from './schemas/user'
-import { login as loginSchema } from './schemas/login'
-import { image as imageSchema, address as addressSchema } from './schemas/helpers'
+import type { z } from 'zod'
+import type { cardPost as cardPostSchema } from './schemas/card'
+import type { userPost as userPostSchema, userPut as userPutSchema } from './schemas/user'
+import type { login as loginSchema } from './schemas/login'
+import type { image as imageSchema, address as addressSchema } from './schemas/helpers'
 
 export type Role = 'admin' | 'business' | 'user' | 'guest'
 

@@ -1,8 +1,9 @@
 import { useLang } from '../../context/lang/useLang'
 import { toggleIsBusinessFetchArgs } from '../../services/http/users'
 import { MdCheckBox, MdIndeterminateCheckBox } from 'react-icons/md'
-import ActionButton, { ActionButtonProps } from '../ActionButton'
-import { UserResponse } from '../../types'
+import type { ActionButtonProps } from '../ActionButton'
+import ActionButton from '../ActionButton'
+import type { UserResponse } from '../../types'
 
 type Props = {
     user: UserResponse

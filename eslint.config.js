@@ -84,7 +84,8 @@ export default tseslint.config(
                     variables: false
                 },
                 checksSpreads: true
-            }]
+            }],
+            '@typescript-eslint/consistent-type-imports': ['warn']
         },
     },
 )

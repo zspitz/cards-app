@@ -1,7 +1,7 @@
 import { useLang } from '../../context/lang/useLang'
 import { deleteUserFetchArgs } from '../../services/http/users'
-import { UserResponse } from '../../types'
-import ActionButton, { ActionButtonProps } from '../ActionButton'
+import type { UserResponse } from '../../types'
+import ActionButton, { type ActionButtonProps } from '../ActionButton'
 
 type Props = {
     user: UserResponse
