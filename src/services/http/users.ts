@@ -11,7 +11,7 @@ export const getCurrent = async () => {
     let _id: string
     try {
         ({ _id } = jwtDecode(token))
-    } catch (error) {
+    } catch {
         return null
     }
     return await getById(_id)
