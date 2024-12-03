@@ -1,6 +1,6 @@
 import { ActionFunctionArgs, LoaderFunction, LoaderFunctionArgs, redirect } from 'react-router-dom'
 import authProvider from './services/authProvider'
-import { CachedCardResponse, CardResponse, Role, UserResponse } from './types'
+import { CardResponse, Role, UserResponse } from './types'
 import { getRoles } from './shared'
 import { deleteCard, getCards, upsertCard } from './services/cardsProvider'
 import { hasIntersection } from './util'
@@ -79,7 +79,7 @@ const mycardsLoader = async () => {
 export type CardsLoaderReturnData = Awaited<ReturnType<typeof getCards>>
 
 const cardLoader = async ({ params: { id } }: LoaderFunctionArgs) => {
-    const card = (await getCards()).filter(x => x._id === id)[0] as CachedCardResponse | undefined
+    const card = (await getCards()).find(x => x._id === id)
     if (!card) {
         throw new Error('Card not found')
     }

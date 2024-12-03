@@ -9,7 +9,19 @@ import stylistic from '@stylistic/eslint-plugin'
 export default tseslint.config(
     { ignores: ['dist'] },
     {
-        extends: [js.configs.recommended, ...tseslint.configs.recommended],
+        languageOptions: {
+            parserOptions: {
+                projectService: true,
+                tsconfigRootDir: import.meta.dirname,
+            },
+        },
+    },
+    {
+        extends: [
+            js.configs.recommended,
+            ...tseslint.configs.strictTypeChecked,
+            ...tseslint.configs.stylisticTypeChecked
+        ],
         files: ['**/*.{ts,tsx}'],
         languageOptions: {
             ecmaVersion: 2020,
@@ -19,7 +31,8 @@ export default tseslint.config(
             'react-hooks': reactHooks,
             'react-refresh': reactRefresh,
             'prefer-arrow': preferArrow,
-            'stylistic': stylistic
+            'stylistic': stylistic,
+            'tseslint': tseslint
         },
         rules: {
             ...reactHooks.configs.recommended.rules,
@@ -47,9 +60,31 @@ export default tseslint.config(
                 maxEOF: 0,
                 maxBOF: 0
             }],
-            'stylistic/eol-last': ['error', 'always']
+            'stylistic/eol-last': ['error', 'always'],
 
-
+            '@typescript-eslint/no-confusing-void-expression': ['off'],
+            '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+            '@typescript-eslint/restrict-template-expressions': ['error', {
+                allowAny: false,
+                allowArray: false,
+                allowBoolean: true,
+                allowNever: false,
+                allowNullish: true,
+                allowNumber: true,
+                allowRegExp: false
+            }],
+            '@typescript-eslint/no-non-null-assertion': ['off'],
+            '@typescript-eslint/no-floating-promises': ['off'],
+            '@typescript-eslint/no-misused-promises': ['error', {
+                checksConditionals: true,
+                checksVoidReturn: {
+                    arguments: false,
+                    attributes: false,
+                    properties: false,
+                    variables: false
+                },
+                checksSpreads: true
+            }]
         },
     },
 )
