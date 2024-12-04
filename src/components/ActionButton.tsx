@@ -14,7 +14,7 @@ export type ActionButtonProps = {
     fetcherSubmitOptions: FetcherSubmitOptions,
     errorPrefixKey: string,
     buttonProps: Omit<ButtonProps, 'loading' | 'onClick' | 'children'>,
-    navigateTo: string
+    navigateTo?: string
 }
 
 const ActionButton = ({ fetchArgsGetter, errorPrefixKey, buttonProps, fetcherSubmitOptions, navigateTo, children }: PropsWithChildren<ActionButtonProps>) => {
