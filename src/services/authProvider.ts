@@ -1,4 +1,4 @@
-import { UserResponse } from '../types'
+import type { UserResponse } from '../types'
 import { getCurrent } from './http/users'
 import { tokenKey } from './http/shared'
 

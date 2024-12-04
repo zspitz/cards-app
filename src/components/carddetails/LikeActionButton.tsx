@@ -2,7 +2,7 @@ import { useLike } from '../../hooks/useLike'
 import { TbHeart, TbHeartFilled } from 'react-icons/tb'
 import { toggleLikedFetchArgs } from '../../services/http/cards'
 import { useRoles } from '../../hooks/useRoles'
-import ActionButton, { ActionButtonProps } from '../ActionButton'
+import ActionButton, { type ActionButtonProps } from '../ActionButton'
 import { useLang } from '../../context/lang/useLang'
 
 type Props = {

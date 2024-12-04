@@ -1,4 +1,4 @@
-import { Affix, AffixProps, AppShell, Burger, DirectionProvider, Group, Image, MantineProvider } from '@mantine/core'
+import { Affix, type AffixProps, AppShell, Burger, DirectionProvider, Group, Image, MantineProvider } from '@mantine/core'
 import { useLang } from './context/lang/useLang'
 import { useDisclosure } from '@mantine/hooks'
 import logo from '/logo.png'

@@ -1,5 +1,6 @@
-import { ReactNode } from 'react'
-import { LangContext, LangContextValue } from './useLang'
+import type { ReactNode } from 'react'
+import type { LangContextValue } from './useLang'
+import { LangContext } from './useLang'
 import { useLocalStorage } from '@mantine/hooks'
 
 type Translation = {

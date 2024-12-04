@@ -1,7 +1,7 @@
-import * as types from '../types'
+import type * as types from '../types'
 import * as cards from '../services/http/cards'
 import { useFetcher, useNavigate } from 'react-router'
-import CardForm, { CardFormProps } from '../components/cardform/CardForm'
+import CardForm, { type CardFormProps } from '../components/cardform/CardForm'
 
 const CreateCard = () => {
     const navigate = useNavigate()

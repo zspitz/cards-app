@@ -3,7 +3,7 @@ import { TbPencil, TbTrash } from 'react-icons/tb'
 import { deleteCardFetchArgs } from '../../services/http/cards'
 import { Button } from '@mantine/core'
 import { useLang } from '../../context/lang/useLang'
-import ActionButton, { ActionButtonProps } from '../ActionButton'
+import ActionButton, { type ActionButtonProps } from '../ActionButton'
 
 type Props = {
     cardId: string,

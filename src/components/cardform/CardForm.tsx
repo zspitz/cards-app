@@ -1,7 +1,7 @@
 import { useForm, zodResolver } from '@mantine/form'
 import { useLang } from '../../context/lang/useLang'
 import { cardPost as cardPostSchema } from '../../schemas/card'
-import { CardPost, isMongoRecord } from '../../types'
+import { type CardPost, isMongoRecord } from '../../types'
 import ImageAddress from '../ImageAddress'
 import { useFetch } from '../../hooks/useFetch'
 import { Container, Flex, Stack, Textarea, TextInput, Title } from '@mantine/core'
