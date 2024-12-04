@@ -6,7 +6,7 @@ import '@mantine/core/styles.css'
 import LangProvider from './context/lang/LangProvider'
 
 // router and router components
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router'
 import Root from './Root'
 import ErrorPage from './pages/Error'
 import Cards from './pages/Cards'

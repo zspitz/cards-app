@@ -3,7 +3,7 @@ import { CardResponse } from '../../types'
 import classes from './MasonryCard.module.css'
 import LikeActionIcon from './LikeActionIcon'
 import OwnerActions from './OwnerActions'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 type Props = {
     index: number,

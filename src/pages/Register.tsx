@@ -1,4 +1,4 @@
-import { useFetcher } from 'react-router-dom'
+import { useFetcher } from 'react-router'
 import * as types from '../types'
 import { userPost as userPostSchema } from '../schemas/user'
 import * as users from '../services/http/users'

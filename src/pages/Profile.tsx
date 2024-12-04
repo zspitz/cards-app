@@ -1,4 +1,4 @@
-import { useFetcher, useRouteLoaderData } from 'react-router-dom'
+import { useFetcher, useRouteLoaderData } from 'react-router'
 import * as types from '../types'
 import { userPut as userPutSchema } from '../schemas/user'
 import * as users from '../services/http/users'
@@ -11,7 +11,7 @@ const Profile = () => {
     // TODO modify to use for editing another user
     // take user as a prop, and only use the router-stored current user if the prop is undeinfed
 
-    const user = useRouteLoaderData('root') as types.UserResponse
+    const user = useRouteLoaderData<types.UserResponse>('root')!
     const fetcher = useFetcher()
 
     const userformProps: UserFormProps<types.UserResponse, typeof userPutSchema> = {

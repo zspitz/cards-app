@@ -1,4 +1,4 @@
-import { ActionFunctionArgs, LoaderFunction, LoaderFunctionArgs, redirect } from 'react-router-dom'
+import { ActionFunctionArgs, LoaderFunction, LoaderFunctionArgs, redirect } from 'react-router'
 import authProvider from './services/authProvider'
 import { CardResponse, Role, UserResponse } from './types'
 import { getRoles } from './shared'

@@ -1,7 +1,7 @@
 import { Container, Flex, FlexProps, MantineStyleProp, Stack, Text, Title } from '@mantine/core'
 import { CardResponse, Address } from '../types'
 import ImageOrPlaceholder from '../components/ImageOrPlaceholder'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData } from 'react-router'
 import { FaAt, FaPhone, FaLink, FaHashtag } from 'react-icons/fa6'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import { IconType } from 'react-icons'
@@ -33,7 +33,7 @@ const formatAddress = ({ street, houseNumber, city, state, country, zip }: Addre
 }
 
 const CardDetails = () => {
-    const card = useLoaderData() as CardResponse
+    const card = useLoaderData<CardResponse>()
 
     const addressDetails: [string | number | undefined, IconType, boolean, string, boolean][] = [
         [card.web, FaLink, true, '', true] as const,

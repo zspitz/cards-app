@@ -1,11 +1,10 @@
-import { NavLink, useLoaderData, useLocation, useRouteLoaderData } from 'react-router-dom'
-import { CardsLoaderReturnData } from '../loadersActions'
+import { NavLink, useLoaderData, useLocation } from 'react-router'
 import { MasonryScroller, useContainerPosition, usePositioner, useResizeObserver } from 'masonic'
 import MasonryCard from '../components/cards/MasonryCard'
 import { Affix, Button, useMatches } from '@mantine/core'
 import { TbPlus } from 'react-icons/tb'
 import { useLang } from '../context/lang/useLang'
-import { Role } from '../types'
+import { CachedCardResponse, Role } from '../types'
 import { useRoles } from '../hooks/useRoles'
 import { useRef } from 'react'
 import { useWindowSize } from '@react-hook/window-size'
@@ -17,9 +16,7 @@ const Cards = () => {
     const { t } = useLang()
     const { pathname } = useLocation()
 
-    const loaderData = useLoaderData()
-    const cardsLoaderData = useRouteLoaderData('cards')
-    const cards = (loaderData ?? cardsLoaderData) as CardsLoaderReturnData
+    const cards = useLoaderData<CachedCardResponse[]>()
 
     const columnWidth = useMatches({
         base: 200,

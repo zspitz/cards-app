@@ -1,6 +1,6 @@
 import { Container, PasswordInput, Stack, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
-import { useFetcher } from 'react-router-dom'
+import { useFetcher } from 'react-router'
 import { loginFetchArgs } from '../services/http/users'
 import { useLang } from '../context/lang/useLang'
 import * as types from '../types'

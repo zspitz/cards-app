@@ -1,4 +1,4 @@
-import { useRouteLoaderData } from 'react-router-dom'
+import { useRouteLoaderData } from 'react-router'
 import { UserResponse } from '../types'
 
 export const useLike = () => {

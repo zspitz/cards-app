@@ -1,5 +1,5 @@
 import { Anchor, AppShell, Flex, Group } from '@mantine/core'
-import { Link, useFetcher } from 'react-router-dom'
+import { Link, useFetcher } from 'react-router'
 import LangSelector from './LangSelector'
 import { Role } from '../../types'
 import ThemeSelector from './ThemeSelector'

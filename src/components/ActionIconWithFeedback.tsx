@@ -1,10 +1,10 @@
 import { useLang } from '../context/lang/useLang'
 import { FetchArgs } from '../types'
-import { FetcherSubmitOptions, SubmitTarget } from 'react-router-dom/dist/dom'
+import { FetcherSubmitOptions, SubmitTarget } from 'react-router'
 import { MouseEventHandler, PropsWithChildren, useEffect } from 'react'
 import { ActionIcon, InputError, Popover } from '@mantine/core'
 import { useFetch } from '../hooks/useFetch'
-import { useFetcher } from 'react-router-dom'
+import { useFetcher } from 'react-router'
 
 type Props = {
     fetchArgsGetter: () => FetchArgs,

@@ -2,7 +2,7 @@ import { Affix, AffixProps, AppShell, Burger, DirectionProvider, Group, Image, M
 import { useLang } from './context/lang/useLang'
 import { useDisclosure } from '@mantine/hooks'
 import logo from '/logo.png'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet } from 'react-router'
 import NavParts from './components/header/NavParts'
 
 const Root = () => {

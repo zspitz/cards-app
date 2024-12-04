@@ -1,4 +1,4 @@
-import { useRouteLoaderData } from 'react-router-dom'
+import { useRouteLoaderData } from 'react-router'
 import { Role, UserResponse } from '../types'
 import { getRoles } from '../shared'
 import { hasIntersection } from '../util'
