@@ -1,7 +1,7 @@
 import type * as types from '../types'
-import * as cards from '../services/http/cards'
 import { useFetcher, useNavigate } from 'react-router'
 import CardForm, { type CardFormProps } from '../components/cardform/CardForm'
+import { createCardFetchArgs } from '../services/http/cards'
 
 const CreateCard = () => {
     const navigate = useNavigate()
@@ -26,8 +26,8 @@ const CreateCard = () => {
 
     const fetcher = useFetcher()
 
-    const handleSubmit = async (card: types.CardPost, runFetch: (url: string, options?: RequestInit | null) => Promise<unknown>) => {
-        const { url, init } = cards.createCardFetchArgs(card)
+    const handleSubmit: CardFormProps['handleSubmit'] = async (card, runFetch) => {
+        const { url, init } = createCardFetchArgs(card)
         const response = (await runFetch(url, init)) as types.CardResponse | undefined
         if (typeof response !== 'object') { return }
 
