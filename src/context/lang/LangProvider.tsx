@@ -79,6 +79,7 @@ const LangProvider = ({ children }: Props) => {
             currentTranslations[s] ??
             currentTranslations[lcase]
         if (translation) { return translation }
+        // eslint-disable-next-line no-console
         if (lang != 'en') { console.log(`Missing translation for ${s} in ${lang}`) }
         return s
     }

@@ -7,6 +7,7 @@ type Error = {
 
 const ErrorPage = () => {
     const error = useRouteError() as Error
+    // eslint-disable-next-line no-console
     console.error(error)
 
     return (
