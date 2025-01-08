@@ -3,7 +3,7 @@ import type { CardResponse } from '../../types'
 import classes from './MasonryCard.module.css'
 import LikeActionIcon from './LikeActionIcon'
 import OwnerActions from './OwnerActions'
-import { NavLink } from 'react-router'
+import { Link } from 'react-router'
 
 type Props = {
     index: number,
@@ -12,7 +12,7 @@ type Props = {
 }
 
 const MasonryCard = ({ data: card }: Props) => (
-    <NavLink to={`/cards/${card._id}`} key={card._id}>
+    <Link to={`/cards/${card._id}`} key={card._id}>
         <Card radius="md" m="xs" p="0" className={classes.card} mih={150}>
             <Image src={card.image.url} alt={card.image.alt} className={classes.image} />
             <Stack pos="absolute" gap={0} justify="flex-end" h="100%" w="100%">
@@ -30,7 +30,7 @@ const MasonryCard = ({ data: card }: Props) => (
                 </Paper>
             </Stack>
         </Card>
-    </NavLink>
+    </Link>
 )
 
 export default MasonryCard
